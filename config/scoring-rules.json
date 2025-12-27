@@ -1,0 +1,208 @@
+{
+  "version": "1.0.0",
+  "rounding": {
+    "score_decimal_places": 2,
+    "display_decimal_places": 1
+  },
+  "dimension_scoring": {
+    "questions_per_dimension": 4,
+    "dimension_score": {
+      "type": "average",
+      "facts": [
+        "question_scores_in_dimension"
+      ]
+    }
+  },
+  "overall_scoring": {
+    "overall_score_base": {
+      "type": "average",
+      "facts": [
+        "dimension_scores"
+      ]
+    },
+    "weakest_link": {
+      "enabled": true,
+      "trigger_min_dim_lt": 2.0,
+      "cap_delta": 1.5,
+      "cap_expression": {
+        "type": "min",
+        "args": [
+          {
+            "fact": "base_overall_score"
+          },
+          {
+            "type": "add",
+            "args": [
+              {
+                "fact": "min_dimension_score"
+              },
+              1.5
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "gaps": {
+    "primary_gap": {
+      "type": "argmin",
+      "fact": "dimension_scores"
+    },
+    "critical_gap": {
+      "delta": 1.5,
+      "compare_to": "base_overall_score",
+      "rule": {
+        "type": "lt",
+        "left": {
+          "fact": "dimension_score"
+        },
+        "right": {
+          "type": "sub",
+          "args": [
+            {
+              "fact": "base_overall_score"
+            },
+            1.5
+          ]
+        }
+      }
+    },
+    "foundation_gap": {
+      "threshold": 2.0,
+      "rule": {
+        "type": "lt",
+        "left": {
+          "fact": "dimension_score"
+        },
+        "right": 2.0
+      }
+    }
+  },
+  "level_mapping": {
+    "score_fact": "overall_score",
+    "ranges": [
+      {
+        "level": 1,
+        "min": 1.0,
+        "max": 2.0,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "level": 2,
+        "min": 2.0,
+        "max": 2.5,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "level": 3,
+        "min": 2.5,
+        "max": 3.5,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "level": 4,
+        "min": 3.5,
+        "max": 4.5,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "level": 5,
+        "min": 4.5,
+        "max": 5.0,
+        "min_inclusive": true,
+        "max_inclusive": true
+      }
+    ]
+  },
+  "tier_thresholds": {
+    "dimension_score_fact": "dimension_score",
+    "tiers": [
+      {
+        "tier": "low",
+        "min": 1.0,
+        "max": 2.5,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "tier": "medium",
+        "min": 2.5,
+        "max": 3.5,
+        "min_inclusive": true,
+        "max_inclusive": false
+      },
+      {
+        "tier": "high",
+        "min": 3.5,
+        "max": 5.0,
+        "min_inclusive": true,
+        "max_inclusive": true
+      }
+    ]
+  },
+  "cta_rules": [
+    {
+      "id": "cta_hot_foundation_multiple",
+      "priority": 1,
+      "when": [
+        {
+          "fact": "foundation_gap_count",
+          "op": "gte",
+          "value": 2
+        }
+      ],
+      "then": {
+        "cta_tone": "hot",
+        "reason": "Multiple foundational gaps (>=2 dimensions <2.0)."
+      }
+    },
+    {
+      "id": "cta_warm_foundation_single",
+      "priority": 2,
+      "when": [
+        {
+          "fact": "foundation_gap_count",
+          "op": "eq",
+          "value": 1
+        }
+      ],
+      "then": {
+        "cta_tone": "warm",
+        "reason": "One foundational gap (1 dimension <2.0)."
+      }
+    },
+    {
+      "id": "cta_warm_critical_gap_present",
+      "priority": 3,
+      "when": [
+        {
+          "fact": "foundation_gap_count",
+          "op": "eq",
+          "value": 0
+        },
+        {
+          "fact": "critical_gap_count",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "then": {
+        "cta_tone": "warm",
+        "reason": "At least one dimension significantly below overall average (avg - 1.5)."
+      }
+    },
+    {
+      "id": "cta_cool_default",
+      "priority": 99,
+      "when": [],
+      "then": {
+        "cta_tone": "cool",
+        "reason": "No foundational or critical gaps; optimization posture."
+      }
+    }
+  ]
+}

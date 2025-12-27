@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "dimensions": [
+    {
+      "id": "tracking",
+      "order": 1,
+      "section": "01",
+      "short_label": "Tracking",
+      "name": "Tracking & Data Collection",
+      "description": "How completely you capture user actions and unify identities across tools.",
+      "icon": "arrow_right"
+    },
+    {
+      "id": "attribution",
+      "order": 2,
+      "section": "02",
+      "short_label": "Attribution",
+      "name": "Attribution & Measurement",
+      "description": "How you measure channel impact and allocate budget with confidence.",
+      "icon": "arrow_right"
+    },
+    {
+      "id": "reporting",
+      "order": 3,
+      "section": "03",
+      "short_label": "Reporting",
+      "name": "Reporting & Dashboards",
+      "description": "How quickly teams can see reality and act on it from a single source of truth.",
+      "icon": "arrow_right"
+    },
+    {
+      "id": "experimentation",
+      "order": 4,
+      "section": "04",
+      "short_label": "Testing",
+      "name": "Experimentation & Testing",
+      "description": "How you run tests, learn fast, and turn insights into repeatable wins.",
+      "icon": "arrow_up_right"
+    },
+    {
+      "id": "lifecycle",
+      "order": 5,
+      "section": "05",
+      "short_label": "Lifecycle",
+      "name": "Lifecycle & CRM",
+      "description": "How you grow retention with segmentation, CLV, and lifecycle programs.",
+      "icon": "arrow_right"
+    },
+    {
+      "id": "infrastructure",
+      "order": 6,
+      "section": "06",
+      "short_label": "Infra",
+      "name": "Data Infrastructure",
+      "description": "How data is stored, integrated, validated, and made usable across the org.",
+      "icon": "arrow_up_right"
+    }
+  ]
+}

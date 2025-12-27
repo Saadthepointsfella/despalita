@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maxmin.agency/schemas/examples/expected_scoring_output.schema.json",
+  "type": "object",
+  "required": [
+    "version",
+    "dimension_scores",
+    "base_overall_score",
+    "overall_score",
+    "min_dimension",
+    "primary_gap",
+    "critical_gaps",
+    "foundation_gaps",
+    "level",
+    "cta"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "dimension_scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "base_overall_score": {
+      "type": "number"
+    },
+    "overall_score": {
+      "type": "number"
+    },
+    "weakest_link_applied": {
+      "type": "boolean"
+    },
+    "min_dimension": {
+      "type": "object",
+      "required": [
+        "dimension_id",
+        "score"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "dimension_id": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        }
+      }
+    },
+    "primary_gap": {
+      "type": "object",
+      "required": [
+        "dimension_id",
+        "score"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "dimension_id": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        }
+      }
+    },
+    "critical_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dimension_id",
+          "score"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "dimension_id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "foundation_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dimension_id",
+          "score"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "dimension_id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "level": {
+      "type": "object",
+      "required": [
+        "level",
+        "key"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "key": {
+          "type": "string"
+        }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "required": [
+        "cta_tone",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cta_tone": {
+          "type": "string",
+          "enum": [
+            "cool",
+            "warm",
+            "hot"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

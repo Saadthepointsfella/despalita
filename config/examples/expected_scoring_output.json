@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "dimension_scores": {
+    "tracking": 4.75,
+    "attribution": 1.0,
+    "reporting": 4.0,
+    "experimentation": 4.0,
+    "lifecycle": 4.0,
+    "infrastructure": 4.5
+  },
+  "base_overall_score": 3.71,
+  "overall_score": 2.5,
+  "weakest_link_applied": true,
+  "min_dimension": {
+    "dimension_id": "attribution",
+    "score": 1.0
+  },
+  "primary_gap": {
+    "dimension_id": "attribution",
+    "score": 1.0
+  },
+  "critical_gaps": [
+    {
+      "dimension_id": "attribution",
+      "score": 1.0
+    }
+  ],
+  "foundation_gaps": [
+    {
+      "dimension_id": "attribution",
+      "score": 1.0
+    }
+  ],
+  "level": {
+    "level": 3,
+    "key": "systematic"
+  },
+  "cta": {
+    "cta_tone": "warm",
+    "reason": "One foundational gap (1 dimension <2.0)."
+  }
+}

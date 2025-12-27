@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "answers": [
+    {
+      "question_id": "q01_tracking_setup",
+      "option_id": "q01_tracking_setup_o5",
+      "time_spent_ms": 9800
+    },
+    {
+      "question_id": "q02_tag_governance",
+      "option_id": "q02_tag_governance_o5",
+      "time_spent_ms": 10600
+    },
+    {
+      "question_id": "q03_behaviors_tracked",
+      "option_id": "q03_behaviors_tracked_o4",
+      "time_spent_ms": 11400
+    },
+    {
+      "question_id": "q04_touchpoints_linking",
+      "option_id": "q04_touchpoints_linking_o5",
+      "time_spent_ms": 12200
+    },
+    {
+      "question_id": "q05_attribution_method",
+      "option_id": "q05_attribution_method_o1",
+      "time_spent_ms": 9000
+    },
+    {
+      "question_id": "q06_incrementality",
+      "option_id": "q06_incrementality_o1",
+      "time_spent_ms": 9800
+    },
+    {
+      "question_id": "q07_journey_tracking",
+      "option_id": "q07_journey_tracking_o1",
+      "time_spent_ms": 10600
+    },
+    {
+      "question_id": "q08_budget_allocation",
+      "option_id": "q08_budget_allocation_o1",
+      "time_spent_ms": 11400
+    },
+    {
+      "question_id": "q09_reporting_cadence",
+      "option_id": "q09_reporting_cadence_o4",
+      "time_spent_ms": 12200
+    },
+    {
+      "question_id": "q10_dashboard_scope",
+      "option_id": "q10_dashboard_scope_o4",
+      "time_spent_ms": 9000
+    },
+    {
+      "question_id": "q11_metric_definitions",
+      "option_id": "q11_metric_definitions_o4",
+      "time_spent_ms": 9800
+    },
+    {
+      "question_id": "q12_anomaly_response",
+      "option_id": "q12_anomaly_response_o4",
+      "time_spent_ms": 10600
+    },
+    {
+      "question_id": "q13_test_frequency",
+      "option_id": "q13_test_frequency_o4",
+      "time_spent_ms": 11400
+    },
+    {
+      "question_id": "q14_test_tooling",
+      "option_id": "q14_test_tooling_o4",
+      "time_spent_ms": 12200
+    },
+    {
+      "question_id": "q15_decision_use",
+      "option_id": "q15_decision_use_o4",
+      "time_spent_ms": 9000
+    },
+    {
+      "question_id": "q16_beyond_ab",
+      "option_id": "q16_beyond_ab_o4",
+      "time_spent_ms": 9800
+    },
+    {
+      "question_id": "q17_beyond_conversion",
+      "option_id": "q17_beyond_conversion_o4",
+      "time_spent_ms": 10600
+    },
+    {
+      "question_id": "q18_segmentation",
+      "option_id": "q18_segmentation_o4",
+      "time_spent_ms": 11400
+    },
+    {
+      "question_id": "q19_retention_tactics",
+      "option_id": "q19_retention_tactics_o4",
+      "time_spent_ms": 12200
+    },
+    {
+      "question_id": "q20_strategy_influence",
+      "option_id": "q20_strategy_influence_o4",
+      "time_spent_ms": 9000
+    },
+    {
+      "question_id": "q21_data_consolidation",
+      "option_id": "q21_data_consolidation_o5",
+      "time_spent_ms": 9800
+    },
+    {
+      "question_id": "q22_sources_integrated",
+      "option_id": "q22_sources_integrated_o4",
+      "time_spent_ms": 10600
+    },
+    {
+      "question_id": "q23_data_quality",
+      "option_id": "q23_data_quality_o5",
+      "time_spent_ms": 11400
+    },
+    {
+      "question_id": "q24_infra_capabilities",
+      "option_id": "q24_infra_capabilities_o4",
+      "time_spent_ms": 12200
+    }
+  ]
+}

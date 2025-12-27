@@ -1,0 +1,29 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* MaxMin dark system */
+  --mm-bg: 10 10 10;       /* #0a0a0a */
+  --mm-panel: 14 14 14;    /* subtle raised */
+  --mm-border: 34 34 34;   /* #222222 */
+  --mm-text: 255 255 255;  /* white */
+  --mm-muted: 170 170 170; /* muted gray */
+  --mm-accent: 197 75 75;  /* subtle “signal” red (sparingly) */
+
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: rgb(var(--mm-bg));
+  color: rgb(var(--mm-text));
+}
+
+::selection {
+  background: rgb(var(--mm-accent) / 0.35);
+}

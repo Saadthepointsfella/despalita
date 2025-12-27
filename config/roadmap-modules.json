@@ -1,0 +1,383 @@
+{
+  "version": "1.0.0",
+  "modules": [
+    {
+      "dimension_id": "tracking",
+      "tier": "low",
+      "what_it_means": "Tracking is incomplete and inconsistent. Key funnel actions are missing, and data can’t be trusted week to week. This makes every downstream metric noisy.",
+      "now": [
+        "List your critical funnel events (view → cart → checkout → purchase).",
+        "Audit current tags/pixels; identify missing or duplicate events.",
+        "Create a simple naming convention and one-page tracking map."
+      ],
+      "next": [
+        "Implement a documented event taxonomy in GTM (or equivalent).",
+        "Add QA steps (test mode + sample orders) before publishing changes.",
+        "Set up a weekly data-quality spot check (counts, duplicates, gaps)."
+      ],
+      "later": [
+        "Move high-value events to server-side tracking to reduce signal loss.",
+        "Unify identity across devices where possible (logged-in, email capture).",
+        "Ingest offline signals (returns, support) into the same customer view."
+      ],
+      "success_indicator": "Key funnel event counts are stable, and you can trace revenue back to verified events with minimal discrepancies."
+    },
+    {
+      "dimension_id": "tracking",
+      "tier": "medium",
+      "what_it_means": "Core events exist, but governance and consistency are the bottleneck. Teams ship changes without reliable validation, creating drift over time.",
+      "now": [
+        "Document your event definitions (what fires, when, and why).",
+        "Add a lightweight QA checklist for releases that touch tracking.",
+        "Create a “tracking changelog” tied to deployments."
+      ],
+      "next": [
+        "Introduce tag governance: approvals, environments, and rollback plan.",
+        "Instrument high-signal engagement events (intent, drop-off, friction).",
+        "Standardize UTM rules and campaign naming to reduce attribution noise."
+      ],
+      "later": [
+        "Adopt server-side event forwarding for critical conversions.",
+        "Build a single customer view (CDP/warehouse) for cross-tool stitching.",
+        "Add automated monitoring for event drop-offs and schema changes."
+      ],
+      "success_indicator": "Tracking changes no longer break reporting, and your event schema stays consistent across releases."
+    },
+    {
+      "dimension_id": "tracking",
+      "tier": "high",
+      "what_it_means": "Tracking is robust and unified. The opportunity is leverage: monitoring, privacy resilience, and instrumentation that accelerates experimentation and personalization.",
+      "now": [
+        "Set SLAs for key events and alert on sudden drops or spikes.",
+        "Review consent/privacy impact on signal; harden critical conversions.",
+        "Define a shared event schema contract (names, properties, ownership)."
+      ],
+      "next": [
+        "Enrich events with consistent attributes (product, customer, cohort tags).",
+        "Improve identity resolution and reduce duplicate profiles.",
+        "Feed clean events into experimentation and lifecycle tooling."
+      ],
+      "later": [
+        "Automate schema validation in CI (data contracts).",
+        "Build real-time customer profiles powering on-site personalization.",
+        "Instrument the full ‘decision loop’ (signal → action → outcome)."
+      ],
+      "success_indicator": "You detect tracking regressions within hours and can confidently power experiments and personalization from the same event layer."
+    },
+    {
+      "dimension_id": "attribution",
+      "tier": "low",
+      "what_it_means": "Measurement is mostly platform-reported or last-click. This typically over-credits bottom-funnel channels and hides what actually drives incremental growth.",
+      "now": [
+        "Standardize one blended performance view (spend, revenue, CAC) across channels.",
+        "Run one geo-holdout or audience holdout on your largest spend channel.",
+        "Define what ‘success’ means: attributed vs incremental vs blended."
+      ],
+      "next": [
+        "Implement a rules-based multi-touch model and compare vs last-click.",
+        "Add a quarterly incrementality cadence for top 2 spend buckets.",
+        "Build a simple budget decision rule tied to blended CAC and lift."
+      ],
+      "later": [
+        "Adopt MMM to model diminishing returns and channel interactions.",
+        "Create a unified measurement framework: MTA + MMM + experiments.",
+        "Calibrate attribution weights using test results (not opinions)."
+      ],
+      "success_indicator": "Budget decisions reference incremental lift and diminishing returns — not just platform ROAS."
+    },
+    {
+      "dimension_id": "attribution",
+      "tier": "medium",
+      "what_it_means": "You have a multi-touch view, but it’s not consistently calibrated against reality. The main risk is using dashboards to make the wrong budget moves.",
+      "now": [
+        "Identify where touchpoint credit disagrees most with business outcomes (brand, influencers, retail).",
+        "Set a recurring incrementality test calendar (monthly or quarterly).",
+        "Define channel guardrails (min/max share, CAC ceilings) for allocation."
+      ],
+      "next": [
+        "Build an MMM prototype for top channels and validate vs historical swings.",
+        "Create a reconciliation view: platform vs MTA vs incremental vs blended.",
+        "Introduce diminishing-returns curves to guide scaling decisions."
+      ],
+      "later": [
+        "Move toward always-on calibration (lightweight continuous tests).",
+        "Automate allocation recommendations with human review.",
+        "Extend measurement to wholesale/retail and offline impacts where relevant."
+      ],
+      "success_indicator": "You can explain channel impact clearly, and tests regularly validate the model’s direction."
+    },
+    {
+      "dimension_id": "attribution",
+      "tier": "high",
+      "what_it_means": "Measurement is advanced and validated. The leverage is speed: tighter feedback loops, smarter automation, and faster detection of model drift.",
+      "now": [
+        "Set a calibration cadence and define drift thresholds (when to re-test).",
+        "Instrument leading indicators alongside spend (traffic quality, propensity).",
+        "Create a decision log tying budget changes to expected outcomes."
+      ],
+      "next": [
+        "Automate budget optimization within guardrails using modeled curves.",
+        "Incorporate creative and messaging signals into performance modeling.",
+        "Add scenario planning for promo, inventory, and seasonality."
+      ],
+      "later": [
+        "Move toward causal pipelines combining experiments + models continuously.",
+        "Standardize measurement across regions/markets if applicable.",
+        "Deploy prescriptive recommendations with post-hoc evaluation."
+      ],
+      "success_indicator": "Your measurement predicts impact of budget changes and flags drift before it costs meaningful spend."
+    },
+    {
+      "dimension_id": "reporting",
+      "tier": "low",
+      "what_it_means": "Reporting is manual and slow. Teams learn about problems after the fact, and decisions happen without shared context or consistent definitions.",
+      "now": [
+        "Define 10–15 core KPIs and their exact definitions (one page).",
+        "Set a weekly KPI review cadence with clear owners and actions.",
+        "Build one single-page dashboard (even if temporary)."
+      ],
+      "next": [
+        "Automate data pulls and refresh cadence (daily where it matters).",
+        "Create role-based views: exec summary vs operator drill-down.",
+        "Add anomaly thresholds for critical metrics (sales, CVR, CAC)."
+      ],
+      "later": [
+        "Adopt a BI layer with self-serve exploration and permissions.",
+        "Introduce a semantic layer to prevent metric disputes.",
+        "Add predictive alerts (leading indicators) for common failure modes."
+      ],
+      "success_indicator": "Key metrics refresh automatically, and issues are detected early enough to act — not just explained after."
+    },
+    {
+      "dimension_id": "reporting",
+      "tier": "medium",
+      "what_it_means": "Dashboards exist and refresh reliably, but teams still debate numbers or struggle to turn dashboards into decisions. The bottleneck is alignment and action loops.",
+      "now": [
+        "Audit dashboards: remove vanity metrics and duplicate views.",
+        "Lock metric definitions and publish a short metrics dictionary.",
+        "Add decision prompts: “What changed? Why? What will we do?”"
+      ],
+      "next": [
+        "Improve drill-down paths (funnel → cohort → segment) in one flow.",
+        "Add anomaly alerting to reduce manual checking.",
+        "Create a monthly insights memo summarizing learnings and actions."
+      ],
+      "later": [
+        "Build a semantic layer with governed metrics and audit trails.",
+        "Add forecasting for key metrics (revenue, CAC, inventory risk).",
+        "Embed dashboards into operating rituals (standups, weekly reviews)."
+      ],
+      "success_indicator": "Dashboards become the shared place decisions are made and tracked (not just reported)."
+    },
+    {
+      "dimension_id": "reporting",
+      "tier": "high",
+      "what_it_means": "You have real-time visibility and alerting. The opportunity is compounding: tighter loops between signal → decision → execution → outcome.",
+      "now": [
+        "Set alert routing and ownership so every alert has an action path.",
+        "Add post-alert notes to capture what happened and what was done.",
+        "Standardize decision dashboards for growth, retention, and ops."
+      ],
+      "next": [
+        "Automate root-cause hints for common anomalies (what changed upstream).",
+        "Add forecasting and scenario comparisons directly in dashboards.",
+        "Introduce KPI guardrails for promos, inventory, and margin."
+      ],
+      "later": [
+        "Build prescriptive recommendations (suggested actions with confidence).",
+        "Connect dashboards to execution systems (tickets, playbooks).",
+        "Continuously evaluate alert precision/recall and tune thresholds."
+      ],
+      "success_indicator": "Alerts are high signal, owners respond quickly, and you can quantify the impact of actions taken."
+    },
+    {
+      "dimension_id": "experimentation",
+      "tier": "low",
+      "what_it_means": "Testing is infrequent or informal. Without a testing loop, improvements are slow and teams revert to opinions when performance fluctuates.",
+      "now": [
+        "Pick one high-impact surface (landing, PDP, checkout, email) to start.",
+        "Run one clean A/B test with a single KPI and a clear hypothesis.",
+        "Create a simple template: hypothesis → change → result → decision."
+      ],
+      "next": [
+        "Adopt an experimentation tool and define roles (owner, analyst, implementer).",
+        "Build a backlog and run 2–4 tests/month with guardrails.",
+        "Standardize stats basics (sample size, run time, stopping rules)."
+      ],
+      "later": [
+        "Create an experiments library to prevent repeating work.",
+        "Expand to server-side and lifecycle tests (not just UI).",
+        "Introduce personalization once you have a reliable learning loop."
+      ],
+      "success_indicator": "You consistently run tests, learn something monthly, and can show wins tied to documented hypotheses."
+    },
+    {
+      "dimension_id": "experimentation",
+      "tier": "medium",
+      "what_it_means": "You run experiments, but velocity and rigor vary. The goal is a stable pipeline: backlog, prioritization, and repeatable decision standards.",
+      "now": [
+        "Implement a scoring model for ideas (impact × confidence × effort).",
+        "Define guardrail metrics (revenue, margin, refunds).",
+        "Centralize reporting so results are trusted and shared."
+      ],
+      "next": [
+        "Increase velocity with templates, reusable components, and feature flags.",
+        "Run parallel tests safely with segmentation and conflict rules.",
+        "Start experimenting on lifecycle and acquisition, not only site UX."
+      ],
+      "later": [
+        "Move toward bandits or adaptive allocation where appropriate.",
+        "Feed learnings into personalization and merchandising rules.",
+        "Use meta-analysis to identify what reliably moves the needle."
+      ],
+      "success_indicator": "Your program has steady throughput and decisions follow consistent statistical and business rules."
+    },
+    {
+      "dimension_id": "experimentation",
+      "tier": "high",
+      "what_it_means": "You have a mature testing engine. The leverage is compounding learnings and automating allocation, while protecting brand and margin with guardrails.",
+      "now": [
+        "Review the experiments library for patterns (what wins, where, why).",
+        "Standardize measurement for long-term metrics (LTV impact, churn).",
+        "Add monitoring for novelty effects and regression risk."
+      ],
+      "next": [
+        "Automate experiment setup with feature flags and QA harnesses.",
+        "Scale personalization safely with holdouts and evaluation.",
+        "Integrate experiments into roadmap planning and forecasting."
+      ],
+      "later": [
+        "Deploy adaptive systems (bandits, next-best-action) with governance.",
+        "Continuously audit bias and segment-level impacts.",
+        "Build a compounding playbook: what to test next, based on learnings."
+      ],
+      "success_indicator": "Testing drives roadmap choices, and personalization improves outcomes without sacrificing measurement integrity."
+    },
+    {
+      "dimension_id": "lifecycle",
+      "tier": "low",
+      "what_it_means": "Lifecycle marketing is mostly batch-and-blast. Retention opportunities are missed because segmentation and customer value signals aren’t operationalized.",
+      "now": [
+        "Set baseline flows: welcome, abandon cart, post-purchase, win-back.",
+        "Define 3–5 lifecycle metrics (repeat rate, time-to-2nd, churn window).",
+        "Create simple segments: new vs repeat, high vs low AOV."
+      ],
+      "next": [
+        "Introduce lifecycle stages (new, active, at-risk, churned) with tailored messaging.",
+        "Add cohort reporting by acquisition source and product category.",
+        "Launch 1–2 retention experiments per month (offer, timing, content)."
+      ],
+      "later": [
+        "Build predictive CLV or churn scoring to prioritize spend and offers.",
+        "Orchestrate across channels (email, SMS, ads) with unified rules.",
+        "Connect retention insights back to product and CX improvements."
+      ],
+      "success_indicator": "You can explain what drives repeat purchase and run targeted programs with measurable lift."
+    },
+    {
+      "dimension_id": "lifecycle",
+      "tier": "medium",
+      "what_it_means": "Lifecycle programs exist and are segmented, but value is not fully modeled. Next step: predictive signals to allocate effort and personalize at scale.",
+      "now": [
+        "Audit flows by contribution (revenue, margin, engagement) and remove clutter.",
+        "Define your retention north star (2nd purchase rate, CLV, churn).",
+        "Add RFM segmentation and lifecycle-trigger logic."
+      ],
+      "next": [
+        "Introduce predictive scoring (churn risk, CLV bands) and test interventions.",
+        "Build channel coordination rules to avoid over-messaging.",
+        "Add incremental measurement for lifecycle (holdouts for key automations)."
+      ],
+      "later": [
+        "Move toward 1:1 orchestration with next-best-action logic.",
+        "Feed customer intelligence into merchandising and product decisions.",
+        "Automate experimentation in lifecycle with strong guardrails."
+      ],
+      "success_indicator": "Retention work becomes prioritized by predicted value, and holdouts prove lifecycle lift rather than assuming it."
+    },
+    {
+      "dimension_id": "lifecycle",
+      "tier": "high",
+      "what_it_means": "Lifecycle is predictive and orchestrated. Leverage: improve models, increase personalization safely, and align CX/product with customer intelligence.",
+      "now": [
+        "Set governance for models (refresh cadence, drift checks, monitoring).",
+        "Define brand guardrails for personalization and offers.",
+        "Add feedback loops from support/returns into segmentation."
+      ],
+      "next": [
+        "Scale next-best-action across channels with evaluation holdouts.",
+        "Use CLV to set acquisition bid ceilings and promo guardrails.",
+        "Introduce lifecycle forecasting tied to inventory and margin."
+      ],
+      "later": [
+        "Operationalize adaptive journeys with governance.",
+        "Build cross-functional playbooks for key segments (VIP, at-risk, new).",
+        "Continuously improve models using new signals and outcomes."
+      ],
+      "success_indicator": "Your lifecycle engine increases customer value measurably and stays reliable as cohorts and channels change."
+    },
+    {
+      "dimension_id": "infrastructure",
+      "tier": "low",
+      "what_it_means": "Data lives inside tools with no reliable integration. Analysis is slow, brittle, and hard to trust — blocking better reporting, attribution, and lifecycle work.",
+      "now": [
+        "Inventory key data sources and owners (Shopify, ads, email, GA).",
+        "Start a daily export for the top 3 sources into one place.",
+        "Define a minimal golden dataset (orders, customers, spend, events)."
+      ],
+      "next": [
+        "Stand up a cloud warehouse and automate ingestion for core sources.",
+        "Create a standard schema and transformations (clean joins, IDs).",
+        "Add validation checks for freshness, duplicates, missing fields."
+      ],
+      "later": [
+        "Adopt transformations-as-code and version your models (dbt-style).",
+        "Introduce reverse ETL to activate segments back into tools.",
+        "Implement data contracts and monitoring to prevent silent breakage."
+      ],
+      "success_indicator": "You have a dependable central dataset that refreshes automatically and removes manual reporting work."
+    },
+    {
+      "dimension_id": "infrastructure",
+      "tier": "medium",
+      "what_it_means": "A warehouse exists, but data quality and governance determine how much the org can trust and use it. Goal: reliability through tests, ownership, and repeatable models.",
+      "now": [
+        "Define ownership for key tables and critical metrics.",
+        "Add basic data tests (freshness, uniqueness, referential integrity).",
+        "Document the core model: customers, orders, sessions, spend."
+      ],
+      "next": [
+        "Introduce transformations-as-code with CI checks on changes.",
+        "Add observability: failures, latency, schema drift alerts.",
+        "Build curated semantic tables for dashboards and analysis."
+      ],
+      "later": [
+        "Add an activation layer for lifecycle and personalization.",
+        "Implement data contracts with source systems and internal consumers.",
+        "Move toward near real-time pipelines for high-value use cases."
+      ],
+      "success_indicator": "Data issues are detected quickly, owners fix them, and dashboards stop breaking when pipelines change."
+    },
+    {
+      "dimension_id": "infrastructure",
+      "tier": "high",
+      "what_it_means": "You have a modern data stack. Leverage: scale safely with contracts, observability, and making data usable across teams without creating metric chaos.",
+      "now": [
+        "Implement data contracts for critical schemas and event properties.",
+        "Track warehouse cost drivers and optimize heavy models.",
+        "Harden access controls and PII handling (least privilege)."
+      ],
+      "next": [
+        "Build a governed semantic layer for consistent metrics across tools.",
+        "Add near real-time pipelines where it materially changes decisions.",
+        "Operationalize feature generation for models and personalization."
+      ],
+      "later": [
+        "Standardize model deployment and monitoring for ML use cases.",
+        "Automate lineage and impact analysis for changes.",
+        "Continuously test for bias and segment-level regressions."
+      ],
+      "success_indicator": "Teams build confidently on the platform, with guardrails preventing silent breakage and metric inconsistency."
+    }
+  ]
+}

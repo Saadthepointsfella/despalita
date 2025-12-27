@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maxmin.agency/schemas/levels.schema.json",
+  "type": "object",
+  "required": [
+    "version",
+    "levels"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "level",
+          "key",
+          "name",
+          "score_range",
+          "hero_title",
+          "hero_copy",
+          "cta_tone_default",
+          "color_token"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "level": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z]+(_[a-z]+)*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "score_range": {
+            "type": "object",
+            "required": [
+              "min",
+              "max",
+              "min_inclusive",
+              "max_inclusive"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "min_inclusive": {
+                "type": "boolean"
+              },
+              "max_inclusive": {
+                "type": "boolean"
+              }
+            }
+          },
+          "hero_title": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 80
+          },
+          "hero_copy": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 220
+          },
+          "cta_tone_default": {
+            "type": "string",
+            "enum": [
+              "cool",
+              "warm",
+              "hot"
+            ]
+          },
+          "color_token": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,821 @@
+{
+  "version": "1.0.0",
+  "questions": [
+    {
+      "id": "q01_tracking_setup",
+      "order": 1,
+      "dimension_id": "tracking",
+      "section": "01",
+      "prompt": "Which best describes your website/app tracking setup?",
+      "options": [
+        {
+          "id": "q01_tracking_setup_o1",
+          "label": "No tracking or basic Google Analytics only (default setup).",
+          "score": 1
+        },
+        {
+          "id": "q01_tracking_setup_o2",
+          "label": "Standard tracking of pageviews and some events via GA or similar.",
+          "score": 2
+        },
+        {
+          "id": "q01_tracking_setup_o3",
+          "label": "Detailed event tracking using GTM with documented custom events.",
+          "score": 3
+        },
+        {
+          "id": "q01_tracking_setup_o4",
+          "label": "Comprehensive tracking via a CDP capturing key actions across platforms.",
+          "score": 4
+        },
+        {
+          "id": "q01_tracking_setup_o5",
+          "label": "Unified tracking with server-side implementation handling cookie limitations.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q02_tag_governance",
+      "order": 2,
+      "dimension_id": "tracking",
+      "section": "01",
+      "prompt": "How do you manage analytics tags and pixels?",
+      "options": [
+        {
+          "id": "q02_tag_governance_o1",
+          "label": "Tags are hard-coded directly into the site or managed ad‑hoc.",
+          "score": 1
+        },
+        {
+          "id": "q02_tag_governance_o2",
+          "label": "We use Google Tag Manager but without documented processes.",
+          "score": 2
+        },
+        {
+          "id": "q02_tag_governance_o3",
+          "label": "GTM with naming conventions and basic QA before publishing.",
+          "score": 3
+        },
+        {
+          "id": "q02_tag_governance_o4",
+          "label": "Formal tag governance with version control, testing, and approval workflows.",
+          "score": 4
+        },
+        {
+          "id": "q02_tag_governance_o5",
+          "label": "Automated tag auditing with real-time monitoring for data quality issues.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q03_behaviors_tracked",
+      "order": 3,
+      "dimension_id": "tracking",
+      "section": "01",
+      "prompt": "What user behaviors are you tracking today?",
+      "options": [
+        {
+          "id": "q03_behaviors_tracked_o1",
+          "label": "Just page visits and transaction completions.",
+          "score": 1
+        },
+        {
+          "id": "q03_behaviors_tracked_o2",
+          "label": "Core funnel events: product views, add-to-cart, checkout steps.",
+          "score": 2
+        },
+        {
+          "id": "q03_behaviors_tracked_o3",
+          "label": "Full funnel plus engagement events (scroll depth, video plays, clicks).",
+          "score": 3
+        },
+        {
+          "id": "q03_behaviors_tracked_o4",
+          "label": "All above plus user attributes and cross-device behavior.",
+          "score": 4
+        },
+        {
+          "id": "q03_behaviors_tracked_o5",
+          "label": "Behavior + offline data (returns, support, in-store) unified into one view.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q04_touchpoints_linking",
+      "order": 4,
+      "dimension_id": "tracking",
+      "section": "01",
+      "prompt": "Do you link data from different customer touchpoints?",
+      "options": [
+        {
+          "id": "q04_touchpoints_linking_o1",
+          "label": "No, data sits in each tool separately.",
+          "score": 1
+        },
+        {
+          "id": "q04_touchpoints_linking_o2",
+          "label": "We manually combine some data (e.g., export CSVs into spreadsheets).",
+          "score": 2
+        },
+        {
+          "id": "q04_touchpoints_linking_o3",
+          "label": "We automatically merge data from multiple sources on a schedule.",
+          "score": 3
+        },
+        {
+          "id": "q04_touchpoints_linking_o4",
+          "label": "Unified customer profiles combining web, marketing, and CRM data.",
+          "score": 4
+        },
+        {
+          "id": "q04_touchpoints_linking_o5",
+          "label": "Real-time single customer view with identity resolution across channels.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q05_attribution_method",
+      "order": 5,
+      "dimension_id": "attribution",
+      "section": "02",
+      "prompt": "How do you attribute sales to marketing efforts?",
+      "options": [
+        {
+          "id": "q05_attribution_method_o1",
+          "label": "We look at platform-reported conversions in each tool separately.",
+          "score": 1
+        },
+        {
+          "id": "q05_attribution_method_o2",
+          "label": "We use GA4 or similar with default last-click attribution.",
+          "score": 2
+        },
+        {
+          "id": "q05_attribution_method_o3",
+          "label": "We use a rules-based multi-touch model (time-decay, position-based).",
+          "score": 3
+        },
+        {
+          "id": "q05_attribution_method_o4",
+          "label": "Data-driven attribution validated by incrementality experiments.",
+          "score": 4
+        },
+        {
+          "id": "q05_attribution_method_o5",
+          "label": "Unified measurement combining MTA, MMM, and ongoing calibration tests.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q06_incrementality",
+      "order": 6,
+      "dimension_id": "attribution",
+      "section": "02",
+      "prompt": "Do you measure incremental lift of marketing vs. baseline?",
+      "options": [
+        {
+          "id": "q06_incrementality_o1",
+          "label": "No, we only look at attributed conversions.",
+          "score": 1
+        },
+        {
+          "id": "q06_incrementality_o2",
+          "label": "We’ve done one-off tests in the past but not systematically.",
+          "score": 2
+        },
+        {
+          "id": "q06_incrementality_o3",
+          "label": "Occasional holdout tests (1–2 per year).",
+          "score": 3
+        },
+        {
+          "id": "q06_incrementality_o4",
+          "label": "Regular geo-lift or holdout experiments validate our attribution.",
+          "score": 4
+        },
+        {
+          "id": "q06_incrementality_o5",
+          "label": "Always-on incrementality measurement informs major spend decisions.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q07_journey_tracking",
+      "order": 7,
+      "dimension_id": "attribution",
+      "section": "02",
+      "prompt": "Can you track a single user's journey across channels?",
+      "options": [
+        {
+          "id": "q07_journey_tracking_o1",
+          "label": "No, each channel is analyzed separately.",
+          "score": 1
+        },
+        {
+          "id": "q07_journey_tracking_o2",
+          "label": "Partially — we use UTMs and GA multi-channel funnels.",
+          "score": 2
+        },
+        {
+          "id": "q07_journey_tracking_o3",
+          "label": "Mostly — we see paths in a funnel analysis but with gaps.",
+          "score": 3
+        },
+        {
+          "id": "q07_journey_tracking_o4",
+          "label": "Yes — a multi-channel dashboard shows the journey end-to-end.",
+          "score": 4
+        },
+        {
+          "id": "q07_journey_tracking_o5",
+          "label": "Full cross-device + cross-channel journey with deterministic/probabilistic matching.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q08_budget_allocation",
+      "order": 8,
+      "dimension_id": "attribution",
+      "section": "02",
+      "prompt": "How do you decide budget allocation across channels?",
+      "options": [
+        {
+          "id": "q08_budget_allocation_o1",
+          "label": "Mostly fixed budgets or gut feeling.",
+          "score": 1
+        },
+        {
+          "id": "q08_budget_allocation_o2",
+          "label": "Based on platform-reported ROAS per channel.",
+          "score": 2
+        },
+        {
+          "id": "q08_budget_allocation_o3",
+          "label": "Based on blended CAC and custom attribution weights.",
+          "score": 3
+        },
+        {
+          "id": "q08_budget_allocation_o4",
+          "label": "Using MMM/econometric models to forecast diminishing returns.",
+          "score": 4
+        },
+        {
+          "id": "q08_budget_allocation_o5",
+          "label": "Automated optimization using predictive models with continuous feedback.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q09_reporting_cadence",
+      "order": 9,
+      "dimension_id": "reporting",
+      "section": "03",
+      "prompt": "How often do you produce analytical reports and how?",
+      "options": [
+        {
+          "id": "q09_reporting_cadence_o1",
+          "label": "No regular reporting — only on request or for specific meetings.",
+          "score": 1
+        },
+        {
+          "id": "q09_reporting_cadence_o2",
+          "label": "Monthly/weekly KPI reports produced manually in spreadsheets.",
+          "score": 2
+        },
+        {
+          "id": "q09_reporting_cadence_o3",
+          "label": "Automated dashboards updated daily with weekly reviews.",
+          "score": 3
+        },
+        {
+          "id": "q09_reporting_cadence_o4",
+          "label": "Interactive BI dashboards with self-service for all teams.",
+          "score": 4
+        },
+        {
+          "id": "q09_reporting_cadence_o5",
+          "label": "Real-time monitoring with anomaly alerts and predictive insights.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q10_dashboard_scope",
+      "order": 10,
+      "dimension_id": "reporting",
+      "section": "03",
+      "prompt": "What do your analytics dashboards cover?",
+      "options": [
+        {
+          "id": "q10_dashboard_scope_o1",
+          "label": "Basic web metrics or sales, isolated by channel.",
+          "score": 1
+        },
+        {
+          "id": "q10_dashboard_scope_o2",
+          "label": "Marketing metrics from multiple platforms in one view.",
+          "score": 2
+        },
+        {
+          "id": "q10_dashboard_scope_o3",
+          "label": "Unified business view: marketing, eComm, and finance metrics together.",
+          "score": 3
+        },
+        {
+          "id": "q10_dashboard_scope_o4",
+          "label": "Cohort analysis, funnel drop-offs, and marketing ROI in one place.",
+          "score": 4
+        },
+        {
+          "id": "q10_dashboard_scope_o5",
+          "label": "Cross-functional dashboards tying campaigns to revenue and ops metrics.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q11_metric_definitions",
+      "order": 11,
+      "dimension_id": "reporting",
+      "section": "03",
+      "prompt": "Do teams have agreed-upon metrics and a single source of truth?",
+      "options": [
+        {
+          "id": "q11_metric_definitions_o1",
+          "label": "Each team uses their own metrics and tools.",
+          "score": 1
+        },
+        {
+          "id": "q11_metric_definitions_o2",
+          "label": "We have a standard report but teams dispute the numbers.",
+          "score": 2
+        },
+        {
+          "id": "q11_metric_definitions_o3",
+          "label": "Defined metric framework (CAC, LTV) but not always enforced.",
+          "score": 3
+        },
+        {
+          "id": "q11_metric_definitions_o4",
+          "label": "Company-wide metrics with documented definitions; everyone uses the same dashboards.",
+          "score": 4
+        },
+        {
+          "id": "q11_metric_definitions_o5",
+          "label": "Certified metrics with governance, semantic layer, and audit trails.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q12_anomaly_response",
+      "order": 12,
+      "dimension_id": "reporting",
+      "section": "03",
+      "prompt": "How quickly can you identify and act on an anomaly?",
+      "options": [
+        {
+          "id": "q12_anomaly_response_o1",
+          "label": "Often find out long after the fact through ad-hoc checks.",
+          "score": 1
+        },
+        {
+          "id": "q12_anomaly_response_o2",
+          "label": "Weekly reviews catch most issues within a week.",
+          "score": 2
+        },
+        {
+          "id": "q12_anomaly_response_o3",
+          "label": "Daily dashboard checks enable same-day detection of major issues.",
+          "score": 3
+        },
+        {
+          "id": "q12_anomaly_response_o4",
+          "label": "Automated alerts notify us within hours.",
+          "score": 4
+        },
+        {
+          "id": "q12_anomaly_response_o5",
+          "label": "Real-time monitoring with auto-diagnosis and suggested actions.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q13_test_frequency",
+      "order": 13,
+      "dimension_id": "experimentation",
+      "section": "04",
+      "prompt": "How frequently does your team run experiments (A/B tests)?",
+      "options": [
+        {
+          "id": "q13_test_frequency_o1",
+          "label": "Never or almost never.",
+          "score": 1
+        },
+        {
+          "id": "q13_test_frequency_o2",
+          "label": "A few times a year on major changes.",
+          "score": 2
+        },
+        {
+          "id": "q13_test_frequency_o3",
+          "label": "Continuously in some areas (1–3 tests running at a time).",
+          "score": 3
+        },
+        {
+          "id": "q13_test_frequency_o4",
+          "label": "Core workflow — roadmap of experiments, 5–10 tests per month.",
+          "score": 4
+        },
+        {
+          "id": "q13_test_frequency_o5",
+          "label": "High-velocity culture — every initiative has a test; learnings catalogued.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q14_test_tooling",
+      "order": 14,
+      "dimension_id": "experimentation",
+      "section": "04",
+      "prompt": "What tools or methods do you use to experiment?",
+      "options": [
+        {
+          "id": "q14_test_tooling_o1",
+          "label": "None — changes are based on intuition or stakeholder requests.",
+          "score": 1
+        },
+        {
+          "id": "q14_test_tooling_o2",
+          "label": "Manual split tests; compare outcomes roughly.",
+          "score": 2
+        },
+        {
+          "id": "q14_test_tooling_o3",
+          "label": "Basic A/B testing tool for site or email.",
+          "score": 3
+        },
+        {
+          "id": "q14_test_tooling_o4",
+          "label": "Dedicated experimentation platform with statistical rigor.",
+          "score": 4
+        },
+        {
+          "id": "q14_test_tooling_o5",
+          "label": "Server-side tests + feature flags + bandits/advanced allocation.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q15_decision_use",
+      "order": 15,
+      "dimension_id": "experimentation",
+      "section": "04",
+      "prompt": "How do experimental results influence decisions?",
+      "options": [
+        {
+          "id": "q15_decision_use_o1",
+          "label": "We don't run experiments to influence decisions.",
+          "score": 1
+        },
+        {
+          "id": "q15_decision_use_o2",
+          "label": "If a test shows lift we implement; otherwise ad-hoc.",
+          "score": 2
+        },
+        {
+          "id": "q15_decision_use_o3",
+          "label": "Results are documented and shared; they inform future tactics.",
+          "score": 3
+        },
+        {
+          "id": "q15_decision_use_o4",
+          "label": "Experiment database + meta-analysis informs strategy.",
+          "score": 4
+        },
+        {
+          "id": "q15_decision_use_o5",
+          "label": "Experiment data feeds models for personalization and auto-optimization.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q16_beyond_ab",
+      "order": 16,
+      "dimension_id": "experimentation",
+      "section": "04",
+      "prompt": "Do you use advanced optimization beyond A/B tests?",
+      "options": [
+        {
+          "id": "q16_beyond_ab_o1",
+          "label": "No — just manual optimizations based on reports.",
+          "score": 1
+        },
+        {
+          "id": "q16_beyond_ab_o2",
+          "label": "Basic personalization (e.g., name in emails, simple segments).",
+          "score": 2
+        },
+        {
+          "id": "q16_beyond_ab_o3",
+          "label": "Rule-based personalization on site and in campaigns.",
+          "score": 3
+        },
+        {
+          "id": "q16_beyond_ab_o4",
+          "label": "Predictive models for recommendations and next-best-action.",
+          "score": 4
+        },
+        {
+          "id": "q16_beyond_ab_o5",
+          "label": "AI-driven personalization optimizing for each user in real-time.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q17_beyond_conversion",
+      "order": 17,
+      "dimension_id": "lifecycle",
+      "section": "05",
+      "prompt": "What metrics do you track beyond immediate conversion?",
+      "options": [
+        {
+          "id": "q17_beyond_conversion_o1",
+          "label": "None besides sales and immediate revenue.",
+          "score": 1
+        },
+        {
+          "id": "q17_beyond_conversion_o2",
+          "label": "Repeat purchase rate or basic churn in a simple way.",
+          "score": 2
+        },
+        {
+          "id": "q17_beyond_conversion_o3",
+          "label": "Cohort retention metrics and estimated CLV for groups.",
+          "score": 3
+        },
+        {
+          "id": "q17_beyond_conversion_o4",
+          "label": "LTV by acquisition source + retention curves + predictive CLV.",
+          "score": 4
+        },
+        {
+          "id": "q17_beyond_conversion_o5",
+          "label": "Dynamic CLV models updated in real-time feeding decisions.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q18_segmentation",
+      "order": 18,
+      "dimension_id": "lifecycle",
+      "section": "05",
+      "prompt": "How do you segment and target customers in marketing?",
+      "options": [
+        {
+          "id": "q18_segmentation_o1",
+          "label": "We don't segment; all customers get the same messages.",
+          "score": 1
+        },
+        {
+          "id": "q18_segmentation_o2",
+          "label": "Basic segments in email (one-time vs repeat, simple demographics).",
+          "score": 2
+        },
+        {
+          "id": "q18_segmentation_o3",
+          "label": "Lifecycle stages (new, active, at-risk, churned) with tailored campaigns.",
+          "score": 3
+        },
+        {
+          "id": "q18_segmentation_o4",
+          "label": "RFM segmentation + predictive scoring drives multi-channel targeting.",
+          "score": 4
+        },
+        {
+          "id": "q18_segmentation_o5",
+          "label": "1:1 personalization using ML models across touchpoints.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q19_retention_tactics",
+      "order": 19,
+      "dimension_id": "lifecycle",
+      "section": "05",
+      "prompt": "Which retention tactics do you use informed by data?",
+      "options": [
+        {
+          "id": "q19_retention_tactics_o1",
+          "label": "None — primarily promotional batch sends to the full list.",
+          "score": 1
+        },
+        {
+          "id": "q19_retention_tactics_o2",
+          "label": "Basic automations: welcome series, abandoned cart.",
+          "score": 2
+        },
+        {
+          "id": "q19_retention_tactics_o3",
+          "label": "Behavioral triggers + targeted lapsing-customer campaigns.",
+          "score": 3
+        },
+        {
+          "id": "q19_retention_tactics_o4",
+          "label": "Predictive churn models trigger proactive win-back offers.",
+          "score": 4
+        },
+        {
+          "id": "q19_retention_tactics_o5",
+          "label": "Orchestrated journeys optimizing next-best-action across channels.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q20_strategy_influence",
+      "order": 20,
+      "dimension_id": "lifecycle",
+      "section": "05",
+      "prompt": "Do lifecycle insights influence product or strategy?",
+      "options": [
+        {
+          "id": "q20_strategy_influence_o1",
+          "label": "We don't analyze lifecycle data for strategic decisions.",
+          "score": 1
+        },
+        {
+          "id": "q20_strategy_influence_o2",
+          "label": "We look at some metrics like churn but not systematically.",
+          "score": 2
+        },
+        {
+          "id": "q20_strategy_influence_o3",
+          "label": "Retention analysis informs specific initiatives (e.g., onboarding improvements).",
+          "score": 3
+        },
+        {
+          "id": "q20_strategy_influence_o4",
+          "label": "Dedicated retention team uses data to continuously improve CX.",
+          "score": 4
+        },
+        {
+          "id": "q20_strategy_influence_o5",
+          "label": "Customer intelligence is embedded in product and strategy decisions.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q21_data_consolidation",
+      "order": 21,
+      "dimension_id": "infrastructure",
+      "section": "06",
+      "prompt": "How do you consolidate and store data for analysis?",
+      "options": [
+        {
+          "id": "q21_data_consolidation_o1",
+          "label": "Data only lives in source tools (no central database).",
+          "score": 1
+        },
+        {
+          "id": "q21_data_consolidation_o2",
+          "label": "Export data into spreadsheets/Sheets when needed.",
+          "score": 2
+        },
+        {
+          "id": "q21_data_consolidation_o3",
+          "label": "Basic warehouse/database with occasional manual imports.",
+          "score": 3
+        },
+        {
+          "id": "q21_data_consolidation_o4",
+          "label": "Automated ETL pipeline feeding a cloud warehouse daily.",
+          "score": 4
+        },
+        {
+          "id": "q21_data_consolidation_o5",
+          "label": "Modern data stack with streaming, transformations, and reverse ETL.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q22_sources_integrated",
+      "order": 22,
+      "dimension_id": "infrastructure",
+      "section": "06",
+      "prompt": "Which data sources are integrated?",
+      "options": [
+        {
+          "id": "q22_sources_integrated_o1",
+          "label": "None — all separate in each SaaS tool.",
+          "score": 1
+        },
+        {
+          "id": "q22_sources_integrated_o2",
+          "label": "Some marketing platforms integrated (e.g., GA + ads).",
+          "score": 2
+        },
+        {
+          "id": "q22_sources_integrated_o3",
+          "label": "Key sources (Shopify, GA, ads, email) piped into one warehouse.",
+          "score": 3
+        },
+        {
+          "id": "q22_sources_integrated_o4",
+          "label": "All critical sources including CRM, support, offline in unified schema.",
+          "score": 4
+        },
+        {
+          "id": "q22_sources_integrated_o5",
+          "label": "Enterprise-grade integration with enrichment and minimal silos.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q23_data_quality",
+      "order": 23,
+      "dimension_id": "infrastructure",
+      "section": "06",
+      "prompt": "Do you have processes to ensure data accuracy?",
+      "options": [
+        {
+          "id": "q23_data_quality_o1",
+          "label": "Missing/inconsistent data; no formal checks.",
+          "score": 1
+        },
+        {
+          "id": "q23_data_quality_o2",
+          "label": "Manual cleaning and verification when issues surface.",
+          "score": 2
+        },
+        {
+          "id": "q23_data_quality_o3",
+          "label": "Validation rules and monitoring for pipeline failures.",
+          "score": 3
+        },
+        {
+          "id": "q23_data_quality_o4",
+          "label": "Quality framework with owners, SLAs, and automated tests.",
+          "score": 4
+        },
+        {
+          "id": "q23_data_quality_o5",
+          "label": "DataOps: CI/CD for data, anomaly detection, data contracts.",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "q24_infra_capabilities",
+      "order": 24,
+      "dimension_id": "infrastructure",
+      "section": "06",
+      "prompt": "What advanced capabilities does your infrastructure support?",
+      "options": [
+        {
+          "id": "q24_infra_capabilities_o1",
+          "label": "Basic reporting from source tools.",
+          "score": 1
+        },
+        {
+          "id": "q24_infra_capabilities_o2",
+          "label": "Some segmentation and historical trend analysis.",
+          "score": 2
+        },
+        {
+          "id": "q24_infra_capabilities_o3",
+          "label": "Complex queries, large-scale analysis, data modeling.",
+          "score": 3
+        },
+        {
+          "id": "q24_infra_capabilities_o4",
+          "label": "Near real-time analytics, feature store, activation workflows.",
+          "score": 4
+        },
+        {
+          "id": "q24_infra_capabilities_o5",
+          "label": "Full ML infrastructure: training, serving, monitoring in production.",
+          "score": 5
+        }
+      ]
+    }
+  ]
+}

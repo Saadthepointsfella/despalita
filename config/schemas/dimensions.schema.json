@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maxmin.agency/schemas/dimensions.schema.json",
+  "type": "object",
+  "required": [
+    "version",
+    "dimensions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "order",
+          "section",
+          "short_label",
+          "name",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z]+(_[a-z]+)*$"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "section": {
+            "type": "string",
+            "pattern": "^0[1-6]$"
+          },
+          "short_label": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 12
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 140
+          },
+          "icon": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
