@@ -1,0 +1,248 @@
+{
+  "dependency_rules": {
+    "_meta": {
+      "description": "Cross-dimension dependencies and blocking relationships",
+      "usage": "Evaluate conditions against dimension scores to surface dependency alerts in PDF",
+      "total_entries": 15
+    },
+
+    "rules": [
+      {
+        "id": "tracking_blocks_all",
+        "priority": 1,
+        "condition": {
+          "dimension": "tracking",
+          "operator": "lt",
+          "value": 2.0
+        },
+        "blocks": ["attribution", "experimentation", "lifecycle"],
+        "severity": "critical",
+        "title": "Tracking Foundation Missing",
+        "message": "Your Tracking score ({tracking_score}/5) is critically low. Without reliable data collection, investments in attribution, experimentation, and lifecycle marketing will be built on unreliable data. Address tracking first before scaling other capabilities.",
+        "recommendation": "Prioritize tracking improvements in your roadmap. Other dimensions will be limited until tracking is at least at Level 2 (Structured).",
+        "pdf_section": "dependency_alert"
+      },
+      {
+        "id": "infrastructure_blocks_advanced",
+        "priority": 2,
+        "condition": {
+          "dimension": "infrastructure",
+          "operator": "lt",
+          "value": 2.5
+        },
+        "blocks": ["attribution", "experimentation", "lifecycle"],
+        "severity": "warning",
+        "title": "Infrastructure Limits Advanced Capabilities",
+        "message": "Your Data Infrastructure score ({infrastructure_score}/5) may limit your ability to implement advanced attribution, run rigorous experiments, or build sophisticated lifecycle programs. These capabilities require unified, reliable data.",
+        "recommendation": "Consider addressing infrastructure in parallel with other improvements. A warehouse with automated pipelines is the foundation for advanced analytics.",
+        "pdf_section": "dependency_alert"
+      },
+      {
+        "id": "tracking_blocks_attribution",
+        "priority": 3,
+        "condition": {
+          "all": [
+            { "dimension": "tracking", "operator": "lt", "value": 2.5 },
+            { "dimension": "attribution", "operator": "gte", "value": 2.5 }
+          ]
+        },
+        "severity": "warning",
+        "title": "Attribution Accuracy Limited by Tracking Gaps",
+        "message": "You're investing in attribution (score: {attribution_score}/5) but your tracking (score: {tracking_score}/5) has gaps. Attribution models are only as good as the data feeding them. Missing touchpoints mean incomplete journey visibility.",
+        "recommendation": "Improve tracking coverage, especially cross-device and server-side implementation, to maximize your attribution investment.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "attribution_without_incrementality",
+        "priority": 4,
+        "condition": {
+          "all": [
+            { "dimension": "attribution", "operator": "gte", "value": 2.5 },
+            { "dimension": "attribution", "operator": "lt", "value": 3.5 },
+            { "question": "q06_incrementality", "option_in": ["o1", "o2"] }
+          ]
+        },
+        "severity": "info",
+        "title": "Attribution Model Not Validated",
+        "message": "You have a multi-touch attribution model, but you indicated you don't run incrementality tests (or only occasionally). Your model may be directionally correct but unvalidated. Without testing, you don't know if your weights are right.",
+        "recommendation": "Run 2-3 incrementality tests (geo holdouts or conversion lift studies) to validate or recalibrate your attribution model.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "experimentation_without_reporting",
+        "priority": 5,
+        "condition": {
+          "all": [
+            { "dimension": "experimentation", "operator": "gte", "value": 3.0 },
+            { "dimension": "reporting", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "warning",
+        "title": "Experiment Learnings May Be Siloed",
+        "message": "You're running experiments (score: {experimentation_score}/5) but your reporting infrastructure (score: {reporting_score}/5) is limited. Experiment results may not be effectively disseminated across the organization, reducing their strategic impact.",
+        "recommendation": "Build a centralized experiment repository and regular learning share-outs to maximize the value of your testing program.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "lifecycle_without_attribution",
+        "priority": 6,
+        "condition": {
+          "all": [
+            { "dimension": "lifecycle", "operator": "gte", "value": 3.5 },
+            { "dimension": "attribution", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "warning",
+        "title": "Lifecycle Value Not Properly Measured",
+        "message": "Your lifecycle programs are sophisticated (score: {lifecycle_score}/5), but weak attribution (score: {attribution_score}/5) means you can't accurately measure their contribution versus paid acquisition. You may be over or under-investing in retention.",
+        "recommendation": "Improve attribution to understand the true incremental value of lifecycle marketing versus acquisition spend.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "reporting_without_infrastructure",
+        "priority": 7,
+        "condition": {
+          "all": [
+            { "dimension": "reporting", "operator": "gte", "value": 3.0 },
+            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "info",
+        "title": "Reporting Built on Fragile Foundation",
+        "message": "You have solid reporting (score: {reporting_score}/5), but it may be built on manual processes or direct tool connections rather than a reliable data infrastructure (score: {infrastructure_score}/5). This creates maintenance burden and accuracy risk.",
+        "recommendation": "Migrate reporting to warehouse-backed dashboards for improved reliability, performance, and flexibility.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "high_experimentation_low_lifecycle",
+        "priority": 8,
+        "condition": {
+          "all": [
+            { "dimension": "experimentation", "operator": "gte", "value": 3.5 },
+            { "dimension": "lifecycle", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "info",
+        "title": "Testing Focused on Acquisition, Not Retention",
+        "message": "Your experimentation maturity is high (score: {experimentation_score}/5), but lifecycle marketing is underdeveloped (score: {lifecycle_score}/5). You may be heavily optimizing acquisition while leaving retention improvements untested.",
+        "recommendation": "Extend your testing program to lifecycle touchpoints—email flows, loyalty programs, and churn interventions often have higher test ROI than acquisition.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "lifecycle_without_infrastructure",
+        "priority": 9,
+        "condition": {
+          "all": [
+            { "dimension": "lifecycle", "operator": "gte", "value": 3.0 },
+            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "warning",
+        "title": "Lifecycle Programs Limited by Data Access",
+        "message": "Your lifecycle marketing (score: {lifecycle_score}/5) is more advanced than your data infrastructure (score: {infrastructure_score}/5). You're likely running sophisticated campaigns with incomplete customer data. Segmentation and personalization are constrained.",
+        "recommendation": "Improve infrastructure to enable unified customer views, predictive CLV, and cross-channel journey orchestration.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "high_attribution_low_experimentation",
+        "priority": 10,
+        "condition": {
+          "all": [
+            { "dimension": "attribution", "operator": "gte", "value": 3.5 },
+            { "dimension": "experimentation", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "info",
+        "title": "Measurement Without Optimization",
+        "message": "You have strong attribution (score: {attribution_score}/5) but limited experimentation (score: {experimentation_score}/5). You know what's working, but you're not systematically testing how to make it work better.",
+        "recommendation": "Use your measurement foundation to design and measure experiments. You have the infrastructure to learn faster—now accelerate the testing velocity.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "all_low_foundation",
+        "priority": 11,
+        "condition": {
+          "all": [
+            { "dimension": "tracking", "operator": "lt", "value": 2.5 },
+            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "critical",
+        "title": "Foundation Gaps Block Progress",
+        "message": "Both Tracking ({tracking_score}/5) and Infrastructure ({infrastructure_score}/5) are at foundational levels. These two capabilities enable everything else. Without fixing these first, investments in other areas will have limited impact.",
+        "recommendation": "Focus your immediate roadmap on tracking and infrastructure. Once these are at Level 3+, other capabilities can scale effectively.",
+        "pdf_section": "dependency_alert"
+      },
+      {
+        "id": "high_reporting_low_action",
+        "priority": 12,
+        "condition": {
+          "all": [
+            { "dimension": "reporting", "operator": "gte", "value": 3.5 },
+            { "dimension": "experimentation", "operator": "lt", "value": 2.5 },
+            { "dimension": "lifecycle", "operator": "lt", "value": 2.5 }
+          ]
+        },
+        "severity": "info",
+        "title": "Strong Visibility, Weak Action",
+        "message": "Your reporting is sophisticated (score: {reporting_score}/5), but experimentation ({experimentation_score}/5) and lifecycle ({lifecycle_score}/5) are underdeveloped. You can see what's happening but may not be systematically acting on insights.",
+        "recommendation": "Translate reporting insights into testing hypotheses and lifecycle program improvements. Visibility should drive action.",
+        "pdf_section": "roadmap_callout"
+      },
+      {
+        "id": "advanced_without_basics",
+        "priority": 13,
+        "condition": {
+          "any": [
+            {
+              "all": [
+                { "dimension": "experimentation", "operator": "gte", "value": 4.0 },
+                { "dimension": "tracking", "operator": "lt", "value": 3.0 }
+              ]
+            },
+            {
+              "all": [
+                { "dimension": "lifecycle", "operator": "gte", "value": 4.0 },
+                { "dimension": "tracking", "operator": "lt", "value": 3.0 }
+              ]
+            }
+          ]
+        },
+        "severity": "warning",
+        "title": "Advanced Capabilities on Shaky Foundation",
+        "message": "You have advanced capabilities in some areas but tracking fundamentals are weak. Your sophisticated programs may be operating with incomplete or inaccurate data, limiting their effectiveness.",
+        "recommendation": "Shore up tracking to ensure your advanced capabilities are built on reliable data.",
+        "pdf_section": "dependency_alert"
+      },
+      {
+        "id": "balanced_profile",
+        "priority": 14,
+        "condition": {
+          "all": [
+            { "formula": "max(all_dimensions) - min(all_dimensions)", "operator": "lt", "value": 1.0 }
+          ]
+        },
+        "severity": "positive",
+        "title": "Balanced Maturity Profile",
+        "message": "Your maturity scores are relatively balanced across dimensions (max gap: {max_gap}). This indicates consistent development rather than over-investment in one area at the expense of others.",
+        "recommendation": "Continue balanced investment. Focus on lifting all dimensions together rather than creating new gaps.",
+        "pdf_section": "strength_callout"
+      },
+      {
+        "id": "single_critical_gap",
+        "priority": 15,
+        "condition": {
+          "all": [
+            { "formula": "count(dimensions < 2.0)", "operator": "eq", "value": 1 },
+            { "formula": "count(dimensions >= 3.0)", "operator": "gte", "value": 3 }
+          ]
+        },
+        "severity": "warning",
+        "title": "One Critical Gap Holding You Back",
+        "message": "You have strong capabilities in most areas, but one dimension ({primary_gap}: {primary_gap_score}/5) is significantly behind. This single gap is likely constraining your overall effectiveness.",
+        "recommendation": "Prioritize closing this gap. Your other capabilities are mature enough to support rapid improvement in this area.",
+        "pdf_section": "dependency_alert"
+      }
+    ]
+  }
+}

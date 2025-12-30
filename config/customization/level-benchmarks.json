@@ -1,0 +1,580 @@
+{
+  "level_benchmarks": {
+    "_meta": {
+      "description": "What 'good' looks like at each level for each dimension",
+      "usage": "Look up by dimension + current_level to show what the next level looks like",
+      "total_entries": 24,
+      "transitions": "1→2, 2→3, 3→4, 4→5 for each dimension"
+    },
+
+    "tracking": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "Basic GA4 or no tracking at all",
+          "Only pageviews and transactions captured",
+          "No tag management system (hard-coded tags)",
+          "No documentation of what's tracked",
+          "Can't answer 'why did customers convert?'"
+        ],
+        "target_state": [
+          "Google Tag Manager implemented and organized",
+          "Core funnel events tracked (product view, add-to-cart, checkout steps)",
+          "Basic naming conventions for events and tags",
+          "Can see where users drop off in the funnel",
+          "Enhanced ecommerce or equivalent properly configured"
+        ],
+        "gap_summary": "You're missing the basic event tracking needed to understand customer behavior. Without funnel visibility, you can't identify conversion blockers or optimize the path to purchase.",
+        "success_indicator": "You'll know you've reached Level 2 when you can pull a funnel report showing drop-off at each stage and identify your biggest leak.",
+        "typical_timeline": "2-4 weeks with focused effort"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Basic funnel tracking in place",
+          "GTM used but without formal governance",
+          "Events captured but not deeply analyzed",
+          "Limited engagement tracking (no scroll, video, etc.)",
+          "Cross-device behavior is invisible"
+        ],
+        "target_state": [
+          "Comprehensive event taxonomy documented",
+          "Engagement events tracked (scroll, video, clicks, time on page)",
+          "Tag governance with QA process before publishing",
+          "Data layer properly implemented for consistency",
+          "Server-side tracking for key conversions"
+        ],
+        "gap_summary": "You have the basics but can't predict intent or reliably track in a privacy-first world. Engagement signals and server-side tracking close these gaps.",
+        "success_indicator": "You'll know you've reached Level 3 when you can score visitor intent based on engagement behavior and your tracking survives ad blockers and iOS restrictions.",
+        "typical_timeline": "4-8 weeks depending on technical complexity"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Solid event tracking with documentation",
+          "Server-side tracking for some events",
+          "Still gaps in cross-device identity",
+          "Limited connection to offline touchpoints",
+          "Tracking quality not actively monitored"
+        ],
+        "target_state": [
+          "Customer Data Platform unifying all touchpoints",
+          "Cross-device identity resolution working",
+          "User attributes and calculated scores attached to profiles",
+          "Real-time tracking data available for personalization",
+          "Automated tracking validation and monitoring"
+        ],
+        "gap_summary": "You have good event coverage but users are still fragmented across devices and sessions. A CDP enables the unified customer view that powers true personalization.",
+        "success_indicator": "You'll know you've reached Level 4 when you can track a single user from ad click through multiple sessions and devices to purchase and beyond.",
+        "typical_timeline": "2-3 months including CDP implementation"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "CDP with unified customer profiles",
+          "Good cross-device tracking",
+          "Server-side implementation",
+          "May still have gaps in offline data",
+          "Real-time but not fully leveraged"
+        ],
+        "target_state": [
+          "Complete 360° view including offline (returns, support, in-store)",
+          "Real-time identity resolution powering instant personalization",
+          "Proactive tracking health monitoring with auto-remediation",
+          "Tracking data feeding ML models in real-time",
+          "Future-proofed for any privacy changes"
+        ],
+        "gap_summary": "You have excellent digital tracking. The frontier is incorporating offline signals and ensuring real-time data flows into every decision.",
+        "success_indicator": "You'll know you've reached Level 5 when your real-time customer view includes their latest support ticket, their in-store purchase, and their current site behavior—all unified.",
+        "typical_timeline": "3-6 months for full offline integration"
+      }
+    },
+
+    "attribution": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "Using platform-reported conversions (Meta says X, Google says Y)",
+          "No unified view of marketing performance",
+          "Budget allocation based on gut or platform ROAS",
+          "Each channel evaluated in isolation",
+          "Significant over-counting of conversions"
+        ],
+        "target_state": [
+          "Single analytics tool (GA4) as source of truth",
+          "Consistent UTM parameters across all campaigns",
+          "Last-click or basic attribution model in use",
+          "Blended CAC tracked weekly (total spend / new customers)",
+          "Awareness that platform numbers over-count"
+        ],
+        "gap_summary": "You're letting each platform grade its own homework. Moving to a single source of truth reveals the true picture and enables apples-to-apples comparison.",
+        "success_indicator": "You'll know you've reached Level 2 when you can state your blended CAC confidently and explain the gap between platform-reported and actual conversions.",
+        "typical_timeline": "2-4 weeks for UTM + blended CAC implementation"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Using GA4 or similar with last-click attribution",
+          "Blended CAC tracked but not by channel",
+          "Aware of attribution problem but not addressing it",
+          "No multi-touch view of customer journey",
+          "No incrementality testing"
+        ],
+        "target_state": [
+          "Multi-touch attribution model implemented",
+          "Can see full customer journeys across channels",
+          "First-click vs. last-click comparison reveals credit shifts",
+          "CAC tracked by channel with consistent methodology",
+          "At least one incrementality test completed"
+        ],
+        "gap_summary": "Last-click systematically over-credits bottom-funnel. Multi-touch shows the full journey and reveals how credit should be distributed.",
+        "success_indicator": "You'll know you've reached Level 3 when you can show how much credit shifts from branded search to prospecting under multi-touch, and you've validated with at least one holdout test.",
+        "typical_timeline": "4-8 weeks including one incrementality test"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Multi-touch attribution model in use",
+          "Some incrementality testing (occasional)",
+          "Attribution weights are rules-based (position, time-decay)",
+          "Cross-device journey visibility incomplete",
+          "Budget decisions still partly intuition"
+        ],
+        "target_state": [
+          "Data-driven attribution weights (algorithmic, not rules)",
+          "Regular incrementality testing validates the model",
+          "Full cross-device, cross-channel journey visibility",
+          "Budget decisions reference attributed + incremental",
+          "Can forecast impact of budget changes"
+        ],
+        "gap_summary": "Your attribution weights are educated guesses. Data-driven models + incrementality validation provide the confidence to make significant budget shifts.",
+        "success_indicator": "You'll know you've reached Level 4 when you can recommend a 20% budget reallocation with confidence in the expected outcome, backed by incrementality data.",
+        "typical_timeline": "2-3 months including multiple incrementality tests"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "Data-driven attribution with incrementality validation",
+          "Good cross-device visibility",
+          "Periodic model calibration",
+          "Budget decisions are data-driven",
+          "Manual analysis and reallocation process"
+        ],
+        "target_state": [
+          "Unified measurement framework (MTA + MMM + experiments)",
+          "Always-on incrementality measurement",
+          "Automated budget optimization based on real-time signals",
+          "Model calibration is continuous, not periodic",
+          "Can answer 'what's incremental?' for any channel instantly"
+        ],
+        "gap_summary": "You have excellent measurement. The frontier is triangulating multiple methods (MTA, MMM, experiments) and automating optimization based on results.",
+        "success_indicator": "You'll know you've reached Level 5 when budget flows automatically to highest-incremental-return channels based on real-time measurement, without waiting for monthly reviews.",
+        "typical_timeline": "4-6 months for full automation"
+      }
+    },
+
+    "reporting": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "No regular reporting cadence",
+          "Data assembled ad-hoc for meetings",
+          "Different numbers in different spreadsheets",
+          "Analyst time spent on fire drills",
+          "Problems discovered late or accidentally"
+        ],
+        "target_state": [
+          "Weekly KPI report sent to stakeholders",
+          "One dashboard everyone uses for key metrics",
+          "Metric definitions documented",
+          "Reporting automated (not manual spreadsheet assembly)",
+          "Issues detected within a week, not months"
+        ],
+        "gap_summary": "Without regular reporting, you're always behind. A weekly cadence with one source of truth creates shared reality and catches issues faster.",
+        "success_indicator": "You'll know you've reached Level 2 when there's one dashboard everyone references in meetings, and arguments about 'whose number is right' have stopped.",
+        "typical_timeline": "2-4 weeks for initial dashboard + weekly cadence"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Weekly reports but still manual elements",
+          "One main dashboard but limited coverage",
+          "Teams wait for analyst to answer questions",
+          "Dashboards are static—can't drill down",
+          "Daily changes go unnoticed until weekly review"
+        ],
+        "target_state": [
+          "Fully automated dashboards updated daily",
+          "Self-service capability for power users",
+          "Daily monitoring catches issues same-day",
+          "Interactive dashboards allow drill-down",
+          "Basic anomaly detection in place"
+        ],
+        "gap_summary": "Manual processes slow you down and create dependency. Automation frees analyst time and catches issues faster.",
+        "success_indicator": "You'll know you've reached Level 3 when stakeholders can answer their own questions in dashboards and you catch significant changes within 24 hours.",
+        "typical_timeline": "4-8 weeks for automation + self-service"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Automated daily dashboards",
+          "Some self-service capability",
+          "Coverage gaps (some questions can't be answered)",
+          "No semantic layer for consistent metrics",
+          "Ad-hoc requests still common"
+        ],
+        "target_state": [
+          "Comprehensive self-service BI covering all questions",
+          "Semantic layer ensures consistent metrics everywhere",
+          "Automated alerts for anomalies",
+          "Cross-functional dashboards connecting marketing to revenue to ops",
+          "Training program for data literacy across teams"
+        ],
+        "gap_summary": "Self-service unlocks the organization but requires governance to prevent chaos. A semantic layer and training program enable scale.",
+        "success_indicator": "You'll know you've reached Level 4 when 80%+ of questions are answered via self-service and ad-hoc analyst requests have dropped significantly.",
+        "typical_timeline": "2-3 months including semantic layer and training"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "Strong self-service BI",
+          "Anomaly alerting in place",
+          "Good cross-functional visibility",
+          "Reporting tells what happened",
+          "Insights require human interpretation"
+        ],
+        "target_state": [
+          "Real-time monitoring with auto-diagnosis",
+          "Predictive dashboards showing what will happen",
+          "Prescriptive recommendations ('here's what to do')",
+          "AI-assisted analysis surfaces insights automatically",
+          "Reports include natural language explanations"
+        ],
+        "gap_summary": "Current reporting is descriptive (what happened) and reactive. The frontier is predictive (what will happen) and prescriptive (what to do).",
+        "success_indicator": "You'll know you've reached Level 5 when dashboards tell you not just 'conversion dropped 10%' but 'conversion dropped because checkout errors spiked—here's the likely cause and suggested fix.'",
+        "typical_timeline": "3-6 months for predictive + prescriptive capabilities"
+      }
+    },
+
+    "experimentation": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "No formal A/B testing",
+          "Changes made based on opinion or stakeholder requests",
+          "No way to know if changes worked",
+          "Same debates repeat because nothing is proven",
+          "High risk of shipping bad ideas"
+        ],
+        "target_state": [
+          "Basic A/B testing tool in place",
+          "Running 2-4 tests per quarter",
+          "Results documented for each test",
+          "Understand statistical significance basics",
+          "Hypothesis → test → learn cycle established"
+        ],
+        "gap_summary": "Without testing, you're guessing. Even occasional testing starts the learning flywheel and proves the value of evidence-based decisions.",
+        "success_indicator": "You'll know you've reached Level 2 when you can point to decisions that were made based on test results rather than opinions.",
+        "typical_timeline": "4-6 weeks to run first tests"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Testing occasionally (few tests per quarter)",
+          "Limited to easy areas (email, landing pages)",
+          "No testing roadmap or backlog",
+          "Results documented but not systematically analyzed",
+          "Statistical rigor inconsistent"
+        ],
+        "target_state": [
+          "Testing regularly (1-3 tests running at all times)",
+          "Testing roadmap with prioritized backlog",
+          "Coverage expanding to new areas",
+          "Results shared across teams",
+          "Statistical significance properly calculated"
+        ],
+        "gap_summary": "Occasional testing limits learning velocity. A systematic program with a roadmap compounds insights over time.",
+        "success_indicator": "You'll know you've reached Level 3 when testing is a regular part of your workflow with a backlog of hypotheses, not something you do 'when there's time.'",
+        "typical_timeline": "6-8 weeks to establish regular cadence"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Regular testing program in place",
+          "Results documented and shared",
+          "Testing limited to certain areas",
+          "Learnings not systematically leveraged",
+          "Tests operate independently"
+        ],
+        "target_state": [
+          "High-velocity testing (5-10+ tests per month)",
+          "Testing covers acquisition, CRO, lifecycle, pricing",
+          "Experiment database tracks all learnings",
+          "Meta-analysis identifies patterns across tests",
+          "Testing informs strategy, not just tactics"
+        ],
+        "gap_summary": "You're testing but not extracting maximum value. A learning repository and meta-analysis turn individual tests into strategic insights.",
+        "success_indicator": "You'll know you've reached Level 4 when you can cite patterns from past tests that inform new hypotheses and strategy decisions.",
+        "typical_timeline": "2-3 months to scale velocity and build repository"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "High-velocity testing culture",
+          "Learnings catalogued and leveraged",
+          "Tests find best average for all users",
+          "Implementation is manual after test concludes",
+          "Personalization is segment-based"
+        ],
+        "target_state": [
+          "Multi-armed bandits auto-optimize in real-time",
+          "Test results feed ML models for personalization",
+          "Every user gets the treatment most likely to work for them",
+          "Learning is continuous, not experiment-by-experiment",
+          "Personalization is 1:1, not segment-based"
+        ],
+        "gap_summary": "A/B tests find the best average, but averages hide individual variation. ML-driven optimization tailors treatment to each user.",
+        "success_indicator": "You'll know you've reached Level 5 when tests don't just find a winner—they train models that personalize the experience for every user automatically.",
+        "typical_timeline": "4-6 months for ML-driven personalization"
+      }
+    },
+
+    "lifecycle": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "Batch-and-blast emails to full list",
+          "No automated flows",
+          "All customers treated the same",
+          "No measurement of repeat rate or CLV",
+          "Retention is hoped for, not managed"
+        ],
+        "target_state": [
+          "Welcome series in place (3-5 emails)",
+          "Abandoned cart flow implemented",
+          "Basic win-back campaign for lapsed customers",
+          "Repeat purchase rate tracked monthly",
+          "Some segmentation (new vs. repeat)"
+        ],
+        "gap_summary": "Without basic flows, you're paying to acquire customers and then ignoring them. Foundational automations capture obvious value.",
+        "success_indicator": "You'll know you've reached Level 2 when abandoned cart is generating measurable revenue and you know your repeat purchase rate.",
+        "typical_timeline": "3-4 weeks for core flows"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Basic automations in place (welcome, cart)",
+          "Simple segmentation (new, repeat)",
+          "Win-back is reactive (after they've churned)",
+          "No lifecycle stage definitions",
+          "CLV calculated occasionally or not at all"
+        ],
+        "target_state": [
+          "Lifecycle stages defined (new, active, at-risk, churned)",
+          "Behavioral triggers beyond cart (browse, wishlist, replenishment)",
+          "At-risk customers identified and treated differently",
+          "CLV calculated monthly by cohort",
+          "High-value customers get VIP treatment"
+        ],
+        "gap_summary": "Basic flows capture obvious intent, but you're missing behavioral signals and lifecycle nuance. Stage-based programs treat customers appropriately.",
+        "success_indicator": "You'll know you've reached Level 3 when you can report CLV by acquisition source and at-risk customers are getting proactive retention campaigns.",
+        "typical_timeline": "6-8 weeks for lifecycle stages + CLV"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Lifecycle stages with tailored campaigns",
+          "CLV tracked but not predictive",
+          "Win-back is still reactive (after churn signals)",
+          "Segmentation is behavioral not predictive",
+          "Channels (email, SMS) operate somewhat separately"
+        ],
+        "target_state": [
+          "Predictive CLV identifies high-potential customers early",
+          "Churn prediction enables proactive intervention",
+          "RFM + predictive scoring drives segmentation",
+          "Cross-channel journey orchestration",
+          "Acquisition targets adjusted based on predicted CLV"
+        ],
+        "gap_summary": "You're reacting to behavior rather than predicting it. Predictive models let you intervene before churn, not after.",
+        "success_indicator": "You'll know you've reached Level 4 when you can flag likely-to-churn customers before they go silent and adjust acquisition bids based on predicted customer value.",
+        "typical_timeline": "2-3 months for predictive models"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "Predictive CLV and churn models",
+          "Cross-channel campaigns coordinated",
+          "Segmentation is sophisticated but rule-based",
+          "Personalization is segment-level, not individual",
+          "Timing and content optimized by segment"
+        ],
+        "target_state": [
+          "AI-orchestrated journeys for each individual",
+          "Real-time CLV updates feed all marketing decisions",
+          "1:1 personalization across all touchpoints",
+          "ML optimizes timing, channel, content, and offer per user",
+          "Customer intelligence embedded in all business decisions"
+        ],
+        "gap_summary": "Segments are still averages. True 1:1 personalization with AI orchestration treats each customer as an individual.",
+        "success_indicator": "You'll know you've reached Level 5 when every customer gets a uniquely optimized journey and real-time CLV informs everything from ad bids to service levels.",
+        "typical_timeline": "4-6 months for AI orchestration"
+      }
+    },
+
+    "infrastructure": {
+      "1_to_2": {
+        "current_level": 1,
+        "current_name": "Reactive",
+        "target_level": 2,
+        "target_name": "Structured",
+        "current_state": [
+          "Data lives only in source tools (Shopify, GA, Klaviyo)",
+          "Analysis requires manual exports to spreadsheets",
+          "Can't join data across sources",
+          "No documentation of what data exists where",
+          "Every analysis starts from scratch"
+        ],
+        "target_state": [
+          "Data warehouse set up (BigQuery, Snowflake, etc.)",
+          "2-3 key sources connected via ETL",
+          "Can join Shopify + GA4 + marketing data",
+          "Basic documentation of available tables",
+          "Reusable queries for common analyses"
+        ],
+        "gap_summary": "Without a warehouse, cross-source analysis is painful. Even a basic setup unlocks questions you couldn't answer before.",
+        "success_indicator": "You'll know you've reached Level 2 when you can write one query that joins orders, sessions, and marketing attribution—without touching a spreadsheet.",
+        "typical_timeline": "3-4 weeks for basic warehouse + connections"
+      },
+      "2_to_3": {
+        "current_level": 2,
+        "current_name": "Structured",
+        "target_level": 3,
+        "target_name": "Systematic",
+        "current_state": [
+          "Data warehouse with some sources connected",
+          "ETL may be manual or fragile",
+          "Limited documentation",
+          "No data quality monitoring",
+          "Pipelines break without notice"
+        ],
+        "target_state": [
+          "Automated, reliable ETL pipelines",
+          "All critical sources integrated",
+          "Data quality tests catch obvious issues",
+          "Pipeline monitoring with failure alerts",
+          "dbt or similar for transformation layer"
+        ],
+        "gap_summary": "A warehouse is only as good as the data in it. Automated, monitored pipelines ensure reliability.",
+        "success_indicator": "You'll know you've reached Level 3 when pipeline failures trigger alerts, not 'hey the numbers look weird' in a meeting a week later.",
+        "typical_timeline": "6-8 weeks for automation + monitoring"
+      },
+      "3_to_4": {
+        "current_level": 3,
+        "current_name": "Systematic",
+        "target_level": 4,
+        "target_name": "Integrated",
+        "current_state": [
+          "Reliable automated pipelines",
+          "Most sources integrated",
+          "Basic data quality checks",
+          "Documentation exists but may be outdated",
+          "Data is batch, not real-time"
+        ],
+        "target_state": [
+          "Comprehensive data model with semantic layer",
+          "Full data quality framework with owners and SLAs",
+          "Near-real-time for time-sensitive use cases",
+          "Reverse ETL activating data in operational tools",
+          "Feature store for ML models"
+        ],
+        "gap_summary": "Reliable batch is good, but real-time use cases and ML require the next level of infrastructure.",
+        "success_indicator": "You'll know you've reached Level 4 when warehouse data powers personalization in real-time and data quality is a managed discipline, not an afterthought.",
+        "typical_timeline": "2-3 months for real-time + reverse ETL"
+      },
+      "4_to_5": {
+        "current_level": 4,
+        "current_name": "Integrated",
+        "target_level": 5,
+        "target_name": "Compounding",
+        "current_state": [
+          "Comprehensive data platform",
+          "Near-real-time capabilities",
+          "Reverse ETL activating data",
+          "ML models may be ad-hoc",
+          "Data team is bottleneck for new use cases"
+        ],
+        "target_state": [
+          "Full ML infrastructure (training, serving, monitoring)",
+          "Streaming data for truly real-time use cases",
+          "Self-service ML for analysts",
+          "Automated data contracts between teams",
+          "Data team enables, not bottlenecks"
+        ],
+        "gap_summary": "You have infrastructure. The frontier is enabling the organization to self-serve advanced capabilities without central bottlenecks.",
+        "success_indicator": "You'll know you've reached Level 5 when analysts can deploy ML models without eng support and real-time data powers every customer interaction.",
+        "typical_timeline": "4-6 months for production ML + streaming"
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dependency Rules Schema",
+  "description": "Cross-dimension dependencies and blocking relationships",
+  "type": "object",
+  "required": ["dependency_rules"],
+  "properties": {
+    "dependency_rules": {
+      "type": "object",
+      "required": ["_meta", "rules"],
+      "properties": {
+        "_meta": {
+          "type": "object",
+          "required": ["description", "total_entries"],
+          "properties": {
+            "description": { "type": "string" },
+            "usage": { "type": "string" },
+            "total_entries": { "type": "number" }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "priority", "condition", "severity", "title", "message"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z_]+$"
+              },
+              "priority": {
+                "type": "number",
+                "minimum": 1
+              },
+              "condition": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": ["dimension", "operator", "value"],
+                    "properties": {
+                      "dimension": {
+                        "type": "string",
+                        "enum": ["tracking", "attribution", "reporting", "experimentation", "lifecycle", "infrastructure"]
+                      },
+                      "operator": {
+                        "type": "string",
+                        "enum": ["lt", "lte", "gt", "gte", "eq"]
+                      },
+                      "value": { "type": "number" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["all"],
+                    "properties": {
+                      "all": {
+                        "type": "array",
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "required": ["dimension", "operator", "value"],
+                              "properties": {
+                                "dimension": { "type": "string" },
+                                "operator": { "type": "string", "enum": ["lt", "lte", "gt", "gte", "eq"] },
+                                "value": { "type": "number" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "required": ["question", "option_in"],
+                              "properties": {
+                                "question": { "type": "string", "pattern": "^q[0-9]{2}_" },
+                                "option_in": {
+                                  "type": "array",
+                                  "items": { "type": "string", "pattern": "^o[1-5]$" }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["any"],
+                    "properties": {
+                      "any": { "type": "array" }
+                    }
+                  }
+                ]
+              },
+              "blocks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["tracking", "attribution", "reporting", "experimentation", "lifecycle", "infrastructure"]
+                }
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "warning", "info"]
+              },
+              "title": { "type": "string" },
+              "message": { "type": "string" },
+              "recommendation": { "type": "string" },
+              "pdf_section": {
+                "type": "string",
+                "enum": ["dependency_alert", "roadmap_callout"]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

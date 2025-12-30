@@ -1,0 +1,681 @@
+{
+  "tool_recommendations": {
+    "_meta": {
+      "description": "Tool and vendor recommendations by dimension and tier",
+      "usage": "Look up by dimension_id + tier to get recommended tools for that maturity level",
+      "total_entries": 54,
+      "price_legend": {
+        "$": "Free or <$100/month",
+        "$$": "$100-500/month",
+        "$$$": "$500-2000/month",
+        "$$$$": "$2000+/month or enterprise pricing"
+      }
+    },
+
+    "tracking": {
+      "low": {
+        "context": "You need to establish basic tracking infrastructure and event capture",
+        "quick_wins": [
+          "Set up Google Tag Manager if not already—it's free and essential",
+          "Enable GA4 enhanced measurement (scrolls, outbound clicks, video) at no cost",
+          "Implement Meta Conversions API for better ad tracking despite iOS changes",
+          "Document your current tracking in a spreadsheet (what events, where)"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Google Tag Manager",
+            "category": "Tag Management",
+            "price": "$",
+            "fit": "Everyone—no reason not to use it",
+            "url": "https://tagmanager.google.com",
+            "note": "Free. Essential. Start here."
+          },
+          {
+            "name": "GA4",
+            "category": "Web Analytics",
+            "price": "$",
+            "fit": "Everyone—default choice for web analytics",
+            "url": "https://analytics.google.com",
+            "note": "Free. Has limitations but good foundation."
+          },
+          {
+            "name": "Elevar",
+            "category": "Tracking Enhancement",
+            "price": "$$",
+            "fit": "Shopify stores wanting better server-side tracking",
+            "url": "https://www.getelevar.com",
+            "note": "Fixes common Shopify tracking gaps. Good for $1-20M brands."
+          }
+        ],
+        "diy_alternative": "Manually implement enhanced ecommerce tracking in GA4 via GTM. Google's documentation is comprehensive. Takes 10-20 hours for a complete implementation."
+      },
+      "medium": {
+        "context": "You have basics but need to unify customer identity and handle cookie limitations",
+        "quick_wins": [
+          "Implement server-side tracking for key conversion events",
+          "Set up cross-domain tracking if you have multiple domains",
+          "Create a data layer documentation for your team",
+          "Audit for tracking gaps with a tool like ObservePoint or manual QA"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Segment",
+            "category": "Customer Data Platform",
+            "price": "$$$",
+            "fit": "Brands wanting unified tracking + identity resolution",
+            "url": "https://segment.com",
+            "note": "Industry standard CDP. Centralizes tracking, fans out to destinations."
+          },
+          {
+            "name": "RudderStack",
+            "category": "Customer Data Platform",
+            "price": "$$",
+            "fit": "More technical teams wanting CDP on own infrastructure",
+            "url": "https://www.rudderstack.com",
+            "note": "Open-source alternative to Segment. Lower cost at scale."
+          },
+          {
+            "name": "Littledata",
+            "category": "Tracking Enhancement",
+            "price": "$$",
+            "fit": "Shopify stores wanting server-side + GA4 improvements",
+            "url": "https://www.littledata.io",
+            "note": "Automated Shopify tracking fixes. Good alternative to Elevar."
+          }
+        ],
+        "diy_alternative": "Build your own server-side tracking with Cloudflare Workers or AWS Lambda. Technical but gives full control. Open-source options like Snowplow are available."
+      },
+      "high": {
+        "context": "You have strong tracking but need to maintain quality and expand capabilities",
+        "quick_wins": [
+          "Implement automated tracking validation/monitoring",
+          "Build a tracking health dashboard with key QA metrics",
+          "Create runbooks for common tracking issues and fixes",
+          "Evaluate real-time streaming for activation use cases"
+        ],
+        "recommended_tools": [
+          {
+            "name": "ObservePoint",
+            "category": "Tracking QA/Monitoring",
+            "price": "$$$",
+            "fit": "Brands with significant tracking who need automated auditing",
+            "url": "https://www.observepoint.com",
+            "note": "Automated tracking validation. Catches issues before they corrupt data."
+          },
+          {
+            "name": "mParticle",
+            "category": "Enterprise CDP",
+            "price": "$$$$",
+            "fit": "Large brands needing real-time identity resolution + activation",
+            "url": "https://www.mparticle.com",
+            "note": "Enterprise-grade CDP with real-time capabilities."
+          },
+          {
+            "name": "Snowplow",
+            "category": "Event Data Platform",
+            "price": "$$$",
+            "fit": "Technical teams wanting complete data ownership",
+            "url": "https://snowplow.io",
+            "note": "Fully customizable event tracking. You own all the data."
+          }
+        ],
+        "diy_alternative": "Build custom monitoring with dbt tests and alerting. Many mature brands run automated QA checks as part of their data pipelines."
+      }
+    },
+
+    "attribution": {
+      "low": {
+        "context": "You need to move beyond platform-reported metrics to understand true channel contribution",
+        "quick_wins": [
+          "Calculate blended CAC weekly: Total spend / New customers (from Shopify, not platforms)",
+          "Enable GA4 data-driven attribution—it's free and better than last-click",
+          "Build a simple spreadsheet comparing platform conversions vs actual orders",
+          "Implement consistent UTM taxonomy across all campaigns"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Triple Whale",
+            "category": "Attribution & Analytics",
+            "price": "$$$",
+            "fit": "Shopify brands under $10M wanting simple attribution",
+            "url": "https://www.triplewhale.com",
+            "note": "Shopify-native. Good starting point for DTC attribution."
+          },
+          {
+            "name": "Northbeam",
+            "category": "Attribution & MMM",
+            "price": "$$$$",
+            "fit": "DTC brands $5-50M serious about measurement",
+            "url": "https://www.northbeam.io",
+            "note": "More sophisticated than Triple Whale. MTA + incrementality framework."
+          },
+          {
+            "name": "Rockerbox",
+            "category": "Multi-Touch Attribution",
+            "price": "$$$$",
+            "fit": "Omnichannel brands $20M+ with complex channel mix",
+            "url": "https://www.rockerbox.com",
+            "note": "Comprehensive MTA. Better for brands with significant offline or non-Shopify revenue."
+          }
+        ],
+        "diy_alternative": "Build a first-click vs last-click comparison in a spreadsheet. Export GA4 path data and calculate what percentage of credit shifts between models. This alone reveals the attribution problem."
+      },
+      "medium": {
+        "context": "You have attribution but need validation through incrementality testing",
+        "quick_wins": [
+          "Run your first geo-holdout test on your highest-spend channel",
+          "Compare platform-reported ROAS to blended ROAS (total revenue / total spend)",
+          "Calculate platform conversion overlap—how much are they all claiming the same sales?",
+          "Build a channel efficiency dashboard that tracks CAC trend over time"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Measured",
+            "category": "Incrementality Testing",
+            "price": "$$$$",
+            "fit": "Brands wanting rigorous incrementality measurement",
+            "url": "https://www.measured.com",
+            "note": "Specialized in incrementality. Run proper experiments at scale."
+          },
+          {
+            "name": "Recast",
+            "category": "Marketing Mix Modeling",
+            "price": "$$$$",
+            "fit": "Brands $10M+ spend wanting MMM for budget allocation",
+            "url": "https://www.getrecast.com",
+            "note": "Modern MMM. Bayesian approach with faster results than traditional MMM."
+          },
+          {
+            "name": "Liftsight",
+            "category": "Incrementality Platform",
+            "price": "$$$",
+            "fit": "Mid-market brands wanting incrementality without enterprise pricing",
+            "url": "https://www.liftsight.io",
+            "note": "Geo-lift and incrementality testing platform. More accessible pricing."
+          }
+        ],
+        "diy_alternative": "Run manual geo-holdout tests. Pick 2-3 states, pause ads for 2-3 weeks, measure sales delta vs control states. Simple but effective. Google has detailed geo-experiment guides."
+      },
+      "high": {
+        "context": "You have validated attribution—now automate optimization and expand coverage",
+        "quick_wins": [
+          "Set up continuous incrementality monitoring (not just periodic tests)",
+          "Build automated budget reallocation alerts based on CAC thresholds",
+          "Expand attribution to new channels as you test them",
+          "Create a measurement calibration schedule—quarterly rechecks"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Cassandra (Meta)",
+            "category": "Conversion Lift",
+            "price": "$",
+            "fit": "Heavy Meta spenders wanting platform-run lift studies",
+            "url": "https://www.facebook.com/business/measurement",
+            "note": "Free Meta conversion lift studies. Good for validating Meta specifically."
+          },
+          {
+            "name": "Nielsen Marketing Cloud",
+            "category": "Enterprise MMM",
+            "price": "$$$$",
+            "fit": "Large brands with $50M+ spend wanting comprehensive MMM",
+            "url": "https://www.nielsen.com",
+            "note": "Enterprise MMM with broad channel coverage. High-touch service."
+          },
+          {
+            "name": "Paramark",
+            "category": "Attribution Automation",
+            "price": "$$$$",
+            "fit": "Brands wanting automated budget optimization based on incrementality",
+            "url": "https://www.paramark.com",
+            "note": "Automated budget reallocation. Combines measurement with execution."
+          }
+        ],
+        "diy_alternative": "Build internal MMM using open-source tools (Meta's Robyn, Google's Meridian). Requires data science capability but gives full control and customization."
+      }
+    },
+
+    "reporting": {
+      "low": {
+        "context": "You need to establish regular, automated reporting to replace manual spreadsheets",
+        "quick_wins": [
+          "Set up a weekly KPI email (even from GA4 scheduled reports)",
+          "Create a single 'source of truth' dashboard for key metrics",
+          "Document your metric definitions (what is a 'conversion'? what is 'CAC'?)",
+          "Eliminate one manual report this month by automating it"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Looker Studio",
+            "category": "BI/Dashboards",
+            "price": "$",
+            "fit": "Everyone—free and connects to most sources",
+            "url": "https://lookerstudio.google.com",
+            "note": "Free. Good starting point. Limited for complex analysis."
+          },
+          {
+            "name": "Supermetrics",
+            "category": "Data Connector",
+            "price": "$$",
+            "fit": "Teams wanting to pull marketing data into Sheets/Looker Studio",
+            "url": "https://supermetrics.com",
+            "note": "Connects marketing platforms to sheets/dashboards. Great for quick automation."
+          },
+          {
+            "name": "Databox",
+            "category": "Dashboard Tool",
+            "price": "$$",
+            "fit": "Teams wanting pre-built dashboards with minimal setup",
+            "url": "https://databox.com",
+            "note": "Easy setup with pre-built templates. Good for quick wins."
+          }
+        ],
+        "diy_alternative": "Google Sheets + Google Apps Script can automate data pulls and email reports. Free and surprisingly powerful. Many templates available online."
+      },
+      "medium": {
+        "context": "You have dashboards but need better self-service and consistency",
+        "quick_wins": [
+          "Create a data dictionary documenting all metrics and their definitions",
+          "Set up scheduled Slack/email alerts for key metric anomalies",
+          "Train 3-5 power users to answer their own questions in dashboards",
+          "Audit existing dashboards—remove duplicates and unused reports"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Metabase",
+            "category": "Self-Service BI",
+            "price": "$",
+            "fit": "Technical teams wanting free self-service BI",
+            "url": "https://www.metabase.com",
+            "note": "Open-source BI. Self-hostable. Good balance of ease and power."
+          },
+          {
+            "name": "Hex",
+            "category": "Collaborative Analytics",
+            "price": "$$$",
+            "fit": "Data teams wanting notebook + dashboard hybrid",
+            "url": "https://hex.tech",
+            "note": "Modern analytics notebook. Great for analysis that becomes dashboards."
+          },
+          {
+            "name": "Omni",
+            "category": "Self-Service BI",
+            "price": "$$$",
+            "fit": "Teams wanting Looker-like semantic layer without Looker complexity",
+            "url": "https://www.omni.co",
+            "note": "Modern BI with modeling layer. Good for consistent metrics."
+          }
+        ],
+        "diy_alternative": "Define metrics in dbt and surface them through any BI tool. This 'metrics layer' approach ensures consistency regardless of which dashboard someone uses."
+      },
+      "high": {
+        "context": "You have strong reporting—now add proactive alerting and predictive insights",
+        "quick_wins": [
+          "Set up anomaly detection for your top 5 KPIs",
+          "Create an 'early warning' dashboard for leading indicators",
+          "Build automated commentary for weekly reports (AI-assisted)",
+          "Implement report usage tracking—know what's actually being used"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Tableau",
+            "category": "Enterprise BI",
+            "price": "$$$$",
+            "fit": "Large organizations needing comprehensive BI platform",
+            "url": "https://www.tableau.com",
+            "note": "Enterprise standard. Strong visualization and governed analytics."
+          },
+          {
+            "name": "Looker",
+            "category": "Enterprise BI",
+            "price": "$$$$",
+            "fit": "Data teams wanting semantic layer + self-service",
+            "url": "https://looker.com",
+            "note": "LookML modeling layer ensures consistent metrics. Now part of Google Cloud."
+          },
+          {
+            "name": "Monte Carlo",
+            "category": "Data Observability",
+            "price": "$$$$",
+            "fit": "Data teams wanting proactive data quality monitoring",
+            "url": "https://www.montecarlodata.com",
+            "note": "Automated anomaly detection for data quality. Know when things break."
+          }
+        ],
+        "diy_alternative": "Build anomaly detection with dbt tests + alerting via Slack/PagerDuty. Many teams use statistical process control (SPC) methods in SQL for custom monitoring."
+      }
+    },
+
+    "experimentation": {
+      "low": {
+        "context": "You need to establish any testing capability and build the muscle",
+        "quick_wins": [
+          "Run one A/B test this month on anything (email subject, CTA button)",
+          "Set up a testing backlog—a simple list of hypotheses to test",
+          "Document your first test with hypothesis, results, and learnings",
+          "Calculate required sample size for your typical tests"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Klaviyo (built-in)",
+            "category": "Email Testing",
+            "price": "Included",
+            "fit": "If you use Klaviyo for email, start testing there",
+            "url": "https://www.klaviyo.com",
+            "note": "Built-in A/B testing. Easy starting point for email."
+          },
+          {
+            "name": "Convert",
+            "category": "Website A/B Testing",
+            "price": "$$",
+            "fit": "SMBs wanting affordable website testing",
+            "url": "https://www.convert.com",
+            "note": "Privacy-friendly. Good balance of features and price."
+          },
+          {
+            "name": "VWO",
+            "category": "Website A/B Testing",
+            "price": "$$$",
+            "fit": "Growing brands wanting comprehensive testing suite",
+            "url": "https://vwo.com",
+            "note": "Full CRO suite. Testing + heatmaps + session recordings."
+          }
+        ],
+        "diy_alternative": "Manual A/B testing: create two versions, split traffic 50/50 with UTM parameters, compare in GA4. Not ideal but proves the concept with zero investment."
+      },
+      "medium": {
+        "context": "You run tests but need to scale velocity and systematize learnings",
+        "quick_wins": [
+          "Create a testing calendar with planned experiments",
+          "Build a learning repository documenting all past tests",
+          "Calculate your current testing velocity (tests per month)",
+          "Identify testing coverage gaps (which areas aren't being tested?)"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Optimizely",
+            "category": "Experimentation Platform",
+            "price": "$$$$",
+            "fit": "Brands wanting enterprise-grade experimentation",
+            "url": "https://www.optimizely.com",
+            "note": "Industry leader. Feature flags, web, and full-stack testing."
+          },
+          {
+            "name": "AB Tasty",
+            "category": "Experimentation Platform",
+            "price": "$$$",
+            "fit": "Mid-market brands wanting solid testing + personalization",
+            "url": "https://www.abtasty.com",
+            "note": "Good balance of capability and complexity. Strong in Europe."
+          },
+          {
+            "name": "Statsig",
+            "category": "Product Experimentation",
+            "price": "$$",
+            "fit": "Technical teams wanting modern, developer-friendly experimentation",
+            "url": "https://www.statsig.com",
+            "note": "Built for product teams. Feature flags + experiments. Free tier available."
+          }
+        ],
+        "diy_alternative": "Build internal experimentation framework with feature flags (LaunchDarkly or open-source Unleash) and statistical analysis in Python/R. Gives full control."
+      },
+      "high": {
+        "context": "You have mature testing—now leverage for personalization and automation",
+        "quick_wins": [
+          "Implement multi-armed bandit for at least one use case",
+          "Connect test results to downstream ML models",
+          "Build automated test analysis (statistical significance checks)",
+          "Create a meta-analysis of all past experiments for strategic insights"
+        ],
+        "recommended_tools": [
+          {
+            "name": "LaunchDarkly",
+            "category": "Feature Management",
+            "price": "$$$$",
+            "fit": "Engineering-led organizations wanting feature flags at scale",
+            "url": "https://launchdarkly.com",
+            "note": "Best-in-class feature flags. Foundation for sophisticated experimentation."
+          },
+          {
+            "name": "Amplitude Experiment",
+            "category": "Product Experimentation",
+            "price": "$$$$",
+            "fit": "Amplitude users wanting integrated experimentation",
+            "url": "https://amplitude.com/experiment",
+            "note": "Tight integration with Amplitude analytics. Good for product-led teams."
+          },
+          {
+            "name": "Eppo",
+            "category": "Experimentation Platform",
+            "price": "$$$",
+            "fit": "Data teams wanting warehouse-native experimentation",
+            "url": "https://www.geteppo.com",
+            "note": "Connects to your warehouse. Use existing data infrastructure for experiments."
+          }
+        ],
+        "diy_alternative": "Build personalization using your own ML models deployed via feature flags. Many sophisticated teams run contextual bandits on their own infrastructure."
+      }
+    },
+
+    "lifecycle": {
+      "low": {
+        "context": "You need to establish basic lifecycle programs beyond batch-and-blast",
+        "quick_wins": [
+          "Set up welcome series if you don't have one (3-5 emails)",
+          "Implement abandoned cart flow with 2-3 touchpoints",
+          "Create a simple win-back email for 60-90 day lapsed customers",
+          "Calculate your current repeat purchase rate as a baseline"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Klaviyo",
+            "category": "Email/SMS Marketing",
+            "price": "$$",
+            "fit": "DTC brands on Shopify—industry standard",
+            "url": "https://www.klaviyo.com",
+            "note": "Default choice for DTC. Deep Shopify integration. Good automation."
+          },
+          {
+            "name": "Postscript",
+            "category": "SMS Marketing",
+            "price": "$$",
+            "fit": "Shopify brands wanting dedicated SMS beyond Klaviyo",
+            "url": "https://www.postscript.io",
+            "note": "SMS-focused. Often used alongside Klaviyo for dedicated SMS."
+          },
+          {
+            "name": "Drip",
+            "category": "Email Marketing",
+            "price": "$$",
+            "fit": "Non-Shopify ecommerce brands",
+            "url": "https://www.drip.com",
+            "note": "Good automation capabilities. Broader ecommerce integrations."
+          }
+        ],
+        "diy_alternative": "Start with Klaviyo's pre-built flow templates. They're not custom, but they're better than nothing and get you started while you plan more sophisticated programs."
+      },
+      "medium": {
+        "context": "You have flows but need better segmentation and lifecycle stage management",
+        "quick_wins": [
+          "Implement RFM segmentation (Recency, Frequency, Monetary)",
+          "Create lifecycle stage definitions (new, active, at-risk, churned)",
+          "Build a VIP program or high-value customer treatment",
+          "Set up replenishment triggers for consumable products"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Retention.com",
+            "category": "Identity Resolution",
+            "price": "$$$",
+            "fit": "Brands wanting to identify anonymous site visitors for email",
+            "url": "https://retention.com",
+            "note": "Identify anonymous visitors. Significantly expands email capture."
+          },
+          {
+            "name": "Attentive",
+            "category": "SMS Marketing",
+            "price": "$$$",
+            "fit": "Brands wanting sophisticated SMS program",
+            "url": "https://www.attentive.com",
+            "note": "Premium SMS platform. Strong for brands investing heavily in SMS."
+          },
+          {
+            "name": "Yotpo",
+            "category": "Loyalty & Reviews",
+            "price": "$$$",
+            "fit": "Brands wanting loyalty program + reviews in one platform",
+            "url": "https://www.yotpo.com",
+            "note": "Combined loyalty, reviews, SMS. Good for consolidation."
+          }
+        ],
+        "diy_alternative": "Build RFM segmentation in your warehouse and sync to Klaviyo via their API. Calculate churn probability with simple rules (no purchase in X days = at-risk)."
+      },
+      "high": {
+        "context": "You have sophisticated lifecycle—now enable predictive and 1:1 personalization",
+        "quick_wins": [
+          "Implement predictive CLV to prioritize high-potential customers",
+          "Build churn prediction model to intervene before customers leave",
+          "Create personalized product recommendations based on behavior",
+          "Set up cross-channel journey orchestration (email + SMS + site)"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Bloomreach",
+            "category": "Marketing Automation + CDP",
+            "price": "$$$$",
+            "fit": "Enterprise brands wanting AI-driven personalization",
+            "url": "https://www.bloomreach.com",
+            "note": "Full CDP + marketing automation. AI-driven recommendations."
+          },
+          {
+            "name": "Braze",
+            "category": "Customer Engagement",
+            "price": "$$$$",
+            "fit": "Multi-channel brands wanting sophisticated journey orchestration",
+            "url": "https://www.braze.com",
+            "note": "Enterprise engagement platform. Real-time, cross-channel."
+          },
+          {
+            "name": "Ometria",
+            "category": "Retail CDP",
+            "price": "$$$$",
+            "fit": "Retailers wanting purpose-built retail CDP + marketing",
+            "url": "https://www.ometria.com",
+            "note": "Retail-specific CDP. Predictive analytics built-in."
+          }
+        ],
+        "diy_alternative": "Build predictive models (CLV, churn) in your data warehouse, score customers daily, and sync scores to Klaviyo for segmentation. Gives control over algorithms."
+      }
+    },
+
+    "infrastructure": {
+      "low": {
+        "context": "You need to establish basic data infrastructure—a warehouse and automated pipelines",
+        "quick_wins": [
+          "Set up a free BigQuery or Snowflake trial",
+          "Connect 2-3 key sources with a no-code ETL tool",
+          "Create your first cross-source query (e.g., join Shopify + GA4)",
+          "Document what data you have and where it lives"
+        ],
+        "recommended_tools": [
+          {
+            "name": "BigQuery",
+            "category": "Data Warehouse",
+            "price": "$",
+            "fit": "Teams starting out—generous free tier",
+            "url": "https://cloud.google.com/bigquery",
+            "note": "Google's warehouse. Free tier for small data. Easy to start."
+          },
+          {
+            "name": "Fivetran",
+            "category": "ETL/Data Pipeline",
+            "price": "$$",
+            "fit": "Teams wanting no-code, reliable data pipelines",
+            "url": "https://www.fivetran.com",
+            "note": "Market leader for managed ETL. Very reliable. Pricing scales with data."
+          },
+          {
+            "name": "Airbyte",
+            "category": "ETL/Data Pipeline",
+            "price": "$",
+            "fit": "Technical teams wanting open-source ETL",
+            "url": "https://airbyte.com",
+            "note": "Open-source alternative to Fivetran. Self-host or cloud. Lower cost."
+          }
+        ],
+        "diy_alternative": "Use Stitch (free tier) to load data into PostgreSQL (free on Supabase). Gives you a working data stack for nearly zero cost. Good for learning."
+      },
+      "medium": {
+        "context": "You have infrastructure but need to improve reliability, documentation, and coverage",
+        "quick_wins": [
+          "Add data quality tests (nulls, duplicates, freshness checks)",
+          "Document your data models and transformations",
+          "Set up pipeline failure alerts",
+          "Connect remaining data sources to close gaps"
+        ],
+        "recommended_tools": [
+          {
+            "name": "dbt",
+            "category": "Data Transformation",
+            "price": "$",
+            "fit": "Everyone with a warehouse—industry standard",
+            "url": "https://www.getdbt.com",
+            "note": "SQL-based transformation. Open-source core. Essential for data quality."
+          },
+          {
+            "name": "Snowflake",
+            "category": "Data Warehouse",
+            "price": "$$$",
+            "fit": "Growing brands needing scalable, separated compute",
+            "url": "https://www.snowflake.com",
+            "note": "Modern warehouse. Scales well. Excellent for analytics workloads."
+          },
+          {
+            "name": "Census",
+            "category": "Reverse ETL",
+            "price": "$$",
+            "fit": "Teams wanting to sync warehouse data to operational tools",
+            "url": "https://www.getcensus.com",
+            "note": "Push data from warehouse to Klaviyo, Salesforce, etc. Closes the loop."
+          }
+        ],
+        "diy_alternative": "Implement dbt with built-in testing and documentation. It's free and transforms how you manage data quality. Invest time here before buying more tools."
+      },
+      "high": {
+        "context": "You have solid infrastructure—extend to real-time, ML, and advanced use cases",
+        "quick_wins": [
+          "Evaluate streaming for real-time use cases",
+          "Set up a feature store for ML models",
+          "Implement comprehensive data observability",
+          "Create a data product roadmap for advanced capabilities"
+        ],
+        "recommended_tools": [
+          {
+            "name": "Databricks",
+            "category": "Lakehouse Platform",
+            "price": "$$$$",
+            "fit": "Data science teams needing notebooks + processing + ML",
+            "url": "https://databricks.com",
+            "note": "Unified analytics platform. Strong for ML workloads."
+          },
+          {
+            "name": "Hightouch",
+            "category": "Data Activation",
+            "price": "$$$",
+            "fit": "Teams wanting comprehensive reverse ETL + audience building",
+            "url": "https://hightouch.com",
+            "note": "Composable CDP. Activate warehouse data everywhere."
+          },
+          {
+            "name": "Materialize",
+            "category": "Streaming Database",
+            "price": "$$$",
+            "fit": "Teams needing real-time analytics with SQL",
+            "url": "https://materialize.com",
+            "note": "Streaming SQL. Real-time views that stay current."
+          }
+        ],
+        "diy_alternative": "Build real-time capabilities with Kafka/Redpanda + streaming processors. Complex but gives complete control. Many teams start with batch and add streaming incrementally."
+      }
+    }
+  }
+}

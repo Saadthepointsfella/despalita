@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Tool Recommendations Schema",
+  "description": "Tool and vendor recommendations by dimension and tier",
+  "type": "object",
+  "required": ["tool_recommendations"],
+  "properties": {
+    "tool_recommendations": {
+      "type": "object",
+      "required": ["_meta"],
+      "properties": {
+        "_meta": {
+          "type": "object",
+          "required": ["description", "total_entries"],
+          "properties": {
+            "description": { "type": "string" },
+            "usage": { "type": "string" },
+            "total_entries": { "type": "number" },
+            "price_legend": { "type": "object" }
+          }
+        }
+      },
+      "patternProperties": {
+        "^(tracking|attribution|reporting|experimentation|lifecycle|infrastructure)$": {
+          "type": "object",
+          "required": ["low", "medium", "high"],
+          "properties": {
+            "low": {
+              "type": "object",
+              "required": ["context", "quick_wins", "recommended_tools"],
+              "properties": {
+                "context": { "type": "string" },
+                "quick_wins": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2
+                },
+                "recommended_tools": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["name", "category", "price", "fit"],
+                    "properties": {
+                      "name": { "type": "string" },
+                      "category": { "type": "string" },
+                      "price": {
+                        "type": "string",
+                        "enum": ["$", "$$", "$$$", "$$$$"]
+                      },
+                      "fit": { "type": "string" },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "note": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                },
+                "diy_alternative": { "type": "string" }
+              },
+              "additionalProperties": false
+            },
+            "medium": {
+              "type": "object",
+              "required": ["context", "quick_wins", "recommended_tools"],
+              "properties": {
+                "context": { "type": "string" },
+                "quick_wins": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2
+                },
+                "recommended_tools": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["name", "category", "price", "fit"],
+                    "properties": {
+                      "name": { "type": "string" },
+                      "category": { "type": "string" },
+                      "price": {
+                        "type": "string",
+                        "enum": ["$", "$$", "$$$", "$$$$"]
+                      },
+                      "fit": { "type": "string" },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "note": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                },
+                "diy_alternative": { "type": "string" }
+              },
+              "additionalProperties": false
+            },
+            "high": {
+              "type": "object",
+              "required": ["context", "quick_wins", "recommended_tools"],
+              "properties": {
+                "context": { "type": "string" },
+                "quick_wins": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2
+                },
+                "recommended_tools": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["name", "category", "price", "fit"],
+                    "properties": {
+                      "name": { "type": "string" },
+                      "category": { "type": "string" },
+                      "price": {
+                        "type": "string",
+                        "enum": ["$", "$$", "$$$", "$$$$"]
+                      },
+                      "fit": { "type": "string" },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "note": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                },
+                "diy_alternative": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
