@@ -13,7 +13,12 @@ export const DIMENSION_KEYS = [
 export type DimensionKey = (typeof DIMENSION_KEYS)[number];
 
 export type Score1to5 = 1 | 2 | 3 | 4 | 5;
-export type LevelKey = 1 | 2 | 3 | 4 | 5;
+export type LevelKey =
+  | 'reactive'
+  | 'structured'
+  | 'systematic'
+  | 'integrated'
+  | 'compounding';
 export type Tier = "low" | "medium" | "high";
 export type LeadTier = "hot" | "warm" | "cool";
 
@@ -65,8 +70,8 @@ export interface ScoreRange {
 }
 
 export interface MaturityLevel {
-  level: LevelKey;
-  key: string;
+  level: Score1to5;
+  key: LevelKey;
   name: string;
   score_range: ScoreRange;
   hero_title: string;

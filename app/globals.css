@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Paper / ink theme */
+  --bg: 42 33% 94%;
+  --surface: 42 33% 97%;
+  --fg: 0 0% 10%;
+  --muted: 0 0% 54%;
+  --border: 42 18% 89%;
+  --accent: 0 51% 53%;
+
+  /* Level accents (tuned for paper, not neon) */
+  --level-1: 0 62% 52%;    /* red */
+  --level-2: 24 85% 50%;   /* orange */
+  --level-3: 46 92% 45%;   /* yellow */
+  --level-4: 140 45% 38%;  /* green */
+  --level-5: 210 70% 45%;  /* blue */
+
+  /* Radius */
+  --radius-card: 16px;
+  --radius-control: 12px;
+
+  --maxw-content: 64rem;
+  --maxw-narrow: 48rem;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+}
+
+::selection {
+  background: hsl(var(--accent) / 0.2);
+}
+
+@layer base {
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .container-max {
+    @apply mx-auto w-full max-w-content px-6;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-narrow px-6;
+  }
+}

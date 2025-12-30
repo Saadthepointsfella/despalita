@@ -1,37 +1,21 @@
-// src/components/ui/arrow-link.tsx
-import Link, { type LinkProps } from "next/link";
-import { cn } from "@/lib/cn";
-import * as React from "react";
-
-type Arrow = "right" | "upRight";
-
-export type ArrowLinkProps =
-  LinkProps &
-  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
-    arrow?: Arrow;
-    muted?: boolean;
-  };
+import Link from 'next/link';
+import { cn } from '@/lib/cn';
 
 export function ArrowLink({
-  arrow = "right",
-  muted = false,
-  className,
+  href,
   children,
-  ...props
-}: ArrowLinkProps) {
-  const glyph = arrow === "upRight" ? "↗" : "→";
-
+  direction = 'right',
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  direction?: 'right' | 'up_right';
+  className?: string;
+}) {
+  const arrow = direction === 'up_right' ? '↗' : '→';
   return (
-    <Link
-      className={cn(
-        "inline-flex items-center gap-2 text-sm transition",
-        muted ? "text-muted hover:text-text" : "text-text/90 hover:text-text",
-        className
-      )}
-      {...props}
-    >
-      <span>{children}</span>
-      <span className="text-accent">{glyph}</span>
+    <Link href={href} className={cn('text-sm text-fg hover:text-accent transition-colors', className)}>
+      {children} <span aria-hidden="true">{arrow}</span>
     </Link>
   );
 }

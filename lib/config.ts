@@ -11,7 +11,7 @@ import roadmapModulesData from '@/config/roadmap-modules.json';
 import tokensData from '@/config/tokens.json';
 
 // --- Runtime schema validation (Option B #2) ---
-import Ajv from 'ajv';
+import Ajv2020 from 'ajv/dist/2020';
 
 import tokensSchema from '@/config/schemas/tokens.schema.json';
 import dimensionsSchema from '@/config/schemas/dimensions.schema.json';
@@ -23,7 +23,7 @@ import roadmapModulesSchema from '@/config/schemas/roadmap-modules.schema.json';
 type Json = Record<string, unknown>;
 
 function validateConfigBundle() {
-  const ajv = new Ajv({ allErrors: true, strict: true });
+  const ajv = new Ajv2020({ allErrors: true, strict: true });
 
   const validators = [
     { name: 'tokens.json', schema: tokensSchema as Json, data: tokensData as unknown },

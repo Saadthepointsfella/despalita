@@ -1,4 +1,6 @@
-// src/lib/cn.ts
-export function cn(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(" ");
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
