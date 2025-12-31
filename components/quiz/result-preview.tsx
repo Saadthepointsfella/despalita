@@ -17,35 +17,48 @@ export function ResultPreview({
   onUnlock: () => void;
 }) {
   return (
-    <Panel className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <div className="font-mono text-xs text-muted">Preview</div>
-          <div className="text-lg font-semibold tracking-tightHeading">{heroTitle}</div>
+    <Panel className="rounded-none border border-border bg-panel p-8">
+      {/* Header strip */}
+      <div className="flex items-start justify-between gap-6">
+        <div className="space-y-2">
+          <div className="label-mono text-[11px] text-muted">Results Preview</div>
+          <div className="font-serif text-2xl leading-tight text-fg">{heroTitle}</div>
+          <div className="h-px w-16 bg-borderStrong" />
         </div>
+
         <LevelBadge level={level} />
       </div>
 
-      <Divider />
+      <Divider className="my-6 border-border" />
 
-      <p className="text-sm text-muted">{heroCopy}</p>
+      <p className="font-serif text-[15px] leading-relaxed text-fg/90">{heroCopy}</p>
 
-      <div className="rounded-control border border-border bg-bg/50 p-4 text-sm">
-        <div className="font-mono text-xs text-muted">Top gap teaser</div>
-        <div className="mt-1 text-fg">{topGapLabel}</div>
+      {/* Top gap teaser — rule-left callout */}
+      <div className="mt-6 border border-border bg-bg">
+        <div className="flex">
+          <div className="w-1 bg-accent" aria-hidden="true" />
+          <div className="p-5">
+            <div className="label-mono text-[11px] text-muted">Top gap</div>
+            <div className="mt-2 font-serif text-[15px] leading-relaxed text-fg">
+              {topGapLabel} <span className="text-accent">→</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* Actions */}
+      <div className="mt-8 flex flex-col-reverse items-start justify-between gap-3 sm:flex-row sm:items-center">
+        <ArrowLink href="/assessment" direction="up_right" className="label-mono text-[11px] text-muted hover:text-fg">
+          Back to overview
+        </ArrowLink>
+
         <button
           type="button"
           onClick={onUnlock}
-          className="text-sm text-fg hover:text-accent transition-colors"
+          className="label-mono inline-flex items-center gap-2 border border-fg bg-fg px-5 py-3 text-[11px] text-bg transition-colors hover:bg-fg/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
-          Unlock the full roadmap →
+          Unlock full report <span aria-hidden="true">→</span>
         </button>
-        <ArrowLink href="/assessment" direction="up_right" className="text-muted">
-          Back to overview
-        </ArrowLink>
       </div>
     </Panel>
   );

@@ -5,35 +5,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: 'hsl(var(--bg) / <alpha-value>)',
-        surface: 'hsl(var(--surface) / <alpha-value>)',
-        fg: 'hsl(var(--fg) / <alpha-value>)',
-        muted: 'hsl(var(--muted) / <alpha-value>)',
-        border: 'hsl(var(--border) / <alpha-value>)',
-        accent: 'hsl(var(--accent) / <alpha-value>)',
+        bg: 'var(--bg)',
+        fg: 'var(--fg)',
+        accent: 'var(--accent)',
+        muted: 'var(--muted)',
+        panel: 'var(--panel)',
+        border: 'var(--rule)',
+        borderStrong: 'var(--rule-strong)',
         level: {
-          1: 'hsl(var(--level-1) / <alpha-value>)',
-          2: 'hsl(var(--level-2) / <alpha-value>)',
-          3: 'hsl(var(--level-3) / <alpha-value>)',
-          4: 'hsl(var(--level-4) / <alpha-value>)',
-          5: 'hsl(var(--level-5) / <alpha-value>)',
+          1: 'var(--level-1)',
+          2: 'var(--level-2)',
+          3: 'var(--level-3)',
+          4: 'var(--level-4)',
+          5: 'var(--level-5)',
         },
-      },
-      fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       borderRadius: {
         card: 'var(--radius-card)',
         control: 'var(--radius-control)',
       },
-      letterSpacing: {
-        tightHeading: '-0.02em',
-      },
       maxWidth: {
         content: 'var(--maxw-content)',
         narrow: 'var(--maxw-narrow)',
+      },
+      fontFamily: {
+        serif: ['ui-serif', 'Georgia', 'Times New Roman', 'Times', 'serif'],
+        mono: [
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace',
+        ],
+      },
+      letterSpacing: {
+        label: 'var(--label-tracking)',
       },
     },
   },

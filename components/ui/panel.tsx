@@ -5,8 +5,9 @@ export function Panel({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
   return (
     <div
       className={cn(
-        'rounded-card border border-border bg-surface p-6',
-        className
+        'rounded-card border border-border bg-surface',
+        'px-6 py-5 md:px-7 md:py-6',
+        className,
       )}
       {...props}
     />

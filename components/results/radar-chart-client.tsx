@@ -22,12 +22,13 @@ export default function RadarChartClient({ dto }: { dto: ResultsDTO }) {
       name: d.name,
     }));
 
-  // Token-only colors (no hex)
-  const stroke = 'hsl(var(--accent))';
-  const fill = 'hsl(var(--accent) / 0.18)';
-  const grid = 'hsl(var(--border))';
-  const tick = 'hsl(var(--muted))';
-  const text = 'hsl(var(--fg))';
+  // Colors - using resolved values for SVG/Recharts compatibility
+  // Matches theme: accent=#C54B4B, muted=#8A8A8A, fg=#1A1A1A, rule=rgba(0,0,0,0.08)
+  const stroke = '#C54B4B';
+  const fill = 'rgba(197, 75, 75, 0.18)';  // accent at 18% opacity
+  const grid = 'rgba(0, 0, 0, 0.08)';
+  const tick = '#8A8A8A';
+  const text = '#1A1A1A';
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -42,9 +43,9 @@ export default function RadarChartClient({ dto }: { dto: ResultsDTO }) {
         />
         <Tooltip
           contentStyle={{
-            background: 'hsl(var(--surface))',
-            border: '1px solid hsl(var(--border))',
-            borderRadius: 12,
+            background: '#F5F2EB',  // matches --bg
+            border: '1px solid rgba(0, 0, 0, 0.08)',  // matches --rule
+            borderRadius: 0,  // sharp corners to match theme
             color: text,
           }}
           labelStyle={{ color: text }}

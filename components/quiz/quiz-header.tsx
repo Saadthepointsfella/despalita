@@ -1,3 +1,5 @@
+import { ArrowLink } from '@/components/ui/arrow-link';
+import { Divider } from '@/components/ui/divider';
 import { SectionLabel } from '@/components/ui/section-label';
 
 export function QuizHeader({
@@ -10,12 +12,24 @@ export function QuizHeader({
   progressLabel: string;
 }) {
   return (
-    <header className="flex items-center justify-between py-6">
-      <div className="font-mono text-sm font-semibold tracking-tight">MAXMIN</div>
-      <div className="hidden md:block">
-        <SectionLabel section={section} title={dimensionLabel} />
+    <header className="space-y-3">
+      <div className="flex items-end justify-between gap-6">
+        <div className="flex items-baseline gap-3">
+          <SectionLabel section={section} />
+          <div className="text-sm font-medium text-fg">{dimensionLabel}</div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="font-mono text-[11px] uppercase tracking-micro text-faint">
+            {progressLabel}
+          </div>
+          <ArrowLink href="/assessment" direction="left" className="text-faint">
+            Exit
+          </ArrowLink>
+        </div>
       </div>
-      <div className="font-mono text-xs text-muted">{progressLabel}</div>
+
+      <Divider />
     </header>
   );
 }

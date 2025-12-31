@@ -1,22 +1,29 @@
 import { rgb, type RGB } from 'pdf-lib';
 
-// Swiss beige palette (matches maxmin.agency direction)
-// NOTE: These are PDF-only theme tokens; keep UI tokens separate.
+// MaxMin brand palette (matches https://www.maxmin.agency/)
 export const PdfColors = {
-  pageBg: hex('#FAF9F6'),
-  cardBg: hex('#F5F4F0'),
-  cardBg2: hex('#F1F0EC'),
-  textPrimary: hex('#1A1A1A'),
-  textBody: hex('#3D3D3D'),
-  textMuted: hex('#9A9A9A'),
-  border: hex('#E5E4E0'),
+  // Backgrounds
+  pageBg: hex('#F5F2EB'),      // Beige/cream from website
+  cardBg: hex('#EDE9E0'),      // Slightly darker cream
+  cardBg2: hex('#E8E5DE'),     // Light gray from website
 
-  // Level colors
-  level1: hex('#EF4444'),
-  level2: hex('#F97316'),
-  level3: hex('#EAB308'),
-  level4: hex('#22C55E'),
-  level5: hex('#3B82F6'),
+  // Text
+  textPrimary: hex('#1A1A1A'), // Black from website
+  textBody: hex('#1A1A1A'),    // Same black for body
+  textMuted: hex('#8A8A8A'),   // Gray from website
+
+  // Borders
+  border: hex('#E8E5DE'),      // Light gray from website
+
+  // Accent
+  accent: hex('#C54B4B'),      // Red accent from website
+
+  // Level colors (keep for score visualization)
+  level1: hex('#C54B4B'),      // Red (matches accent)
+  level2: hex('#D97706'),      // Orange (warmer)
+  level3: hex('#B8860B'),      // Dark goldenrod (warmer yellow)
+  level4: hex('#2D7D46'),      // Forest green (more muted)
+  level5: hex('#1A1A1A'),      // Black (excellence = brand black)
 };
 
 export const PdfSpacing = {
@@ -42,32 +49,47 @@ export const PdfLayout = {
 
 export const PdfTypography = {
   heroTitle: 28,
-  pageTitle: 20,
+  heroScore: 20,
+
   sectionHeader: 16,
-  bodyLarge: 12,
+  subsectionHeader: 12,
+
   body: 10,
   bodySmall: 9,
+
   caption: 8,
   micro: 7,
-  lineHeightNormal: 1.3,
+
+  lineHeightTight: 1.25,
+  lineHeightNormal: 1.35,
   lineHeightRelaxed: 1.5,
+};
+
+export const PdfRules = {
+  thin: 1,
+  emph: 2,
+  scoreBarHeight: 6,
 };
 
 export function getLevelColor(level: number): RGB {
   switch (level) {
-    case 1:
-      return PdfColors.level1;
-    case 2:
-      return PdfColors.level2;
-    case 3:
-      return PdfColors.level3;
-    case 4:
-      return PdfColors.level4;
-    case 5:
-      return PdfColors.level5;
-    default:
-      return PdfColors.textPrimary;
+    case 1: return PdfColors.level1;
+    case 2: return PdfColors.level2;
+    case 3: return PdfColors.level3;
+    case 4: return PdfColors.level4;
+    case 5: return PdfColors.level5;
+    default: return PdfColors.textPrimary;
   }
+}
+
+/**
+ * Deterministic date label: always YYYY-MM-DD (UTC).
+ * Avoid locale/timezone drift in toLocaleDateString().
+ */
+export function formatDateUTC(createdAtISO: string): string {
+  const d = new Date(createdAtISO);
+  if (Number.isNaN(d.getTime())) return createdAtISO;
+  return d.toISOString().slice(0, 10);
 }
 
 export function hex(h: string): RGB {

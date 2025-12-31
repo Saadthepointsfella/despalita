@@ -18,14 +18,21 @@ export default async function QuizPage() {
     );
   } catch {
     return (
-      <main className="container-narrow py-16">
-        <Panel className="space-y-4">
-          <div className="text-sm font-medium">Quiz unavailable</div>
-          <Divider />
-          <p className="text-sm text-muted">
-            We couldn't load the assessment from the database. Run <code className="text-fg">pnpm setup</code> and refresh.
-          </p>
-        </Panel>
+      <main className="container-max py-20">
+        <div className="grid-overlay border border-border bg-bg p-12">
+          <Panel className="rounded-none border border-border bg-panel p-8">
+            <div className="label-mono text-[11px] text-muted">Assessment</div>
+            <h1 className="mt-2 font-serif text-2xl leading-tight text-fg">Quiz unavailable</h1>
+
+            <Divider className="my-6 border-border" />
+
+            <p className="font-serif text-[15px] leading-relaxed text-fg/90">
+              We couldn’t load the assessment from the database. Run{' '}
+              <code className="label-mono border border-border bg-bg px-2 py-1 text-[11px] text-fg">pnpm setup</code>{' '}
+              and refresh.
+            </p>
+          </Panel>
+        </div>
       </main>
     );
   }

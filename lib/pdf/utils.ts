@@ -1,8 +1,41 @@
 import type { PDFFont, PDFPage, RGB } from 'pdf-lib';
-import { PdfTypography } from './theme';
 
 export function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
+}
+
+/**
+ * Split text into paragraphs (preserve explicit newlines),
+ * then wrap each paragraph into lines.
+ *
+ * - Single newline acts like a space inside a paragraph
+ * - Blank line separates paragraphs
+ */
+export function wrapParagraphs({
+  text,
+  font,
+  fontSize,
+  maxWidth,
+}: {
+  text: string;
+  font: PDFFont;
+  fontSize: number;
+  maxWidth: number;
+}): string[] {
+  const raw = (text ?? '').replace(/\r\n/g, '\n');
+  const paragraphs = raw
+    .split(/\n\s*\n/g) // blank line => paragraph break
+    .map(p => p.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+
+  const out: string[] = [];
+  for (let i = 0; i < paragraphs.length; i++) {
+    const p = paragraphs[i];
+    const lines = wrapText({ text: p, font, fontSize, maxWidth });
+    out.push(...lines);
+    if (i < paragraphs.length - 1) out.push(''); // blank line marker
+  }
+  return out;
 }
 
 export function wrapText({
@@ -30,7 +63,8 @@ export function wrapText({
       continue;
     }
     if (cur) lines.push(cur);
-    // If a single word is too long, hard-break it.
+
+    // hard-break long word
     if (font.widthOfTextAtSize(w, fontSize) > maxWidth) {
       let chunk = '';
       for (const ch of w) {
@@ -51,60 +85,77 @@ export function wrapText({
   return lines;
 }
 
-export function truncateText({
+export function truncateToLines({
   text,
   font,
   fontSize,
   maxWidth,
   maxLines,
+  preserveParagraphs = false,
 }: {
   text: string;
   font: PDFFont;
   fontSize: number;
   maxWidth: number;
   maxLines: number;
+  preserveParagraphs?: boolean;
 }): string {
-  const lines = wrapText({ text, font, fontSize, maxWidth });
-  if (lines.length <= maxLines) return lines.join(' ');
-  const truncated = lines.slice(0, maxLines);
-  const lastLine = truncated[maxLines - 1];
-  // Add ellipsis if truncated
-  const ellipsisWidth = font.widthOfTextAtSize('...', fontSize);
-  let trimmed = lastLine;
+  const lines = preserveParagraphs
+    ? wrapParagraphs({ text, font, fontSize, maxWidth })
+    : wrapText({ text, font, fontSize, maxWidth });
+
+  const realLines = lines; // may include "" paragraph separators
+
+  // Count visible lines ("" still consumes vertical space)
+  if (realLines.length <= maxLines) {
+    return realLines.join('\n');
+  }
+
+  const sliced = realLines.slice(0, maxLines);
+  // If last visible line is blank, replace it with ellipsis line (more stable)
+  if (sliced[maxLines - 1] === '') {
+    sliced[maxLines - 1] = '...';
+    return sliced.join('\n');
+  }
+
+  // Ellipsis on last line
+  const last = sliced[maxLines - 1];
+  let trimmed = last;
   while (font.widthOfTextAtSize(trimmed + '...', fontSize) > maxWidth && trimmed.length > 0) {
     trimmed = trimmed.slice(0, -1);
   }
-  truncated[maxLines - 1] = trimmed + '...';
-  return truncated.join(' ');
+  sliced[maxLines - 1] = trimmed + '...';
+  return sliced.join('\n');
 }
 
-export function drawTextBlock({
+export function drawTextLines({
   page,
   x,
   y,
-  text,
+  lines,
   font,
   fontSize,
   color,
-  maxWidth,
   lineHeight,
   maxLines,
 }: {
   page: PDFPage;
   x: number;
   y: number;
-  text: string;
+  lines: string[];
   font: PDFFont;
   fontSize: number;
   color: RGB;
-  maxWidth: number;
   lineHeight: number;
   maxLines?: number;
 }): number {
-  const lines = wrapText({ text, font, fontSize, maxWidth });
   const capped = typeof maxLines === 'number' ? lines.slice(0, maxLines) : lines;
   let yy = y;
   for (const ln of capped) {
+    if (ln === '') {
+      yy -= lineHeight; // paragraph break
+      continue;
+    }
     page.drawText(ln, { x, y: yy, size: fontSize, font, color });
     yy -= lineHeight;
   }
@@ -151,4 +202,27 @@ export function drawRule({
   color: RGB;
 }) {
   page.drawRectangle({ x, y, width, height: thickness, color });
+}
+
+/**
+ * Stable cursor helper for vertical layout (no page-breaking here; we clamp/truncate instead).
+ */
+export class Cursor {
+  y: number;
+  readonly minY: number;
+  constructor(startY: number, minY: number) {
+    this.y = startY;
+    this.minY = minY;
+  }
+  down(px: number) {
+    this.y -= px;
+    return this.y;
+  }
+  canFit(px: number) {
+    return this.y - px >= this.minY;
+  }
+  clampMin() {
+    if (this.y < this.minY) this.y = this.minY;
+    return this.y;
+  }
 }

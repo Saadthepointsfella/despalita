@@ -3,54 +3,249 @@
 @tailwind utilities;
 
 :root {
-  /* Paper / ink theme */
-  --bg: 42 33% 94%;
-  --surface: 42 33% 97%;
-  --fg: 0 0% 10%;
-  --muted: 0 0% 54%;
-  --border: 42 18% 89%;
-  --accent: 0 51% 53%;
+  /* MaxMin Swiss Beige */
+  --bg: #F5F2EB;        /* paper */
+  --fg: #1A1A1A;        /* ink */
+  --accent: #C54B4B;    /* signal red */
+  --muted: #8A8A8A;     /* secondary text */
+  --panel: #E8E5DE;     /* soft panel */
+  --rule: rgb(0 0 0 / 0.08);
+  --rule-strong: rgb(0 0 0 / 0.15);
 
-  /* Level accents (tuned for paper, not neon) */
-  --level-1: 0 62% 52%;    /* red */
-  --level-2: 24 85% 50%;   /* orange */
-  --level-3: 46 92% 45%;   /* yellow */
-  --level-4: 140 45% 38%;  /* green */
-  --level-5: 210 70% 45%;  /* blue */
+  /* Optional “level” colors (keep if LevelBadge uses them) */
+  --level-1: #EF4444;
+  --level-2: #F97316;
+  --level-3: #EAB308;
+  --level-4: #22C55E;
+  --level-5: #3B82F6;
 
-  /* Radius */
-  --radius-card: 16px;
-  --radius-control: 12px;
+  --radius-card: 0rem;     /* sharp corners */
+  --radius-control: 0rem;  /* sharp corners */
 
-  --maxw-content: 64rem;
+  --maxw-content: 72rem;
   --maxw-narrow: 48rem;
+
+  --label-tracking: 0.2em;
 }
 
-html,
-body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
-  background: hsl(var(--bg));
-  color: hsl(var(--fg));
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
 }
 
 ::selection {
-  background: hsl(var(--accent) / 0.2);
-}
-
-@layer base {
-  h1, h2, h3 {
-    letter-spacing: -0.02em;
-  }
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 @layer components {
-  .container-max {
-    @apply mx-auto w-full max-w-content px-6;
+  .container-max { @apply mx-auto w-full max-w-content px-12; }
+  .container-narrow { @apply mx-auto w-full max-w-narrow px-6; }
+
+  /* Subtle “grid atmosphere” */
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: 0 0;
   }
-  .container-narrow {
-    @apply mx-auto w-full max-w-narrow px-6;
+
+  .label-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    text-transform: uppercase;
+    letter-spacing: var(--label-tracking);
+  }
+}
+
+.underline-red {
+  position: relative;
+  display: inline-block;
+}
+.underline-red::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.09em;
+  height: 2px;
+  background: #c54b4b;
+  opacity: 0.9;
+}
+
+.motif-line {
+  height: 2px;
+  background: #1a1a1a;
+  position: relative;
+}
+.motif-line::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #c54b4b;
+  animation: dotWeave 6.2s ease-in-out infinite;
+}
+.motif-line:nth-child(2)::after {
+  animation-delay: 0.55s;
+}
+.motif-line:nth-child(3)::after {
+  animation-delay: 1.1s;
+}
+
+.hairline {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.12);
+}
+.h1 {
+  height: 1px;
+  top: 22%;
+  left: 14%;
+  width: 0%;
+  animation: growH 2.2s ease-out forwards, floatH 10s ease-in-out infinite 2.2s;
+}
+.h2 {
+  height: 1px;
+  top: 54%;
+  right: 12%;
+  width: 0%;
+  background: rgba(197, 75, 75, 0.4);
+  animation: growH2 2.2s ease-out forwards 0.25s, floatH 12s ease-in-out infinite 2.45s;
+}
+.v1 {
+  width: 1px;
+  top: 12%;
+  left: 32%;
+  height: 0%;
+  animation: growV 2.2s ease-out forwards 0.15s, floatV 11s ease-in-out infinite 2.35s;
+}
+.v2 {
+  width: 1px;
+  bottom: 18%;
+  right: 28%;
+  height: 0%;
+  animation: growV2 2.2s ease-out forwards 0.35s, floatV 13s ease-in-out infinite 2.55s;
+}
+
+.sig-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #c54b4b;
+  opacity: 0;
+  animation: dotIn 0.45s ease-out forwards, pulse 4.4s ease-in-out infinite;
+}
+.d1 {
+  top: 22%;
+  left: 14%;
+  animation-delay: 0.9s, 1.4s;
+}
+.d2 {
+  top: 54%;
+  right: 12%;
+  animation-delay: 1.15s, 1.65s;
+}
+.d3 {
+  bottom: 24%;
+  left: 58%;
+  animation-delay: 1.4s, 1.9s;
+}
+
+.plus {
+  animation: plusWeave 8s ease-in-out infinite;
+}
+
+@keyframes growH {
+  to {
+    width: 64%;
+    opacity: 1;
+  }
+}
+@keyframes growH2 {
+  to {
+    width: 44%;
+    opacity: 1;
+  }
+}
+@keyframes growV {
+  to {
+    height: 52%;
+    opacity: 1;
+  }
+}
+@keyframes growV2 {
+  to {
+    height: 36%;
+    opacity: 1;
+  }
+}
+
+@keyframes floatH {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.14;
+  }
+  50% {
+    transform: translateX(9px);
+    opacity: 0.24;
+  }
+}
+@keyframes floatV {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.14;
+  }
+  50% {
+    transform: translateY(-9px);
+    opacity: 0.24;
+  }
+}
+
+@keyframes dotIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.7);
+    opacity: 1;
+  }
+}
+@keyframes plusWeave {
+  0%,
+  100% {
+    transform: rotate(90deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+  }
+}
+
+@keyframes dotWeave {
+  0%,
+  100% {
+    left: 0;
+  }
+  50% {
+    left: calc(100% - 10px);
   }
 }

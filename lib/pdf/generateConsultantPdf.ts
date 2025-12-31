@@ -1,17 +1,54 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import type { ResultsDTO, PdfData } from '@/lib/results/getResultsForPdf';
-import { PdfColors, PdfLayout, PdfTypography, getLevelColor } from './theme';
-import { clamp, drawCenteredText, drawTextBlock, truncateText, wrapText } from './utils';
+import {
+  PdfColors,
+  PdfLayout,
+  PdfTypography,
+  PdfSpacing,
+  PdfRules,
+  getLevelColor,
+  formatDateUTC,
+} from './theme';
+import {
+  clamp,
+  Cursor,
+  drawCenteredText,
+  drawRule,
+  drawTextLines,
+  truncateToLines,
+  wrapParagraphs,
+  wrapText,
+} from './utils';
 import {
   getAnswerObservation,
   getBenchmarkForTransition,
   getImpact,
   getToolRecommendations,
   getDependencyAlerts,
+  getNextStepsForDimension,
 } from './content/lookups';
-import type { Tier } from './content/types';
+import type { Tier, DimensionKey } from './content/types';
 import type { PdfDetailPacks } from './content/loadPacks';
 import { generateNextStepsPlan } from './nextSteps';
+// New typography and conditional copy systems
+import {
+  drawParagraph,
+  drawList,
+  drawChecklist,
+  drawLines,
+  wrapText as typographyWrapText,
+  truncateToLines as typographyTruncateToLines,
+  type TextStyle,
+} from './typography';
+import { makeStyles, type PdfFonts, type PdfStyles, Spacing, Colors, Layout } from './styles';
+import {
+  extractCapabilities,
+  selectCopyVariant,
+  getConditionalImpactCopy,
+  validateCopyConsistency,
+  type DimensionAnswerSummary,
+  type CapabilityState,
+} from './content/conditionalCopy';
 
 export type PdfAnswerContext = {
   answers: Array<{ question_id: string; option_id: string; dimension_id: string }>;
@@ -32,26 +69,81 @@ function sortDimsByScore(results: ResultsDTO) {
   return [...results.dimensions].sort((a, b) => (a.score - b.score) || (a.order - b.order));
 }
 
-function topGaps(results: ResultsDTO, n = 3): Gap[] {
-  return sortDimsByScore(results)
-    .slice(0, n)
-    .map((d) => ({
-      dimension_id: d.dimension_id,
-      order: d.order,
-      section: d.section,
-      name: d.name,
-      short_label: d.short_label,
-      score: d.score,
-      tier: d.tier as Tier,
-      is_primary_gap: d.is_primary_gap,
-    }));
+/**
+ * Build dimension answer summaries for capabilities extraction.
+ * Maps user answers to dimension-level summaries with scores.
+ */
+function buildDimensionSummaries(
+  results: ResultsDTO,
+  answerContext: PdfAnswerContext,
+  packs: PdfDetailPacks
+): DimensionAnswerSummary[] {
+  const summaries: DimensionAnswerSummary[] = [];
+
+  for (const dim of results.dimensions) {
+    const dimAnswers = answerContext.answers
+      .filter(a => a.dimension_id === dim.dimension_id)
+      .map(a => {
+        // Get score from observations pack
+        const obs = packs.observations.answer_observations[a.question_id];
+        const optKey = a.option_id.includes('_o')
+          ? `o${a.option_id.match(/_o(\d+)$/)?.[1] ?? '1'}`
+          : a.option_id;
+        const score = obs?.options?.[optKey]?.score ?? 1;
+
+        return {
+          question_id: a.question_id,
+          option_id: a.option_id,
+          score,
+        };
+      });
+
+    const avgScore = dimAnswers.length > 0
+      ? dimAnswers.reduce((sum, a) => sum + a.score, 0) / dimAnswers.length
+      : dim.score;
+
+    summaries.push({
+      dimension_id: dim.dimension_id as DimensionKey,
+      answers: dimAnswers,
+      avgScore,
+      tier: dim.tier as Tier,
+    });
+  }
+
+  return summaries;
+}
+
+/**
+ * Deterministic top gaps:
+ * 1) primary gap always first
+ * 2) then lowest scores excluding primary (tie-break by order)
+ */
+function topGapsDeterministic(results: ResultsDTO, n = 3): Gap[] {
+  const primaryId = results.primary_gap?.dimension_id;
+  const dimsSorted = sortDimsByScore(results);
+
+  const primary = dimsSorted.find(d => d.dimension_id === primaryId) ?? dimsSorted[0];
+  const rest = dimsSorted.filter(d => d.dimension_id !== primary?.dimension_id);
+
+  const chosen = [primary, ...rest].slice(0, n).filter(Boolean);
+
+  return chosen.map((d) => ({
+    dimension_id: d.dimension_id,
+    order: d.order,
+    section: d.section,
+    name: d.name,
+    short_label: d.short_label,
+    score: d.score,
+    tier: d.tier as Tier,
+    is_primary_gap: d.is_primary_gap,
+  }));
 }
 
 function scoreLabel(score: number) {
   return `${Math.round(score * 10) / 10}/5`;
 }
 
-function fillPageBg(page: any) {
+function drawPageBackground(page: any) {
   page.drawRectangle({
     x: 0,
     y: 0,
@@ -61,62 +153,77 @@ function fillPageBg(page: any) {
   });
 }
 
-function drawHeaderFooter({
+/**
+ * Header bar (thin + quiet)
+ * - Company name allowed header only (privacy rule)
+ * - Date is deterministic (YYYY-MM-DD UTC)
+ */
+function drawHeaderBar({
   page,
-  helveticaBold,
-  helvetica,
-  pageIndex,
-  pageCount,
-  createdAtISO,
+  fontBold,
+  font,
   company,
+  createdAtISO,
 }: {
   page: any;
-  helveticaBold: any;
-  helvetica: any;
-  pageIndex: number;
-  pageCount: number;
-  createdAtISO: string;
+  fontBold: any;
+  font: any;
   company?: string | null;
+  createdAtISO: string;
 }) {
   const { margin, contentWidth, pageHeight } = PdfLayout;
   const topY = pageHeight - margin;
 
-  // Header
   const headerY = topY + 10;
-  const left = company ? `MAXMIN - ${company}` : 'MAXMIN';
+  const left = company ? `MAXMIN — ${company}` : 'MAXMIN';
   page.drawText(left, {
     x: margin,
     y: headerY,
     size: PdfTypography.micro,
-    font: helveticaBold,
+    font: fontBold,
     color: PdfColors.textBody,
   });
 
-  const date = new Date(createdAtISO);
-  const dateLabel = isNaN(date.getTime()) ? createdAtISO : date.toLocaleDateString();
-  const dateW = helvetica.widthOfTextAtSize(dateLabel, PdfTypography.micro);
+  const dateLabel = formatDateUTC(createdAtISO);
+  const dateW = font.widthOfTextAtSize(dateLabel, PdfTypography.micro);
   page.drawText(dateLabel, {
     x: margin + contentWidth - dateW,
     y: headerY,
     size: PdfTypography.micro,
-    font: helvetica,
+    font,
     color: PdfColors.textMuted,
   });
 
-  // Header divider
-  page.drawLine({
-    start: { x: margin, y: headerY - 8 },
-    end: { x: margin + contentWidth, y: headerY - 8 },
-    thickness: 1,
+  drawRule({
+    page,
+    x: margin,
+    y: headerY - 8,
+    width: contentWidth,
+    thickness: PdfRules.thin,
     color: PdfColors.border,
   });
+}
 
-  // Footer
+function drawFooter({
+  page,
+  font,
+  pageIndex,
+  pageCount,
+}: {
+  page: any;
+  font: any;
+  pageIndex: number;
+  pageCount: number;
+}) {
+  const { margin, contentWidth } = PdfLayout;
   const footerY = margin - 18;
-  page.drawLine({
-    start: { x: margin, y: footerY + 10 },
-    end: { x: margin + contentWidth, y: footerY + 10 },
-    thickness: 1,
+
+  drawRule({
+    page,
+    x: margin,
+    y: footerY + 10,
+    width: contentWidth,
+    thickness: PdfRules.thin,
     color: PdfColors.border,
   });
 
@@ -124,102 +231,229 @@ function drawHeaderFooter({
     x: margin,
     y: footerY,
     size: PdfTypography.caption,
-    font: helvetica,
+    font,
     color: PdfColors.textMuted,
   });
+
   const pageLabel = `Page ${pageIndex + 1} of ${pageCount}`;
-  const pW = helvetica.widthOfTextAtSize(pageLabel, PdfTypography.caption);
+  const pW = font.widthOfTextAtSize(pageLabel, PdfTypography.caption);
   page.drawText(pageLabel, {
     x: margin + contentWidth - pW,
     y: footerY,
     size: PdfTypography.caption,
-    font: helvetica,
+    font,
     color: PdfColors.textMuted,
   });
 }
 
-function drawSectionHeader({ page, x, y, num, title, helveticaBold }: { page: any; x: number; y: number; num: string; title: string; helveticaBold: any }) {
-  page.drawText(num, {
-    x,
-    y,
-    size: PdfTypography.body,
-    font: helveticaBold,
-    color: PdfColors.textMuted,
-  });
-  page.drawText(title.toUpperCase(), {
-    x: x + 26,
-    y,
-    size: PdfTypography.sectionHeader,
-    font: helveticaBold,
-    color: PdfColors.textPrimary,
-  });
-}
-
-function drawCallout({
+function drawSectionHeader({
   page,
   x,
   y,
-  w,
+  num,
   title,
-  subtitle,
-  body,
-  accent,
-  helveticaBold,
-  helvetica,
+  fontBold,
 }: {
   page: any;
   x: number;
   y: number;
-  w: number;
+  num: string;
   title: string;
-  subtitle: string;
-  body: string;
-  accent: any;
-  helveticaBold: any;
-  helvetica: any;
+  fontBold: any;
 }) {
-  const padding = 12;
-  const titleSize = PdfTypography.caption;
-  const subtitleSize = PdfTypography.bodyLarge;
-  const bodySize = PdfTypography.body;
-  const lineHeight = bodySize * PdfTypography.lineHeightNormal;
-
-  const bodyLines = wrapText({ text: body, font: helvetica, fontSize: bodySize, maxWidth: w - padding * 2 });
-  const boxH = padding + titleSize + 6 + subtitleSize + 8 + bodyLines.length * lineHeight + padding;
-
-  page.drawRectangle({ x, y: y - boxH, width: w, height: boxH, color: PdfColors.cardBg, borderColor: PdfColors.border, borderWidth: 1 });
-  // Left accent line
-  page.drawRectangle({ x, y: y - boxH, width: 3, height: boxH, color: accent });
-
-  let cy = y - padding - titleSize;
-  page.drawText(title.toUpperCase(), {
-    x: x + padding,
-    y: cy,
-    size: titleSize,
-    font: helveticaBold,
-    color: accent,
+  // quiet swiss header: number in muted, title uppercase
+  page.drawText(num, {
+    x,
+    y,
+    size: PdfTypography.bodySmall,
+    font: fontBold,
+    color: PdfColors.textMuted,
   });
-  cy -= 6 + subtitleSize;
-  page.drawText(subtitle, {
-    x: x + padding,
-    y: cy,
-    size: subtitleSize,
-    font: helveticaBold,
+
+  page.drawText(title.toUpperCase(), {
+    x: x + 26,
+    y,
+    size: PdfTypography.sectionHeader,
+    font: fontBold,
     color: PdfColors.textPrimary,
   });
-  cy -= 8;
-  for (const line of bodyLines) {
-    page.drawText(line, {
-      x: x + padding,
-      y: cy,
-      size: bodySize,
-      font: helvetica,
-      color: PdfColors.textBody,
-    });
-    cy -= lineHeight;
-  }
+}
+
+/**
+ * Callout box: sharp corners, left accent stripe, thin border.
+ * This is the only “boxed” element; everything else separated by rules + spacing.
+ */
+function drawCalloutBox({
+  page,
+  x,
+  yTop,
+  w,
+  label,
+  titleLine,
+  body,
+  accent,
+  fontBold,
+  font,
+}: {
+  page: any;
+  x: number;
+  yTop: number;
+  w: number;
+  label: string;
+  titleLine: string;
+  body: string;
+  accent: any;
+  fontBold: any;
+  font: any;
+}) {
+  const pad = PdfSpacing.s4; // 12
+  const labelSize = PdfTypography.caption;
+  const titleSize = PdfTypography.subsectionHeader;
+  const bodySize = PdfTypography.body;
+  const lh = bodySize * PdfTypography.lineHeightRelaxed;
+
+  const bodyLines = wrapParagraphs({
+    text: body,
+    font,
+    fontSize: bodySize,
+    maxWidth: w - pad * 2,
+  });
+
+  const boxH =
+    pad +
+    labelSize +
+    PdfSpacing.s2 +
+    titleSize +
+    PdfSpacing.s3 +
+    bodyLines.length * lh +
+    pad;
+
+  // background + border
+  page.drawRectangle({
+    x,
+    y: yTop - boxH,
+    width: w,
+    height: boxH,
+    color: PdfColors.cardBg,
+    borderColor: PdfColors.border,
+    borderWidth: PdfRules.thin,
+  });
+
+  // accent stripe
+  page.drawRectangle({
+    x,
+    y: yTop - boxH,
+    width: 3,
+    height: boxH,
+    color: accent,
+  });
+
+  let cy = yTop - pad - labelSize;
+  page.drawText(label.toUpperCase(), {
+    x: x + pad,
+    y: cy,
+    size: labelSize,
+    font: fontBold,
+    color: accent,
+  });
+
+  cy -= PdfSpacing.s2 + titleSize;
+  page.drawText(titleLine, {
+    x: x + pad,
+    y: cy,
+    size: titleSize,
+    font: fontBold,
+    color: PdfColors.textPrimary,
+  });
+
+  cy -= PdfSpacing.s3;
+  drawTextLines({
+    page,
+    x: x + pad,
+    y: cy,
+    lines: bodyLines,
+    font,
+    fontSize: bodySize,
+    color: PdfColors.textBody,
+    lineHeight: lh,
+  });
 
   return boxH;
+}
+
+function drawHeroLevelBlock({
+  page,
+  x,
+  yTop,
+  w,
+  levelName,
+  scoreText,
+  tagline,
+  accent,
+  fontBold,
+  serifBold,
+  font,
+}: {
+  page: any;
+  x: number;
+  yTop: number;
+  w: number;
+  levelName: string;
+  scoreText: string;
+  tagline: string;
+  accent: any;
+  fontBold: any;
+  serifBold: any;
+  font: any;
+}) {
+  // Level hero (no box, just strong type + breathing room)
+  drawCenteredText({
+    page,
+    text: levelName.toUpperCase(),
+    x,
+    y: yTop,
+    width: w,
+    size: PdfTypography.heroTitle,
+    font: fontBold,
+    color: accent,
+  });
+
+  const yScore = yTop - (PdfTypography.heroTitle + PdfSpacing.s4);
+  drawCenteredText({
+    page,
+    text: scoreText,
+    x,
+    y: yScore,
+    width: w,
+    size: PdfTypography.heroScore,
+    font: serifBold,  // Use serif for proper decimal spacing
+    color: PdfColors.textPrimary,
+  });
+
+  const yTag = yScore - (PdfTypography.heroScore + PdfSpacing.s6);
+  const tag = truncateToLines({
+    text: tagline,
+    font,
+    fontSize: PdfTypography.subsectionHeader,
+    maxWidth: w,
+    maxLines: 2,
+    preserveParagraphs: false,
+  });
+
+  const tagLines = tag.split('\n');
+  drawTextLines({
+    page,
+    x,
+    y: yTag,
+    lines: tagLines,
+    font,
+    fontSize: PdfTypography.subsectionHeader,
+    color: PdfColors.textBody,
+    lineHeight: PdfTypography.subsectionHeader * PdfTypography.lineHeightNormal,
+  });
+
+  // return used height (approx)
+  return (PdfTypography.heroTitle + PdfTypography.heroScore + PdfSpacing.s16);
 }
 
 function drawScoreBar({
@@ -235,52 +469,263 @@ function drawScoreBar({
   score: number;
   width: number;
 }) {
-  const h = 2; // thin bar
+  const h = PdfRules.scoreBarHeight; // 6pt
   const fillW = (clamp(score, 0, 5) / 5) * width;
+
+  // background
   page.drawRectangle({ x, y, width, height: h, color: PdfColors.border });
+  // fill
   page.drawRectangle({ x, y, width: fillW, height: h, color: PdfColors.textPrimary });
 }
 
-function drawMiniRadar({
+function drawDimensionRow({
   page,
-  cx,
-  cy,
-  radius,
-  scores,
+  x,
+  yTop,
+  w,
+  section,
+  name,
+  score,
+  tier,
+  isPrimary,
   accent,
+  fontBold,
+  font,
+  serifBold,
 }: {
   page: any;
-  cx: number;
-  cy: number;
-  radius: number;
-  scores: number[];
+  x: number;
+  yTop: number;
+  w: number;
+  section: string;
+  name: string;
+  score: number;
+  tier: string;
+  isPrimary: boolean;
   accent: any;
+  fontBold: any;
+  font: any;
+  serifBold: any;
 }) {
-  const n = scores.length;
-  // grid rings
-  for (let r = 1; r <= 5; r += 2) {
-    const rr = (r / 5) * radius;
-    const pts = [] as { x: number; y: number }[];
-    for (let i = 0; i < n; i++) {
-      const a = (Math.PI * 2 * i) / n - Math.PI / 2;
-      pts.push({ x: cx + Math.cos(a) * rr, y: cy + Math.sin(a) * rr });
+  // title row
+  page.drawText(`${section}  ${name}`, {
+    x,
+    y: yTop,
+    size: PdfTypography.subsectionHeader,
+    font: fontBold,
+    color: PdfColors.textPrimary,
+  });
+
+  const scoreTxt = `${Math.round(score * 10) / 10}`;
+  const scoreW = serifBold.widthOfTextAtSize(scoreTxt, PdfTypography.subsectionHeader);
+  page.drawText(scoreTxt, {
+    x: x + w - scoreW,
+    y: yTop,
+    size: PdfTypography.subsectionHeader,
+    font: serifBold,  // Use serif for proper decimal spacing
+    color: PdfColors.textPrimary,
+  });
+
+  // Primary marker (tiny dot + label) — accent only
+  if (isPrimary) {
+    const label = 'PRIMARY GAP';
+    const lw = font.widthOfTextAtSize(label, PdfTypography.caption);
+    // dot
+    page.drawText('•', {
+      x: x + w - scoreW - PdfSpacing.s4 - lw - 6,
+      y: yTop + 1,
+      size: PdfTypography.subsectionHeader,
+      font,
+      color: accent,
+    });
+    page.drawText(label, {
+      x: x + w - scoreW - PdfSpacing.s4 - lw,
+      y: yTop + 2,
+      size: PdfTypography.caption,
+      font: fontBold,
+      color: accent,
+    });
+  }
+
+  // bar
+  const yBar = yTop - PdfSpacing.s4;
+  drawScoreBar({ page, x, y: yBar, score, width: w * 0.72 });
+
+  // tier label
+  page.drawText(tier, {
+    x: x + w * 0.75,
+    y: yBar + 1,
+    size: PdfTypography.caption,
+    font,
+    color: PdfColors.textMuted,
+  });
+
+  // divider
+  const yDiv = yBar - PdfSpacing.s6;
+  drawRule({
+    page,
+    x,
+    y: yDiv,
+    width: w,
+    thickness: PdfRules.thin,
+    color: PdfColors.border,
+  });
+
+  // return next yTop anchor
+  return yDiv - PdfSpacing.s6;
+}
+
+function drawChecklistBlock({
+  page,
+  x,
+  yTop,
+  w,
+  title,
+  items,
+  fontBold,
+  font,
+  maxItems = 4,
+}: {
+  page: any;
+  x: number;
+  yTop: number;
+  w: number;
+  title: string;
+  items: string[];
+  fontBold: any;
+  font: any;
+  maxItems?: number;
+}) {
+  let y = yTop;
+
+  page.drawText(title.toUpperCase(), {
+    x,
+    y,
+    size: PdfTypography.bodySmall,
+    font: fontBold,
+    color: PdfColors.textPrimary,
+  });
+
+  y -= PdfSpacing.s1 + PdfTypography.bodySmall;
+  drawRule({ page, x, y, width: 150, thickness: PdfRules.thin, color: PdfColors.border });
+
+  y -= PdfSpacing.s2;
+
+  const lh = PdfTypography.bodySmall * PdfTypography.lineHeightTight;
+  for (const it of items.slice(0, maxItems)) {
+    const wrapped = wrapText({ text: it, font, fontSize: PdfTypography.bodySmall, maxWidth: w - 18 });
+    for (const line of wrapped) {
+      page.drawText(`[ ] ${line}`, {
+        x: x + 10,
+        y,
+        size: PdfTypography.bodySmall,
+        font,
+        color: PdfColors.textBody,
+      });
+      y -= lh;
     }
-    for (let i = 0; i < n; i++) {
-      const p1 = pts[i];
-      const p2 = pts[(i + 1) % n];
-      page.drawLine({ start: p1, end: p2, thickness: 0.5, color: PdfColors.border });
+  }
+
+  return y - PdfSpacing.s2;
+}
+
+function drawToolRows({
+  page,
+  x,
+  yTop,
+  w,
+  tools,
+  fontBold,
+  font,
+  maxRows = 4,
+}: {
+  page: any;
+  x: number;
+  yTop: number;
+  w: number;
+  tools: Array<{ name: string; pricing?: string | null; description?: string | null }>;
+  fontBold: any;
+  font: any;
+  maxRows?: number;
+}) {
+  let y = yTop;
+  const leftW = 140;
+  const gap = 8;
+  const rightW = w - leftW - gap;
+
+  for (const t of tools.slice(0, maxRows)) {
+    const left = t.name;
+    const right = `${t.pricing ?? ''}${t.pricing && t.description ? ' — ' : ''}${t.description ?? ''}`.trim();
+
+    page.drawText(left, {
+      x,
+      y,
+      size: PdfTypography.body,
+      font: fontBold,
+      color: PdfColors.textPrimary,
+    });
+
+    const rightLines = wrapText({
+      text: right || '',
+      font,
+      fontSize: PdfTypography.bodySmall,
+      maxWidth: rightW,
+    });
+
+    // align right block to first line baseline; subsequent lines flow down
+    if (rightLines.length) {
+      page.drawText(rightLines[0], {
+        x: x + leftW + gap,
+        y: y,
+        size: PdfTypography.bodySmall,
+        font,
+        color: PdfColors.textBody,
+      });
+
+      const lh = PdfTypography.bodySmall * PdfTypography.lineHeightTight;
+      for (let i = 1; i < rightLines.length; i++) {
+        y -= lh;
+        page.drawText(rightLines[i], {
+          x: x + leftW + gap,
+          y,
+          size: PdfTypography.bodySmall,
+          font,
+          color: PdfColors.textBody,
+        });
+      }
     }
+
+    y -= PdfSpacing.s4;
   }
-  // polygon
-  const poly = [] as { x: number; y: number }[];
-  for (let i = 0; i < n; i++) {
-    const a = (Math.PI * 2 * i) / n - Math.PI / 2;
-    const rr = (clamp(scores[i] ?? 0, 0, 5) / 5) * radius;
-    poly.push({ x: cx + Math.cos(a) * rr, y: cy + Math.sin(a) * rr });
-  }
-  for (let i = 0; i < n; i++) {
-    page.drawLine({ start: poly[i], end: poly[(i + 1) % n], thickness: 1, color: accent });
-  }
+
+  return y;
+}
+
+/**
+ * Get roadmap actions from next-steps-actions.json pack.
+ * Maps this_week/this_month/this_quarter to now/next/later.
+ */
+function getRoadmapModuleFallback(
+  packs: PdfDetailPacks,
+  dimension_id: string,
+  tier: Tier
+): { now: string[]; next: string[]; later: string[]; success_indicator: string } | null {
+  // Use getNextStepsForDimension to get roadmap from next-steps-actions.json
+  const nextSteps = getNextStepsForDimension(packs.nextSteps, dimension_id, tier);
+
+  // Check if we have any content
+  const hasContent = nextSteps.this_week.length > 0 ||
+                     nextSteps.this_month.length > 0 ||
+                     nextSteps.this_quarter.length > 0;
+
+  if (!hasContent) return null;
+
+  return {
+    now: nextSteps.this_week,
+    next: nextSteps.this_month,
+    later: nextSteps.this_quarter,
+    success_indicator: '', // Next steps pack doesn't have success_indicator
+  };
 }
 
 export async function generateConsultantPdf({
@@ -294,7 +739,6 @@ export async function generateConsultantPdf({
 }): Promise<Uint8Array> {
   const { results, company, answers } = data;
 
-  // Build answers with dimension_id for observations lookup
   const answerContext: PdfAnswerContext = {
     answers: answers.map(a => ({
       question_id: a.question_id,
@@ -304,95 +748,97 @@ export async function generateConsultantPdf({
   };
 
   const pdf = await PDFDocument.create();
-  const helvetica = await pdf.embedFont(StandardFonts.Helvetica);
-  const helveticaBold = await pdf.embedFont(StandardFonts.HelveticaBold);
-  const courier = await pdf.embedFont(StandardFonts.Courier);
+
+  // Fonts (PDF-safe) - Matches MaxMin website typography
+  // Headings: Times-Roman (serif, like Newsreader on website)
+  // Body: Courier (monospace, like Space Mono on website)
+  const serif = await pdf.embedFont(StandardFonts.TimesRoman);
+  const serifBold = await pdf.embedFont(StandardFonts.TimesRomanBold);
+  const mono = await pdf.embedFont(StandardFonts.Courier);
+  const monoBold = await pdf.embedFont(StandardFonts.CourierBold);
+
+  // Aliases for compatibility with existing code
+  const font = mono;       // Body text = monospace
+  const fontBold = serifBold;  // Bold headings = serif bold
+
+  // Initialize centralized styles
+  const pdfFonts: PdfFonts = {
+    heading: serifBold,
+    headingRegular: serif,
+    body: mono,
+    bodyBold: monoBold,
+  };
+  const styles = makeStyles(pdfFonts);
+
+  // Extract capabilities from user answers for conditional copy
+  const dimensionSummaries = buildDimensionSummaries(results, answerContext, packs);
+  const capabilities = extractCapabilities(dimensionSummaries);
 
   const level = results.overall.level.level;
   const levelColor = getLevelColor(level);
 
-  const gaps = topGaps(results, 3);
-  const pageCount = 6; // fixed: 1 summary + 1 scorecard + 3 gaps + 1 next steps
+  const gaps = topGapsDeterministic(results, 3);
+  const pageCount = 6;
 
   // -----------------
   // Page 1: Executive Summary
   // -----------------
   {
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
-    fillPageBg(page);
+    drawPageBackground(page);
 
     const { margin, contentWidth, pageHeight } = PdfLayout;
-    let y = pageHeight - margin - 40;
+    drawHeaderBar({ page, fontBold, font, company, createdAtISO: results.created_at });
 
-    // Level hero
+    const cur = new Cursor(pageHeight - margin - 52, margin + PdfLayout.footerHeight + 10);
+
+    // Hero
     const hero = results.overall.level;
-    drawCenteredText({
+    drawHeroLevelBlock({
       page,
-      text: hero.name.toUpperCase(),
       x: margin,
-      y,
-      width: contentWidth,
-      size: PdfTypography.heroTitle,
-      font: helveticaBold,
-      color: levelColor,
-    });
-    y -= PdfTypography.heroTitle + 12;
-    drawCenteredText({
-      page,
-      text: scoreLabel(results.overall.score_capped),
-      x: margin,
-      y,
-      width: contentWidth,
-      size: PdfTypography.pageTitle,
-      font: courier,
-      color: PdfColors.textPrimary,
+      yTop: cur.y,
+      w: contentWidth,
+      levelName: hero.name,
+      scoreText: scoreLabel(results.overall.score_capped),
+      tagline: hero.hero_title,
+      accent: levelColor,
+      fontBold,
+      serifBold,
+      font,
     });
 
-    y -= PdfTypography.pageTitle + 18;
-    const tagline = truncateText({
-      text: hero.hero_title,
-      font: helvetica,
-      fontSize: PdfTypography.bodyLarge,
-      maxWidth: contentWidth,
-      maxLines: 2,
-    });
-    drawTextBlock({
-      page,
-      text: tagline,
-      x: margin,
-      y,
-      maxWidth: contentWidth,
-      font: helvetica,
-      fontSize: PdfTypography.bodyLarge,
-      color: PdfColors.textBody,
-      lineHeight: PdfTypography.bodyLarge * PdfTypography.lineHeightNormal,
-    });
-    y -= 52;
+    cur.down(PdfSpacing.s16 + 10);
 
     // Section 01
-    drawSectionHeader({ page, x: margin, y, num: '01', title: 'Summary', helveticaBold });
-    y -= 28;
+    drawSectionHeader({ page, x: margin, y: cur.y, num: '01', title: 'Summary', fontBold });
+    cur.down(PdfSpacing.s10);
 
-    // Hero copy (clamped)
-    const heroCopy = truncateText({
+    const heroCopy = truncateToLines({
       text: hero.hero_copy,
-      font: helvetica,
+      font,
       fontSize: PdfTypography.body,
       maxWidth: contentWidth,
-      maxLines: 4,
+      maxLines: 5,
+      preserveParagraphs: true,
     });
-    const used = drawTextBlock({
+
+    const heroLines = heroCopy.split('\n');
+    drawTextLines({
       page,
-      text: heroCopy,
       x: margin,
-      y,
-      maxWidth: contentWidth,
-      font: helvetica,
+      y: cur.y,
+      lines: heroLines,
+      font,
       fontSize: PdfTypography.body,
       color: PdfColors.textBody,
       lineHeight: PdfTypography.body * PdfTypography.lineHeightRelaxed,
     });
-    y -= used + 18;
+
+    cur.down(heroLines.length * (PdfTypography.body * PdfTypography.lineHeightRelaxed) + PdfSpacing.s10);
+
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s8);
 
     const primary = results.dimensions.find((d) => d.dimension_id === results.primary_gap.dimension_id);
     const primaryName = primary?.name ?? results.primary_gap.dimension_id;
@@ -406,437 +852,442 @@ export async function generateConsultantPdf({
       return candidates[0]?.summary ?? 'Primary gap identified based on your answers across this dimension.';
     })();
 
-    const calloutH = drawCallout({
+    const calloutH = drawCalloutBox({
       page,
       x: margin,
-      y,
+      yTop: cur.y,
       w: contentWidth,
-      title: 'Primary Gap',
-      subtitle: `${primaryName} - ${Math.round(primaryScore * 10) / 10}/5`,
+      label: 'Primary Gap',
+      titleLine: `${primaryName} — ${Math.round(primaryScore * 10) / 10}/5`,
       body: primaryObs,
       accent: levelColor,
-      helveticaBold,
-      helvetica,
+      fontBold,
+      font,
     });
-    y -= calloutH + 16;
 
-    // Dependency alerts
+    cur.down(calloutH + PdfSpacing.s8);
+
+    // Dependency alerts (first one only; deterministic)
     const depAlerts = getDependencyAlerts(packs.dependencies, results);
-    if (depAlerts.length) {
+    if (depAlerts.length && cur.canFit(110)) {
       const alert = depAlerts[0];
-      drawCallout({
+      drawCalloutBox({
         page,
         x: margin,
-        y,
+        yTop: cur.y,
         w: contentWidth,
-        title: 'Dependency Alert',
-        subtitle: alert.title,
+        label: 'Dependency Alert',
+        titleLine: alert.title,
         body: alert.message,
         accent: PdfColors.level1,
-        helveticaBold,
-        helvetica,
+        fontBold,
+        font,
       });
     }
 
-    drawHeaderFooter({
-      page,
-      helveticaBold,
-      helvetica,
-      pageIndex: 0,
-      pageCount,
-      createdAtISO: results.created_at,
-      company,
-    });
+    drawFooter({ page, font, pageIndex: 0, pageCount });
   }
 
   // -----------------
-  // Page 2: Dimension scorecard + mini radar
+  // Page 2: Dimension Scorecard
   // -----------------
   {
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
-    fillPageBg(page);
+    drawPageBackground(page);
+
     const { margin, contentWidth, pageHeight } = PdfLayout;
-    let y = pageHeight - margin - 60;
+    drawHeaderBar({ page, fontBold, font, company, createdAtISO: results.created_at });
 
-    drawSectionHeader({ page, x: margin, y, num: '02', title: 'Dimension Scores', helveticaBold });
-    y -= 30;
+    const cur = new Cursor(pageHeight - margin - 60, margin + PdfLayout.footerHeight + 10);
 
-    // mini radar in top-right
-    const scores = [...results.dimensions]
-      .sort((a, b) => a.order - b.order)
-      .map((d) => d.score);
-    drawMiniRadar({
-      page,
-      cx: margin + contentWidth - 80,
-      cy: y + 28,
-      radius: 38,
-      scores,
-      accent: levelColor,
-    });
+    drawSectionHeader({ page, x: margin, y: cur.y, num: '02', title: 'Dimension Scores', fontBold });
+    cur.down(PdfSpacing.s12);
 
+    // Rows (order fixed by d.order)
     for (const d of [...results.dimensions].sort((a, b) => a.order - b.order)) {
-      const isPrimary = d.is_primary_gap;
-      const rowTop = y;
-      // title row
-      page.drawText(`${d.section}  ${d.name}`, {
+      const nextY = drawDimensionRow({
+        page,
         x: margin,
-        y: rowTop,
-        size: PdfTypography.bodyLarge,
-        font: helveticaBold,
-        color: PdfColors.textPrimary,
+        yTop: cur.y,
+        w: contentWidth,
+        section: d.section,
+        name: d.name,
+        score: d.score,
+        tier: d.tier,
+        isPrimary: d.is_primary_gap,
+        accent: levelColor,
+        fontBold,
+        font,
+        serifBold,
       });
+      cur.y = nextY;
 
-      const scoreTxt = `${Math.round(d.score * 10) / 10}`;
-      const sW = courier.widthOfTextAtSize(scoreTxt, PdfTypography.bodyLarge);
-      page.drawText(scoreTxt, {
-        x: margin + contentWidth - sW,
-        y: rowTop,
-        size: PdfTypography.bodyLarge,
-        font: courier,
-        color: PdfColors.textPrimary,
-      });
-
-      // primary badge (using ASCII instead of diamond)
-      if (isPrimary) {
-        const badge = '>> PRIMARY GAP';
-        const bW = helvetica.widthOfTextAtSize(badge, PdfTypography.caption);
-        page.drawText(badge, {
-          x: margin + contentWidth - sW - 12 - bW,
-          y: rowTop + 1,
-          size: PdfTypography.caption,
-          font: helveticaBold,
-          color: levelColor,
-        });
-      }
-
-      // bar
-      y -= 16;
-      drawScoreBar({ page, x: margin, y, score: d.score, width: contentWidth * 0.72 });
-      page.drawText(d.tier, {
-        x: margin + contentWidth * 0.75,
-        y: y - 4,
-        size: PdfTypography.caption,
-        font: helvetica,
-        color: PdfColors.textMuted,
-      });
-      y -= 18;
-
-      // thin divider
-      page.drawLine({
-        start: { x: margin, y },
-        end: { x: margin + contentWidth, y },
-        thickness: 0.75,
-        color: PdfColors.border,
-      });
-      y -= 18;
+      // If we’re too low, stop (stable)
+      if (!cur.canFit(40)) break;
     }
 
-    drawHeaderFooter({
-      page,
-      helveticaBold,
-      helvetica,
-      pageIndex: 1,
-      pageCount,
-      createdAtISO: results.created_at,
-      company,
-    });
+    drawFooter({ page, font, pageIndex: 1, pageCount });
   }
 
   // -----------------
-  // Pages 3-5: Gap deep dives (consultant-style)
+  // Pages 3–5: Gap deep dives
   // -----------------
   for (let i = 0; i < gaps.length; i++) {
     const gap = gaps[i];
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
-    fillPageBg(page);
+    drawPageBackground(page);
+
     const { margin, contentWidth, pageHeight } = PdfLayout;
-    let y = pageHeight - margin - 60;
+    drawHeaderBar({ page, fontBold, font, company, createdAtISO: results.created_at });
+
+    const cur = new Cursor(pageHeight - margin - 60, margin + PdfLayout.footerHeight + 10);
 
     const num = `0${3 + i}`;
-    drawSectionHeader({ page, x: margin, y, num, title: `Priority #${i + 1}: ${gap.name}`, helveticaBold });
-    y -= 26;
-    page.drawText(`Score: ${scoreLabel(gap.score)} - Tier: ${gap.tier}${gap.is_primary_gap ? ' - Primary Gap' : ''}`, {
+    drawSectionHeader({
+      page,
       x: margin,
-      y,
-      size: PdfTypography.body,
-      font: helvetica,
+      y: cur.y,
+      num,
+      title: `Priority #${i + 1}: ${gap.name}`,
+      fontBold,
+    });
+    cur.down(PdfSpacing.s4);
+
+    page.drawText(`Score: ${scoreLabel(gap.score)} — Tier: ${gap.tier}${gap.is_primary_gap ? ' — Primary Gap' : ''}`, {
+      x: margin,
+      y: cur.y,
+      size: PdfTypography.bodySmall,
+      font,
       color: PdfColors.textBody,
     });
-    y -= 18;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 22;
+
+    cur.down(PdfSpacing.s4);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s4);
 
     // WHAT YOU TOLD US
     page.drawText('WHAT YOU TOLD US', {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helveticaBold,
+      font: fontBold,
       color: PdfColors.textMuted,
     });
-    y -= 14;
+    cur.down(PdfSpacing.s3);
+
     const dimAnswers = answerContext.answers.filter((a) => a.dimension_id === gap.dimension_id);
     const observations = dimAnswers
       .map((a) => getAnswerObservation(packs.observations, a.question_id, a.option_id)?.summary)
       .filter(Boolean) as string[];
-    const obsLines = observations.slice(0, 6);
-    const bulletSize = PdfTypography.body;
-    const bulletLH = bulletSize * PdfTypography.lineHeightRelaxed;
-    for (const line of obsLines) {
-      const wrapped = wrapText({ text: line, font: helvetica, fontSize: bulletSize, maxWidth: contentWidth - 18 });
-      for (const w of wrapped) {
-        page.drawText(`- ${w}`, {
-          x: margin,
-          y,
-          size: bulletSize,
-          font: helvetica,
-          color: PdfColors.textBody,
-        });
-        y -= bulletLH;
+
+    const bulletLH = PdfTypography.bodySmall * PdfTypography.lineHeightNormal;
+    const bulletMax = 6;
+
+    if (observations.length) {
+      for (const line of observations.slice(0, bulletMax)) {
+        const wrapped = wrapText({ text: line, font, fontSize: PdfTypography.bodySmall, maxWidth: contentWidth - 16 });
+        for (const w of wrapped) {
+          page.drawText(`– ${w}`, {
+            x: margin,
+            y: cur.y,
+            size: PdfTypography.bodySmall,
+            font,
+            color: PdfColors.textBody,
+          });
+          cur.down(bulletLH);
+        }
       }
-    }
-    if (!obsLines.length) {
-      page.drawText('- (No observations available for this dimension yet.)', {
+    } else {
+      page.drawText('– (No observations available for this dimension yet.)', {
         x: margin,
-        y,
-        size: bulletSize,
-        font: helvetica,
+        y: cur.y,
+        size: PdfTypography.bodySmall,
+        font,
         color: PdfColors.textMuted,
       });
-      y -= bulletLH;
+      cur.down(bulletLH);
     }
-    y -= 10;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 18;
 
-    // WHY THIS MATTERS
+    cur.down(PdfSpacing.s2);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s4);
+
+    // WHY THIS MATTERS - using conditional copy based on capabilities
     page.drawText('WHY THIS MATTERS', {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helveticaBold,
+      font: fontBold,
       color: PdfColors.textMuted,
     });
-    y -= 14;
-    const impact = getImpact(packs.impacts, gap.dimension_id, gap.tier);
-    if (impact) {
-      const headline = impact.headline ?? 'Impact';
-      page.drawText(headline, {
+    cur.down(PdfSpacing.s3);
+
+    // Get base impact from pack
+    const baseImpact = getImpact(packs.impacts, gap.dimension_id, gap.tier);
+
+    // Select conditional copy variant based on user's capabilities
+    const copyVariant = selectCopyVariant(
+      gap.dimension_id as DimensionKey,
+      gap.tier,
+      capabilities
+    );
+
+    // Get conditional copy, falling back to base impact
+    const impactCopy = getConditionalImpactCopy(
+      gap.dimension_id as DimensionKey,
+      gap.tier,
+      copyVariant,
+      baseImpact ? { headline: baseImpact.headline, detail: baseImpact.detail } : null
+    );
+
+    // Validate consistency (log warnings in development)
+    if (process.env.NODE_ENV === 'development') {
+      const copyWarnings = validateCopyConsistency(
+        observations,
+        impactCopy,
+        capabilities,
+        gap.dimension_id as DimensionKey
+      );
+      if (copyWarnings.length > 0) {
+        console.warn(`[PDF] Copy consistency warnings for ${gap.dimension_id}:`, copyWarnings);
+      }
+    }
+
+    if (impactCopy) {
+      page.drawText(impactCopy.headline ?? 'Impact', {
         x: margin,
-        y,
-        size: PdfTypography.bodyLarge,
-        font: helveticaBold,
+        y: cur.y,
+        size: PdfTypography.body,
+        font: fontBold,
         color: PdfColors.textPrimary,
       });
-      y -= 16;
+      cur.down(PdfSpacing.s3);
 
-      const impactBody = impact.detail ?? '';
-      const impactUsed = drawTextBlock({
-        page,
-        text: truncateText({ text: impactBody, font: helvetica, fontSize: PdfTypography.body, maxWidth: contentWidth, maxLines: 7 }),
-        x: margin,
-        y,
+      const body = truncateToLines({
+        text: impactCopy.detail ?? '',
+        font,
+        fontSize: PdfTypography.bodySmall,
         maxWidth: contentWidth,
-        font: helvetica,
-        fontSize: PdfTypography.body,
-        color: PdfColors.textBody,
-        lineHeight: PdfTypography.body * PdfTypography.lineHeightRelaxed,
+        maxLines: 5,
+        preserveParagraphs: true,
       });
-      y -= impactUsed + 8;
+
+      const lines = body.split('\n');
+      drawTextLines({
+        page,
+        x: margin,
+        y: cur.y,
+        lines,
+        font,
+        fontSize: PdfTypography.bodySmall,
+        color: PdfColors.textBody,
+        lineHeight: PdfTypography.bodySmall * PdfTypography.lineHeightNormal,
+      });
+      cur.down(lines.length * (PdfTypography.bodySmall * PdfTypography.lineHeightNormal));
     } else {
       page.drawText('(No impact estimate for this dimension/tier yet.)', {
         x: margin,
-        y,
-        size: PdfTypography.body,
-        font: helvetica,
+        y: cur.y,
+        size: PdfTypography.bodySmall,
+        font,
         color: PdfColors.textMuted,
       });
-      y -= 14;
+      cur.down(PdfTypography.bodySmall * PdfTypography.lineHeightNormal);
     }
 
-    y -= 6;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 18;
+    cur.down(PdfSpacing.s2);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s4);
 
-    // YOUR ROADMAP (from results.roadmap)
+    // YOUR ROADMAP
     page.drawText('YOUR ROADMAP', {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helveticaBold,
+      font: fontBold,
       color: PdfColors.textMuted,
     });
-    y -= 14;
-    const rm = results.roadmap.find((r) => r.dimension_id === gap.dimension_id);
-    if (rm) {
-      const renderChecklist = (label: string, items: string[]) => {
-        page.drawText(label.toUpperCase(), {
-          x: margin,
-          y,
-          size: PdfTypography.body,
-          font: helveticaBold,
-          color: PdfColors.textPrimary,
-        });
-        y -= 12;
-        page.drawLine({ start: { x: margin, y }, end: { x: margin + 160, y }, thickness: 0.75, color: PdfColors.border });
-        y -= 10;
-        for (const it of items.slice(0, 4)) {
-          const wrapped = wrapText({ text: it, font: helvetica, fontSize: PdfTypography.body, maxWidth: contentWidth - 18 });
-          for (const w of wrapped) {
-            page.drawText(`[ ] ${w}`, {
-              x: margin + 12,
-              y,
-              size: PdfTypography.body,
-              font: helvetica,
-              color: PdfColors.textBody,
-            });
-            y -= PdfTypography.body * PdfTypography.lineHeightRelaxed;
-          }
-        }
-        y -= 8;
-      };
-      renderChecklist('Now (This Week)', rm.now);
-      renderChecklist('Next (This Month)', rm.next);
-      renderChecklist('Later (This Quarter)', rm.later);
+    cur.down(PdfSpacing.s3);
 
-      page.drawText(`Success indicator: ${rm.success_indicator}`, {
+    // 1) Prefer ResultsDTO.roadmap
+    const rm = results.roadmap?.find((r) => r.dimension_id === gap.dimension_id) ?? null;
+
+    // 2) Otherwise pack-driven fallback (optional pack)
+    const rmFallback = !rm ? getRoadmapModuleFallback(packs, gap.dimension_id, gap.tier) : null;
+
+    const roadmap = rm ?? rmFallback;
+
+    if (roadmap) {
+      cur.y = drawChecklistBlock({
+        page,
         x: margin,
-        y,
-        size: PdfTypography.caption,
-        font: helvetica,
-        color: PdfColors.textMuted,
+        yTop: cur.y,
+        w: contentWidth,
+        title: 'Now (This Week)',
+        items: roadmap.now ?? [],
+        fontBold,
+        font,
       });
-      y -= 14;
+
+      cur.y = drawChecklistBlock({
+        page,
+        x: margin,
+        yTop: cur.y,
+        w: contentWidth,
+        title: 'Next (This Month)',
+        items: roadmap.next ?? [],
+        fontBold,
+        font,
+      });
+
+      cur.y = drawChecklistBlock({
+        page,
+        x: margin,
+        yTop: cur.y,
+        w: contentWidth,
+        title: 'Later (This Quarter)',
+        items: roadmap.later ?? [],
+        fontBold,
+        font,
+      });
+
+      if (roadmap.success_indicator) {
+        page.drawText(`Success indicator: ${roadmap.success_indicator}`, {
+          x: margin,
+          y: cur.y,
+          size: PdfTypography.caption,
+          font,
+          color: PdfColors.textMuted,
+        });
+        cur.down(PdfSpacing.s6);
+      }
     } else {
-      page.drawText('(No roadmap module found.)', {
+      // Stable non-content placeholder (not “roadmap copy”)
+      page.drawText('(Roadmap module not available yet.)', {
         x: margin,
-        y,
+        y: cur.y,
         size: PdfTypography.body,
-        font: helvetica,
+        font,
         color: PdfColors.textMuted,
       });
-      y -= 14;
+      cur.down(PdfTypography.body * PdfTypography.lineHeightRelaxed);
     }
 
-    y -= 6;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 18;
+    cur.down(PdfSpacing.s2);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s4);
 
     // TOOLS TO CONSIDER
     page.drawText('TOOLS TO CONSIDER', {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helveticaBold,
+      font: fontBold,
       color: PdfColors.textMuted,
     });
-    y -= 14;
+    cur.down(PdfSpacing.s4);
+
     const tools = getToolRecommendations(packs.tools, gap.dimension_id, gap.tier) ?? [];
     if (tools.length) {
-      for (const t of tools.slice(0, 4)) {
-        const left = t.name;
-        const right = `${t.pricing ?? ''}${t.pricing && t.description ? ' - ' : ''}${t.description ?? ''}`.trim();
-        page.drawText(left, {
-          x: margin,
-          y,
-          size: PdfTypography.bodyLarge,
-          font: helveticaBold,
-          color: PdfColors.textPrimary,
-        });
-        page.drawText(right, {
-          x: margin + 170,
-          y,
-          size: PdfTypography.body,
-          font: helvetica,
-          color: PdfColors.textBody,
-        });
-        y -= 16;
-      }
+      cur.y = drawToolRows({
+        page,
+        x: margin,
+        yTop: cur.y,
+        w: contentWidth,
+        tools,
+        fontBold,
+        font,
+      });
     } else {
       page.drawText('(No tool recommendations for this dimension/tier yet.)', {
         x: margin,
-        y,
-        size: PdfTypography.body,
-        font: helvetica,
+        y: cur.y,
+        size: PdfTypography.bodySmall,
+        font,
         color: PdfColors.textMuted,
       });
-      y -= 14;
+      cur.down(PdfTypography.bodySmall * PdfTypography.lineHeightNormal);
     }
 
-    y -= 6;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 18;
+    cur.down(PdfSpacing.s2);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s4);
 
-    // WHAT GOOD LOOKS LIKE (next level)
+    // WHAT GOOD LOOKS LIKE
     page.drawText('WHAT GOOD LOOKS LIKE', {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helveticaBold,
+      font: fontBold,
       color: PdfColors.textMuted,
     });
-    y -= 14;
+    cur.down(PdfSpacing.s4);
+
     const nextLevel = clamp((results.overall.level.level + 1) as any, 1, 5) as 1 | 2 | 3 | 4 | 5;
-    const bench = getBenchmarkForTransition(packs.benchmarks, gap.dimension_id, results.overall.level.level, nextLevel);
+    const bench = getBenchmarkForTransition(
+      packs.benchmarks,
+      gap.dimension_id,
+      results.overall.level.level,
+      nextLevel
+    );
+
     if (bench) {
-      const cap = bench.capabilities ?? [];
-      const title = `At Level ${nextLevel}, you can:`;
-      page.drawText(title, {
+      page.drawText(`At Level ${nextLevel}, you can:`, {
         x: margin,
-        y,
-        size: PdfTypography.bodyLarge,
-        font: helveticaBold,
+        y: cur.y,
+        size: PdfTypography.body,
+        font: fontBold,
         color: PdfColors.textPrimary,
       });
-      y -= 16;
-      for (const c of cap.slice(0, 4)) {
-        const wrapped = wrapText({ text: c, font: helvetica, fontSize: PdfTypography.body, maxWidth: contentWidth - 18 });
+      cur.down(PdfSpacing.s3);
+
+      for (const c of (bench.capabilities ?? []).slice(0, 4)) {
+        const wrapped = wrapText({ text: c, font, fontSize: PdfTypography.bodySmall, maxWidth: contentWidth - 16 });
         for (const w of wrapped) {
-          page.drawText(`- ${w}`, {
+          page.drawText(`– ${w}`, {
             x: margin,
-            y,
-            size: PdfTypography.body,
-            font: helvetica,
+            y: cur.y,
+            size: PdfTypography.bodySmall,
+            font,
             color: PdfColors.textBody,
           });
-          y -= PdfTypography.body * PdfTypography.lineHeightNormal;
+          cur.down(PdfTypography.bodySmall * PdfTypography.lineHeightTight);
         }
       }
-      y -= 8;
+
       if (bench.you_know_you_are_there_when) {
-        const yn = truncateText({ text: bench.you_know_you_are_there_when, font: helvetica, fontSize: PdfTypography.body, maxWidth: contentWidth, maxLines: 3 });
-        drawTextBlock({
-          page,
-          text: yn,
-          x: margin,
-          y,
+        cur.down(PdfSpacing.s2);
+        const yn = truncateToLines({
+          text: bench.you_know_you_are_there_when,
+          font,
+          fontSize: PdfTypography.bodySmall,
           maxWidth: contentWidth,
-          font: helvetica,
-          fontSize: PdfTypography.body,
+          maxLines: 3,
+          preserveParagraphs: true,
+        });
+        const ynLines = yn.split('\n');
+        drawTextLines({
+          page,
+          x: margin,
+          y: cur.y,
+          lines: ynLines,
+          font,
+          fontSize: PdfTypography.bodySmall,
           color: PdfColors.textBody,
-          lineHeight: PdfTypography.body * PdfTypography.lineHeightNormal,
+          lineHeight: PdfTypography.bodySmall * PdfTypography.lineHeightTight,
         });
       }
     } else {
       page.drawText('(No benchmark copy for this dimension/transition yet.)', {
         x: margin,
-        y,
-        size: PdfTypography.body,
-        font: helvetica,
+        y: cur.y,
+        size: PdfTypography.bodySmall,
+        font,
         color: PdfColors.textMuted,
       });
-      y -= 14;
     }
 
-    drawHeaderFooter({
-      page,
-      helveticaBold,
-      helvetica,
-      pageIndex: 2 + i,
-      pageCount,
-      createdAtISO: results.created_at,
-      company,
-    });
+    drawFooter({ page, font, pageIndex: 2 + i, pageCount });
   }
 
   // -----------------
@@ -844,83 +1295,66 @@ export async function generateConsultantPdf({
   // -----------------
   {
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
-    fillPageBg(page);
-    const { margin, contentWidth, pageHeight } = PdfLayout;
-    let y = pageHeight - margin - 60;
+    drawPageBackground(page);
 
-    drawSectionHeader({ page, x: margin, y, num: '06', title: 'Next Steps', helveticaBold });
-    y -= 30;
+    const { margin, contentWidth, pageHeight } = PdfLayout;
+    drawHeaderBar({ page, fontBold, font, company, createdAtISO: results.created_at });
+
+    const cur = new Cursor(pageHeight - margin - 60, margin + PdfLayout.footerHeight + 10);
+
+    drawSectionHeader({ page, x: margin, y: cur.y, num: '06', title: 'Next Steps', fontBold });
+    cur.down(PdfSpacing.s12);
 
     const plan = generateNextStepsPlan(results, packs.nextSteps);
 
     const renderBlock = (title: string, items: string[]) => {
-      page.drawText(title.toUpperCase(), {
+      cur.y = drawChecklistBlock({
+        page,
         x: margin,
-        y,
-        size: PdfTypography.bodyLarge,
-        font: helveticaBold,
-        color: PdfColors.textPrimary,
+        yTop: cur.y,
+        w: contentWidth,
+        title,
+        items,
+        fontBold,
+        font,
+        maxItems: 6,
       });
-      y -= 14;
-      page.drawLine({ start: { x: margin, y }, end: { x: margin + 140, y }, thickness: 1, color: PdfColors.border });
-      y -= 10;
-      for (const it of items) {
-        const wrapped = wrapText({ text: it, font: helvetica, fontSize: PdfTypography.body, maxWidth: contentWidth - 18 });
-        for (const w of wrapped) {
-          page.drawText(`[ ] ${w}`, {
-            x: margin + 12,
-            y,
-            size: PdfTypography.body,
-            font: helvetica,
-            color: PdfColors.textBody,
-          });
-          y -= PdfTypography.body * PdfTypography.lineHeightRelaxed;
-        }
-      }
-      y -= 10;
     };
 
     renderBlock('This Week', plan.thisWeek);
     renderBlock('This Month', plan.thisMonth);
     renderBlock('This Quarter', plan.thisQuarter);
 
-    y -= 4;
-    page.drawLine({ start: { x: margin, y }, end: { x: margin + contentWidth, y }, thickness: 1, color: PdfColors.border });
-    y -= 18;
+    cur.down(PdfSpacing.s2);
+    drawRule({ page, x: margin, y: cur.y, width: contentWidth, thickness: PdfRules.thin, color: PdfColors.border });
+    cur.down(PdfSpacing.s8);
 
-    // CTA box
-    const ctaH = drawCallout({
+    // CTA box (paragraph-safe)
+    const ctaBody = `${plan.ctaBody}\n\n${plan.ctaEmail}`;
+    const ctaH = drawCalloutBox({
       page,
       x: margin,
-      y,
+      yTop: cur.y,
       w: contentWidth,
-      title: 'Need help implementing this?',
-      subtitle: plan.ctaHeadline,
-      body: `${plan.ctaBody}\n\n${plan.ctaEmail}`,
+      label: 'Need help implementing this?',
+      titleLine: plan.ctaHeadline,
+      body: ctaBody,
       accent: PdfColors.textPrimary,
-      helveticaBold,
-      helvetica,
+      fontBold,
+      font,
     });
-    y -= ctaH + 16;
+    cur.down(ctaH + PdfSpacing.s8);
 
     const viewUrl = `${baseUrl.replace(/\/$/, '')}/results/${results.token}`;
     page.drawText(`View online: ${viewUrl}`, {
       x: margin,
-      y,
+      y: cur.y,
       size: PdfTypography.caption,
-      font: helvetica,
+      font,
       color: PdfColors.textMuted,
     });
 
-    drawHeaderFooter({
-      page,
-      helveticaBold,
-      helvetica,
-      pageIndex: 5,
-      pageCount,
-      createdAtISO: results.created_at,
-      company,
-    });
+    drawFooter({ page, font, pageIndex: 5, pageCount });
   }
 
   return pdf.save();

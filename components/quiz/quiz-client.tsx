@@ -152,7 +152,6 @@ export function QuizClient({
     currentIndex: 0,
     answers: {},
     selectedOptionId: null,
-    // ✅ Hydration-safe: don't call Date.now() during initial render
     startedAt: 0,
     questionStartAt: 0,
     timings: {},
@@ -179,7 +178,7 @@ export function QuizClient({
 
   const optionRefs = React.useRef<Record<string, HTMLButtonElement | null>>({});
 
-  // ✅ Restore selection when navigating (if question was already answered)
+  // Restore selection when navigating
   React.useEffect(() => {
     if (state.status !== 'in_quiz') return;
     const saved = state.answers[currentQuestion.id] ?? null;
@@ -189,8 +188,7 @@ export function QuizClient({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentIndex, state.status, currentQuestion.id]);
 
-  // ✅ Keyboard-first focus: after navigation, focus the answered option or the first option.
-  // Important: focusing should NOT auto-select. (So we do NOT select on focus.)
+  // Keyboard-first focus: focus answered option or first option (DO NOT select on focus)
   React.useEffect(() => {
     if (state.status !== 'in_quiz') return;
 
@@ -202,11 +200,8 @@ export function QuizClient({
 
     raf1 = window.requestAnimationFrame(() => {
       const el = optionRefs.current[focusId];
-      if (el) {
-        el.focus();
-      } else {
-        raf2 = window.requestAnimationFrame(() => optionRefs.current[focusId]?.focus());
-      }
+      if (el) el.focus();
+      else raf2 = window.requestAnimationFrame(() => optionRefs.current[focusId]?.focus());
     });
 
     return () => {
@@ -261,7 +256,6 @@ export function QuizClient({
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
 
-      // ✅ If nothing selected yet: ArrowDown selects first; ArrowUp selects last
       let nextIdx: number;
       if (selectedIndexRaw === -1) {
         nextIdx = e.key === 'ArrowDown' ? 0 : options.length - 1;
@@ -345,16 +339,16 @@ export function QuizClient({
     return (
       <main className="container-narrow py-10">
         <Panel className="space-y-4">
-          <div className="h-4 w-40 rounded-control bg-border/40" />
+          <div className="h-3 w-28 bg-border" />
           <Divider />
           <div className="space-y-2">
-            <div className="h-5 w-3/4 rounded-control bg-border/40" />
-            <div className="h-4 w-2/3 rounded-control bg-border/40" />
+            <div className="h-5 w-3/4 bg-border" />
+            <div className="h-4 w-2/3 bg-border" />
           </div>
-          <div className="space-y-3">
-            <div className="h-14 w-full rounded-card bg-border/30" />
-            <div className="h-14 w-full rounded-card bg-border/30" />
-            <div className="h-14 w-full rounded-card bg-border/30" />
+          <div className="space-y-2">
+            <div className="h-14 w-full bg-border" />
+            <div className="h-14 w-full bg-border" />
+            <div className="h-14 w-full bg-border" />
           </div>
         </Panel>
       </main>
@@ -401,9 +395,9 @@ export function QuizClient({
           <button
             type="button"
             onClick={() => dispatch({ type: 'RESET_ERROR' })}
-            className="text-sm text-muted underline-offset-4 hover:underline"
+            className="text-sm text-faint hover:text-fg transition-colors"
           >
-            Retry
+            Retry →
           </button>
         ) : null}
       </main>
@@ -415,49 +409,59 @@ export function QuizClient({
   const canGoNext = !!state.selectedOptionId;
 
   return (
-    <main className="container-narrow py-10" onKeyDown={handleKeyDown}>
-      <QuizHeader
-        section={currentDim?.section ?? '01'}
-        dimensionLabel={`${currentDim?.section ?? '01'} ${currentDim?.short_label ?? currentDim?.name ?? ''}`}
-        progressLabel={progressLabel}
-      />
+    <main className="container-max py-16" onKeyDown={handleKeyDown}>
+      {/* Atmosphere: subtle grid + thin rule frame */}
+      <div className="grid-overlay border border-border bg-bg p-10">
+        <div className="mx-auto max-w-narrow">
+          <QuizHeader
+            section={currentDim?.section ?? '01'}
+            dimensionLabel={`${currentDim?.section ?? '01'} ${currentDim?.short_label ?? currentDim?.name ?? ''}`}
+            progressLabel={progressLabel}
+          />
 
-      <ProgressBar value={progress} className="mb-6" />
+          <ProgressBar value={progress} className="mt-6" />
 
-      <QuestionCard
-        prompt={`${state.currentIndex + 1}/${total} — ${currentQuestion.prompt}`}
-        helper="Keyboard: ↑/↓ • Enter next • Esc clear"
-      >
-        <div role="radiogroup" aria-label="Answer options" className="space-y-3">
-          {options.map((o, idx) => {
-            const checked = o.id === state.selectedOptionId;
-            const tabIndex = checked || (!state.selectedOptionId && idx === 0) ? 0 : -1;
+          <div className="mt-10">
+            <QuestionCard
+              prompt={`${state.currentIndex + 1}/${total} — ${currentQuestion.prompt}`}
+              helper="Keyboard: ↑/↓ • Enter next • Esc clear"
+            >
+              <div role="radiogroup" aria-label="Answer options" className="space-y-2">
+                {options.map((o, idx) => {
+                  const checked = o.id === state.selectedOptionId;
+                  const tabIndex = checked || (!state.selectedOptionId && idx === 0) ? 0 : -1;
 
-            return (
-              <OptionCard
-                key={o.id}
-                id={`opt-${o.id}`}
-                ref={(el) => {
-                  optionRefs.current[o.id] = el;
-                }}
-                label={o.label}
-                checked={checked}
-                accentLevel={o.score as 1 | 2 | 3 | 4 | 5}
-                tabIndex={tabIndex}
-                onSelect={() => setSelected(o.id)}
-              />
-            );
-          })}
+                  // A, B, C, D, E
+                  const indexLabel = String.fromCharCode(65 + idx);
+
+                  return (
+                    <OptionCard
+                      key={o.id}
+                      id={`opt-${o.id}`}
+                      ref={(el) => {
+                        optionRefs.current[o.id] = el;
+                      }}
+                      label={o.label}
+                      checked={checked}
+                      indexLabel={indexLabel}
+                      tabIndex={tabIndex}
+                      onSelect={() => setSelected(o.id)}
+                    />
+                  );
+                })}
+              </div>
+            </QuestionCard>
+          </div>
+
+          <QuizNavigation
+            canGoBack={canGoBack}
+            canGoNext={canGoNext}
+            isLast={isLast}
+            onBack={onBack}
+            onNext={onNext}
+          />
         </div>
-      </QuestionCard>
-
-      <QuizNavigation
-        canGoBack={canGoBack}
-        canGoNext={canGoNext}
-        isLast={isLast}
-        onBack={onBack}
-        onNext={onNext}
-      />
+      </div>
     </main>
   );
 }
