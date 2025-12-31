@@ -1,7 +1,16 @@
-import { getResultsDto } from '@/lib/assessment/getResultsDto';
+import { NextResponse } from 'next/server';
 import { isValidResultToken } from '@/lib/tokens';
-import { generatePdf } from '@/lib/pdf/generatePdf';
+import { getResultsForPdf } from '@/lib/results/getResultsForPdf';
+import { generateConsultantPdf } from '@/lib/pdf/generateConsultantPdf';
+import { loadPdfPacks } from '@/lib/pdf/content/loadPacks';
 import { getCachedPdf, cachePdf } from '@/lib/pdf/cache';
+import { env } from '@/env';
+
+export const runtime = 'nodejs';
+
+function error(code: string, message: string, status: number) {
+  return NextResponse.json({ error: { code, message } }, { status });
+}
 
 export async function GET(
   _req: Request,
@@ -11,40 +20,51 @@ export async function GET(
 
   // Validate token format
   if (!isValidResultToken(token)) {
-    return new Response('Invalid token', { status: 400 });
+    return error('VALIDATION_ERROR', 'Invalid token.', 400);
   }
 
   // Try cache first
   const cached = await getCachedPdf(token);
   if (cached) {
-    return new Response(Buffer.from(cached), {
+    return new NextResponse(Buffer.from(cached), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="maxmin-results-${token}.pdf"`,
-        'Cache-Control': 'public, max-age=86400',
+        'Content-Disposition': `inline; filename="maxmin-assessment-${token}.pdf"`,
+        'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
       },
     });
   }
 
-  // Fetch results
-  const dto = await getResultsDto(token);
-  if (!dto) {
-    return new Response('Results not found', { status: 404 });
+  try {
+    // Fetch results with answers for enrichment
+    const [data, packs] = await Promise.all([
+      getResultsForPdf(token),
+      loadPdfPacks(),
+    ]);
+
+    if (!data) {
+      return error('NOT_FOUND', 'Results not found.', 404);
+    }
+
+    // Render the Swiss-beige consultant PDF using pdf-lib
+    const baseUrl = env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+    const pdfBytes = await generateConsultantPdf({ data, packs, baseUrl });
+
+    // Cache for future requests (async, don't await)
+    const pdfBuffer = Buffer.from(pdfBytes);
+    cachePdf(token, pdfBuffer).catch(() => {});
+
+    return new NextResponse(pdfBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="maxmin-assessment-${token}.pdf"`,
+        'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
+      },
+    });
+  } catch (err) {
+    console.error('[PDF] Generation failed:', err);
+    return error('GENERATION_FAILED', 'Could not generate PDF.', 500);
   }
-
-  // Generate PDF
-  const pdfBytes = await generatePdf(dto);
-
-  // Cache for future requests (async, don't await)
-  cachePdf(token, pdfBytes).catch(() => {});
-
-  return new Response(Buffer.from(pdfBytes), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="maxmin-results-${token}.pdf"`,
-      'Cache-Control': 'public, max-age=86400',
-    },
-  });
 }

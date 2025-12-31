@@ -1,0 +1,365 @@
+{
+  "next_steps_actions": {
+    "_meta": {
+      "description": "Specific actions for Next Steps page, organized by dimension and tier",
+      "usage": "Pull 1 action from each gap's NOW/NEXT/LATER to build This Week/Month/Quarter sections"
+    },
+
+    "tracking": {
+      "low": {
+        "this_week": [
+          "Audit your current tracking — list every event you capture and where it fires",
+          "Set up Google Tag Manager if you haven't already (it's free)",
+          "Enable GA4 enhanced measurement (scroll, outbound clicks, video)"
+        ],
+        "this_month": [
+          "Implement core funnel events: product_view, add_to_cart, begin_checkout, purchase",
+          "Create a data layer specification document for your team",
+          "Set up Meta Conversions API for better ad tracking"
+        ],
+        "this_quarter": [
+          "Implement server-side tracking for key conversion events",
+          "Build a tracking health dashboard to monitor data quality",
+          "Evaluate CDP options (Segment, RudderStack) for identity resolution"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Audit cross-device tracking gaps — can you follow users across sessions?",
+          "Document your current tag governance process (or lack thereof)",
+          "List engagement events you're NOT tracking (scroll depth, time on page, video)"
+        ],
+        "this_month": [
+          "Implement server-side tracking for checkout and conversion events",
+          "Add engagement event tracking (scroll, video, click heatmap data)",
+          "Set up automated tracking validation (ObservePoint or manual QA process)"
+        ],
+        "this_quarter": [
+          "Deploy a Customer Data Platform for unified identity resolution",
+          "Implement cross-domain tracking if you have multiple properties",
+          "Build real-time tracking pipelines for personalization use cases"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Review tracking coverage for any new features or pages launched recently",
+          "Audit your server-side tracking accuracy vs client-side",
+          "Check identity resolution match rates across devices"
+        ],
+        "this_month": [
+          "Implement automated tracking drift detection and alerting",
+          "Build tracking documentation that auto-updates from your codebase",
+          "Evaluate real-time streaming for sub-second personalization"
+        ],
+        "this_quarter": [
+          "Extend tracking to offline touchpoints (returns, support, in-store)",
+          "Build predictive features from behavioral data for ML models",
+          "Implement privacy-first tracking architecture for cookieless future"
+        ]
+      }
+    },
+
+    "attribution": {
+      "low": {
+        "this_week": [
+          "Calculate blended CAC: total ad spend ÷ new customers from Shopify (not platforms)",
+          "Export platform conversions vs actual orders — see the over-count gap",
+          "Document your UTM taxonomy (or create one if it doesn't exist)"
+        ],
+        "this_month": [
+          "Enable GA4 data-driven attribution (it's free and better than last-click)",
+          "Build a weekly blended CAC tracking dashboard",
+          "Run a first-click vs last-click comparison to see credit shifts"
+        ],
+        "this_quarter": [
+          "Run your first geo-holdout incrementality test on highest-spend channel",
+          "Evaluate attribution vendors (Triple Whale, Northbeam, Rockerbox)",
+          "Build a channel efficiency dashboard comparing platform vs blended metrics"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Identify your highest-spend channel that hasn't been incrementality tested",
+          "Calculate the gap between your MTA model and platform-reported ROAS",
+          "Document your current attribution model weights and their rationale"
+        ],
+        "this_month": [
+          "Run a geo-holdout test on your top untested channel",
+          "Build a blended CAC by channel dashboard (not just overall)",
+          "Compare your attribution model output to a simple first/last average"
+        ],
+        "this_quarter": [
+          "Implement regular (quarterly) incrementality testing cadence",
+          "Calibrate your MTA model weights based on incrementality findings",
+          "Evaluate MMM for strategic budget allocation across channels"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Review when you last ran incrementality tests — are they still valid?",
+          "Check if any new channels have been added without measurement",
+          "Audit your MMM model inputs for data quality issues"
+        ],
+        "this_month": [
+          "Run incrementality validation on any channel with changed strategy",
+          "Build automated budget reallocation alerts based on efficiency thresholds",
+          "Extend measurement to any new channels or markets"
+        ],
+        "this_quarter": [
+          "Implement continuous incrementality monitoring (not just periodic)",
+          "Build predictive budget optimization based on saturation curves",
+          "Automate budget reallocation based on real-time incrementality signals"
+        ]
+      }
+    },
+
+    "reporting": {
+      "low": {
+        "this_week": [
+          "Set up a weekly KPI email (even a simple GA4 scheduled report)",
+          "Create one dashboard everyone agrees is the source of truth",
+          "Document your top 5 metric definitions (what exactly is 'CAC'?)"
+        ],
+        "this_month": [
+          "Automate at least one report that's currently manual",
+          "Set up Slack/email alerts for major metric anomalies (>20% change)",
+          "Build a cross-functional dashboard connecting marketing to revenue"
+        ],
+        "this_quarter": [
+          "Implement self-service BI for power users (Looker Studio, Metabase)",
+          "Create a metrics dictionary accessible to everyone",
+          "Build automated anomaly detection for your top 10 KPIs"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Audit dashboard usage — which reports are actually being used?",
+          "Identify the top 3 questions people still ask analysts manually",
+          "Document which metrics have inconsistent definitions across teams"
+        ],
+        "this_month": [
+          "Build self-service dashboards for the top 3 ad-hoc questions",
+          "Implement a semantic layer (dbt metrics, LookML) for consistent definitions",
+          "Train 5 power users to answer their own questions in BI tools"
+        ],
+        "this_quarter": [
+          "Reduce ad-hoc analyst requests by 50% through self-service",
+          "Implement automated anomaly alerting with root cause hints",
+          "Build predictive dashboards for key leading indicators"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Review anomaly alert noise — are people ignoring alerts?",
+          "Identify reporting gaps for any new initiatives or channels",
+          "Audit data freshness across your dashboard portfolio"
+        ],
+        "this_month": [
+          "Implement auto-diagnosis for common anomaly patterns",
+          "Build predictive KPI forecasts with confidence intervals",
+          "Add natural language summaries to key reports (AI-assisted)"
+        ],
+        "this_quarter": [
+          "Deploy prescriptive recommendations alongside anomaly alerts",
+          "Build a unified analytics layer spanning marketing, product, and ops",
+          "Implement real-time streaming dashboards for time-sensitive decisions"
+        ]
+      }
+    },
+
+    "experimentation": {
+      "low": {
+        "this_week": [
+          "Identify one thing you can test this week (email subject, CTA button)",
+          "Create a testing backlog — write down 10 hypotheses to test",
+          "Calculate required sample size for a typical test on your site"
+        ],
+        "this_month": [
+          "Set up a proper A/B testing tool (VWO, Convert, or Klaviyo's built-in)",
+          "Run your first statistically valid test with proper sample size",
+          "Document test results in a shared location (not just Slack)"
+        ],
+        "this_quarter": [
+          "Establish a regular testing cadence (2+ tests running at all times)",
+          "Build a testing roadmap prioritized by expected impact",
+          "Expand testing beyond email to site, pricing, or acquisition"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Review your test backlog — is it prioritized by expected impact?",
+          "Audit statistical rigor of recent tests (proper sample size, runtime?)",
+          "Identify high-impact areas that aren't being tested (pricing? checkout?)"
+        ],
+        "this_month": [
+          "Increase testing velocity to 5+ tests per month",
+          "Build a learning repository documenting all past tests and findings",
+          "Expand testing to one new area (pricing, merchandising, ads creative)"
+        ],
+        "this_quarter": [
+          "Run a meta-analysis of past tests to identify patterns",
+          "Implement multi-variate testing for complex optimizations",
+          "Build automated test analysis with statistical significance alerts"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Review your experiment database — are learnings being used?",
+          "Identify personalization opportunities from past A/B test results",
+          "Audit test coverage — are all major user flows being tested?"
+        ],
+        "this_month": [
+          "Pilot multi-armed bandits for one real-time optimization use case",
+          "Build segment-level analysis for your top-performing tests",
+          "Connect test results to your ML personalization models"
+        ],
+        "this_quarter": [
+          "Deploy ML-driven personalization using experiment learnings",
+          "Implement always-on optimization for key conversion flows",
+          "Build a test → learn → personalize automated feedback loop"
+        ]
+      }
+    },
+
+    "lifecycle": {
+      "low": {
+        "this_week": [
+          "Calculate your current repeat purchase rate (orders from returning customers ÷ total orders)",
+          "Audit your email flows — do you have welcome and abandoned cart?",
+          "Identify your top 10 customers by revenue — what do they have in common?"
+        ],
+        "this_month": [
+          "Build a welcome series if you don't have one (3-5 emails)",
+          "Implement abandoned cart flow with 2-3 touchpoints",
+          "Create a simple win-back campaign for 60-90 day lapsed customers"
+        ],
+        "this_quarter": [
+          "Calculate CLV by acquisition source for your top 5 channels",
+          "Implement RFM segmentation (Recency, Frequency, Monetary)",
+          "Build lifecycle stages (new, active, at-risk, churned) with tailored campaigns"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Audit your lifecycle stage definitions — are they actionable?",
+          "Identify which high-value customers aren't getting VIP treatment",
+          "Review your win-back timing — are you reaching people too late?"
+        ],
+        "this_month": [
+          "Build a predictive churn score (even a simple RFM-based one)",
+          "Implement proactive retention for at-risk customers (before they churn)",
+          "Create VIP treatment flows for top 10% customers by CLV"
+        ],
+        "this_quarter": [
+          "Deploy predictive CLV to prioritize high-potential new customers",
+          "Build cross-channel journey orchestration (email + SMS + site)",
+          "Integrate CLV into acquisition bidding (target high-LTV lookalikes)"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Audit your predictive models — when were they last retrained?",
+          "Review channel orchestration — are email and SMS coordinated or competing?",
+          "Identify 1:1 personalization opportunities you're not exploiting"
+        ],
+        "this_month": [
+          "Pilot AI-driven send time optimization for email/SMS",
+          "Implement real-time CLV updates feeding campaign decisions",
+          "Build true 1:1 personalization for at least one lifecycle stage"
+        ],
+        "this_quarter": [
+          "Deploy AI journey orchestration across all channels",
+          "Embed real-time CLV in all marketing decisions (bids, service levels)",
+          "Build a continuous learning system from customer behavior to campaigns"
+        ]
+      }
+    },
+
+    "infrastructure": {
+      "low": {
+        "this_week": [
+          "Inventory your data sources — what tools have data you need?",
+          "Sign up for a free BigQuery or Snowflake trial",
+          "List the top 5 questions you can't answer because data is siloed"
+        ],
+        "this_month": [
+          "Connect 2-3 key sources to your warehouse (Shopify, GA4, ads)",
+          "Write your first cross-source query (join orders with sessions)",
+          "Document what tables exist and what they contain"
+        ],
+        "this_quarter": [
+          "Automate data pipelines with Fivetran or Airbyte",
+          "Implement dbt for transformation and data quality testing",
+          "Build a core set of reusable data models (customers, orders, sessions)"
+        ]
+      },
+      "medium": {
+        "this_week": [
+          "Audit pipeline reliability — which syncs have failed recently?",
+          "List data sources that aren't yet in your warehouse",
+          "Document your data quality known issues and workarounds"
+        ],
+        "this_month": [
+          "Implement dbt tests for your most critical tables",
+          "Set up pipeline failure alerts (Slack, PagerDuty)",
+          "Connect remaining critical sources (support, returns, offline)"
+        ],
+        "this_quarter": [
+          "Build a comprehensive data quality monitoring dashboard",
+          "Implement reverse ETL to activate warehouse data in tools",
+          "Create data documentation that stays current with your schema"
+        ]
+      },
+      "high": {
+        "this_week": [
+          "Audit data quality monitoring coverage — what's not being tested?",
+          "Inventory ML models — which are ad-hoc vs productionized?",
+          "Identify one real-time use case to pilot (alerting, personalization)"
+        ],
+        "this_month": [
+          "Implement data observability (Monte Carlo, elementary) for proactive alerts",
+          "Build a feature store for one ML model",
+          "Pilot streaming data for your identified real-time use case"
+        ],
+        "this_quarter": [
+          "Deploy production ML infrastructure (training, serving, monitoring)",
+          "Implement data contracts between producer and consumer teams",
+          "Enable self-service ML workflows for analysts"
+        ]
+      }
+    }
+  },
+
+  "cta_text": {
+    "tracking": {
+      "headline": "Need help building your tracking foundation?",
+      "body": "We build tracking infrastructure in 4-6 weeks. Server-side implementation, CDP setup, data layer architecture — whatever you need to see the full customer journey.",
+      "email": "heya@maxmin.agency"
+    },
+    "attribution": {
+      "headline": "Need help measuring what's working?",
+      "body": "We build measurement frameworks in 4-8 weeks. MMM, incrementality testing, attribution modeling — whatever you need to know what's actually driving growth.",
+      "email": "heya@maxmin.agency"
+    },
+    "reporting": {
+      "headline": "Need help building self-serve analytics?",
+      "body": "We build BI infrastructure in 4-6 weeks. Dashboards, data pipelines, self-service analytics — whatever you need to make decisions faster.",
+      "email": "heya@maxmin.agency"
+    },
+    "experimentation": {
+      "headline": "Need help accelerating your learning?",
+      "body": "We build experimentation programs in 4-8 weeks. Testing infrastructure, statistical frameworks, learning systems — whatever you need to learn faster than competitors.",
+      "email": "heya@maxmin.agency"
+    },
+    "lifecycle": {
+      "headline": "Need help maximizing customer value?",
+      "body": "We build lifecycle programs in 4-8 weeks. Segmentation, CLV modeling, journey orchestration — whatever you need to turn one-time buyers into loyal customers.",
+      "email": "heya@maxmin.agency"
+    },
+    "infrastructure": {
+      "headline": "Need help scaling your data capabilities?",
+      "body": "We build data infrastructure in 4-8 weeks. Pipelines, quality monitoring, ML deployment — whatever you need to move from Level 4 to Level 5.",
+      "email": "heya@maxmin.agency"
+    }
+  }
+}

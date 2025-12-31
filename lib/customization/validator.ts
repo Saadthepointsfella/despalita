@@ -110,14 +110,16 @@ export function validateAnswerObservations(data: any): ValidationResult {
         const actualOptions = new Set(Object.keys(questionData.options));
 
         // Check for missing options
-        for (const expected of expectedOptions) {
+        const expectedArr = Array.from(expectedOptions);
+        for (const expected of expectedArr) {
           if (!actualOptions.has(expected)) {
             errors.push(`Question ${questionId}: missing option_id "${expected}"`);
           }
         }
 
         // Check for unknown options
-        for (const actual of actualOptions) {
+        const actualArr = Array.from(actualOptions);
+        for (const actual of actualArr) {
           if (!expectedOptions.has(actual)) {
             errors.push(`Question ${questionId}: unknown option_id "${actual}"`);
           }
@@ -126,7 +128,8 @@ export function validateAnswerObservations(data: any): ValidationResult {
     }
 
     // Check coverage: all questions should be present
-    for (const questionId of CANONICAL_QUESTION_IDS) {
+    const canonicalArr = Array.from(CANONICAL_QUESTION_IDS);
+    for (const questionId of canonicalArr) {
       if (!obs[questionId]) {
         warnings.push(`Missing observations for question_id: ${questionId}`);
       }
@@ -224,7 +227,7 @@ export function validateImpactEstimates(data: any): ValidationResult {
     }
 
     // Check coverage: all dimensions should be present
-    for (const dimensionId of CANONICAL_DIMENSION_IDS) {
+    for (const dimensionId of Array.from(CANONICAL_DIMENSION_IDS)) {
       if (!data.impact_estimates[dimensionId]) {
         warnings.push(`Missing impact estimates for dimension_id: ${dimensionId}`);
       }
@@ -265,7 +268,7 @@ export function validateLevelBenchmarks(data: any): ValidationResult {
     }
 
     // Check coverage: all dimensions should be present
-    for (const dimensionId of CANONICAL_DIMENSION_IDS) {
+    for (const dimensionId of Array.from(CANONICAL_DIMENSION_IDS)) {
       if (!data.level_benchmarks[dimensionId]) {
         warnings.push(`Missing benchmarks for dimension_id: ${dimensionId}`);
       }
@@ -306,7 +309,7 @@ export function validateToolRecommendations(data: any): ValidationResult {
     }
 
     // Check coverage: all dimensions should be present
-    for (const dimensionId of CANONICAL_DIMENSION_IDS) {
+    for (const dimensionId of Array.from(CANONICAL_DIMENSION_IDS)) {
       if (!data.tool_recommendations[dimensionId]) {
         warnings.push(`Missing tool recommendations for dimension_id: ${dimensionId}`);
       }

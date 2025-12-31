@@ -1,0 +1,320 @@
+{
+  "impact_estimates": {
+    "_meta": {
+      "description": "Quantified business impact estimates by dimension and tier",
+      "usage": "Look up by dimension_id + tier to get impact messaging",
+      "total_entries": 18
+    },
+
+    "tracking": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "visibility_gap",
+        "metric_value": "40-70%",
+        "metric_label": "of customer journey invisible",
+        "headline": "You're missing most of the picture",
+        "detail": "Without comprehensive tracking, 40-70% of customer behavior is invisible. You can see that people visited and some purchased, but you can't see why they converted, where they hesitated, or what drove them to buy. Every optimization decision is based on incomplete information.",
+        "business_impact": [
+          "Can't accurately attribute conversions to marketing efforts",
+          "Unable to identify and fix conversion blockers",
+          "Remarketing audiences are crude (visitors vs. intent signals)",
+          "No foundation for personalization or predictive analytics"
+        ],
+        "cost_example": "A brand spending $100K/month on ads with 40% journey blindness is likely misallocating $20-40K monthly to wrong channels or audiences.",
+        "opportunity": "Fixing tracking typically reveals 15-30% of conversions were misattributed, enabling immediate budget reallocation."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "gap_areas",
+        "metric_value": "2-3",
+        "metric_label": "critical blind spots remaining",
+        "headline": "Good foundation with specific gaps",
+        "detail": "You're tracking the core funnel but likely missing cross-device identity, offline touchpoints, or engagement signals that predict intent. These gaps limit advanced use cases.",
+        "business_impact": [
+          "Cross-device journeys are fragmented (same user counted multiple times)",
+          "Can't connect online behavior to offline outcomes (returns, support)",
+          "Limited ability to score intent before purchase",
+          "Server-side tracking gaps mean iOS/cookie issues hurt data quality"
+        ],
+        "cost_example": "Cross-device blindness typically inflates unique visitor counts by 20-40%, making CAC appear lower than reality.",
+        "opportunity": "Closing remaining gaps unlocks advanced attribution, predictive modeling, and real-time personalization."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "refinement",
+        "metric_label": "focus on edge cases and emerging challenges",
+        "headline": "Strong tracking—focus on maintenance and expansion",
+        "detail": "Your tracking infrastructure is mature. The opportunity is ensuring it stays accurate as platforms change, expanding to new touchpoints, and leveraging the data more fully.",
+        "business_impact": [
+          "Main risk is tracking drift as platforms update (iOS changes, cookie deprecation)",
+          "New channels or touchpoints may not be instrumented yet",
+          "Data quality may degrade over time without active monitoring",
+          "Advanced use cases (real-time personalization, ML features) may need enhancement"
+        ],
+        "cost_example": "Even well-tracked brands lose 5-10% of conversion data annually to platform changes without proactive maintenance.",
+        "opportunity": "Focus on data quality monitoring, proactive adaptation to privacy changes, and extracting more value from existing data."
+      }
+    },
+
+    "attribution": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "budget_waste",
+        "metric_value": "20-40%",
+        "metric_label": "of marketing spend likely misallocated",
+        "headline": "You're flying blind on channel contribution",
+        "detail": "Without proper attribution, you're letting platforms grade their own homework. Each ad platform claims credit using favorable methodologies, resulting in 2-3x over-counting of conversions. Budget flows to whoever claims the most credit, not who actually drives value.",
+        "business_impact": [
+          "Bottom-funnel channels (branded search, retargeting) over-credited",
+          "Awareness/prospecting channels under-invested despite driving new customers",
+          "Can't answer 'what's the incremental value of $10K more on Meta?'",
+          "Budget decisions based on platform ROAS, which is systematically inflated"
+        ],
+        "cost_example": "A $100K/month ad budget with 25% misallocation = $25K/month flowing to wrong channels. That's $300K/year in waste or missed opportunity.",
+        "opportunity": "Even basic attribution improvements (blended CAC, first/last comparison) typically reveal 20-30% reallocation opportunities."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "confidence_gap",
+        "metric_value": "moderate",
+        "metric_label": "directionally correct but not validated",
+        "headline": "You have a model but haven't validated it",
+        "detail": "Your attribution model is better than platform defaults, but without incrementality testing, you don't know if it's right. You're making educated guesses rather than data-driven decisions.",
+        "business_impact": [
+          "Multi-touch model weights are arbitrary (why 40/20/40 vs 30/30/40?)",
+          "No validation that attributed conversions are actually incremental",
+          "May be optimizing for proxy metrics that don't match true value",
+          "Scaling decisions lack confidence—'if we 2x spend, will we 2x results?'"
+        ],
+        "cost_example": "Brands at this level typically find 10-20% gap between attributed and incremental conversions when they finally test.",
+        "opportunity": "Running 2-3 incrementality tests would validate (or recalibrate) your model and unlock confident scaling."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "calibration",
+        "metric_label": "maintain accuracy as conditions change",
+        "headline": "Strong measurement—keep it calibrated",
+        "detail": "Your attribution and measurement are mature. The challenge is maintaining accuracy as your channel mix evolves, new platforms emerge, and customer behavior changes.",
+        "business_impact": [
+          "Models can drift as market conditions change",
+          "New channels need to be incorporated into the framework",
+          "Incrementality findings from 6 months ago may not hold today",
+          "Sophisticated competitors may be gaining ground"
+        ],
+        "cost_example": "Even well-calibrated models can drift 10-15% annually without ongoing validation.",
+        "opportunity": "Continuous calibration, expanding to new channels, and automating budget reallocation based on real-time signals."
+      }
+    },
+
+    "reporting": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "decision_delay",
+        "metric_value": "days to weeks",
+        "metric_label": "to identify and respond to performance changes",
+        "headline": "You're always looking in the rearview mirror",
+        "detail": "Without regular, reliable reporting, problems run for days or weeks before anyone notices. By the time you see the issue, the damage is done. Teams make decisions based on outdated information or gut feel.",
+        "business_impact": [
+          "Performance issues (broken tracking, budget spikes) go undetected",
+          "Decisions based on stale data or anecdotes",
+          "Analyst time spent assembling reports instead of finding insights",
+          "No single source of truth—teams argue about whose numbers are right"
+        ],
+        "cost_example": "A tracking issue running for 5 days on a $5K/day ad budget = $25K of spend with corrupted measurement. A budget spike running unnoticed could burn through monthly budget in days.",
+        "opportunity": "Automated daily reporting catches issues 5-10x faster and frees analyst time for high-value work."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "self_service_gap",
+        "metric_value": "limited",
+        "metric_label": "teams still depend on analysts for answers",
+        "headline": "Reports exist but aren't self-service",
+        "detail": "You have dashboards and regular reporting, but teams still wait for analysts to answer questions. This creates bottlenecks and slows decisions.",
+        "business_impact": [
+          "Analysts are overwhelmed with ad-hoc requests",
+          "Questions wait in queue while decisions stall",
+          "Teams create shadow spreadsheets to work around bottlenecks",
+          "Dashboard coverage is incomplete—some questions can't be answered"
+        ],
+        "cost_example": "Each ad-hoc analyst request costs 2-4 hours. At 10 requests/week, that's 20-40 hours diverted from proactive analysis.",
+        "opportunity": "Self-service dashboards with proper training can reduce ad-hoc requests by 50-70%."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "proactive",
+        "metric_label": "shift from reporting to prediction and alerts",
+        "headline": "Strong reporting—move toward proactive insights",
+        "detail": "Your reporting infrastructure is solid. The opportunity is shifting from 'what happened' to 'what's about to happen' and 'what should we do about it.'",
+        "business_impact": [
+          "Currently reactive—reports tell you what happened, not what will happen",
+          "Anomaly detection may be manual or incomplete",
+          "Insights require human interpretation rather than automated surfacing",
+          "Competitive advantage from reporting infrastructure is diminishing as others catch up"
+        ],
+        "cost_example": "Proactive anomaly detection typically catches issues 6-24 hours faster than daily reviews.",
+        "opportunity": "Predictive dashboards, automated anomaly detection, and prescriptive recommendations."
+      }
+    },
+
+    "experimentation": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "learning_velocity",
+        "metric_value": "10-50x slower",
+        "metric_label": "than optimized competitors",
+        "headline": "Every change is a guess",
+        "detail": "Without experimentation, you never know if changes worked or if something else caused the result. You're shipping ideas based on opinion, not evidence. Competitors who test learn 10-50x faster.",
+        "business_impact": [
+          "No way to isolate impact of changes from market fluctuations",
+          "HiPPO (Highest Paid Person's Opinion) drives decisions",
+          "Bad ideas get shipped confidently; good ideas get killed without evidence",
+          "Optimizations are one-and-done rather than iterative",
+          "Institutional learning doesn't accumulate—same debates repeat"
+        ],
+        "cost_example": "A homepage redesign without testing could lift conversion 10% or hurt it 15%—you'll never know which. At $1M/month revenue, that's $100-150K/month at stake.",
+        "opportunity": "Even 2-3 tests per month creates a learning flywheel that compounds over time."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "coverage_gap",
+        "metric_value": "partial",
+        "metric_label": "testing in some areas but not systematic",
+        "headline": "Testing exists but isn't comprehensive",
+        "detail": "You run tests in some areas (probably email or landing pages) but not systematically across the business. Some decisions are evidence-based; others are still guesses.",
+        "business_impact": [
+          "Testing concentrated in easy areas, missing high-impact opportunities",
+          "No testing roadmap—tests happen when someone remembers",
+          "Learnings not systematically documented or shared",
+          "Statistical rigor may be inconsistent across tests"
+        ],
+        "cost_example": "Brands at this level typically run 1-3 tests/month. Increasing to 5-10 tests/month doubles learning velocity.",
+        "opportunity": "Expanding testing coverage to pricing, merchandising, and acquisition (not just CRO) unlocks bigger wins."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "advanced",
+        "metric_label": "move beyond A/B to personalization and automation",
+        "headline": "Strong testing—level up to personalization",
+        "detail": "Your testing program is mature. The opportunity is moving from 'which version wins for everyone' to 'which version wins for each segment or individual.'",
+        "business_impact": [
+          "A/B tests find the best average, but averages hide segment differences",
+          "Manual test analysis limits speed and depth of insights",
+          "Winning variants are implemented for everyone, missing personalization opportunity",
+          "Test learnings may not be systematically feeding strategy"
+        ],
+        "cost_example": "Personalization typically lifts conversion 5-15% beyond the best A/B winner by tailoring to segments.",
+        "opportunity": "Multi-armed bandits, personalization, and ML-driven optimization build on your testing foundation."
+      }
+    },
+
+    "lifecycle": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "revenue_gap",
+        "metric_value": "15-30%",
+        "metric_label": "of potential repeat revenue unrealized",
+        "headline": "You're leaving retention revenue on the table",
+        "detail": "Without lifecycle marketing, you're paying to acquire customers and then hoping they come back. You're not proactively driving repeat purchases, identifying churn risks, or maximizing customer lifetime value.",
+        "business_impact": [
+          "Repeat purchase rate below category benchmarks",
+          "No visibility into which customers are at risk of churning",
+          "All customers treated the same regardless of value or behavior",
+          "CLV not measured or used in acquisition decisions",
+          "Win-back efforts are reactive (after churn) rather than proactive"
+        ],
+        "cost_example": "DTC brands at Level 1-2 typically have 25-35% repeat rates. Level 4 brands hit 45-55%. On $10M revenue, that's $1-2M in unrealized repeat revenue.",
+        "opportunity": "Basic lifecycle programs (welcome, abandoned cart, win-back) can lift repeat rate 5-10 percentage points."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "sophistication_gap",
+        "metric_value": "reactive",
+        "metric_label": "responding to behavior rather than predicting it",
+        "headline": "Good programs but still reactive",
+        "detail": "You have lifecycle automations and some segmentation, but you're responding to behavior after it happens rather than predicting and influencing it. Win-back happens after churn, not before.",
+        "business_impact": [
+          "Churn intervention happens too late—customers already gone",
+          "Segmentation is behavioral (what they did) not predictive (what they'll do)",
+          "CLV is calculated retrospectively, not used prospectively",
+          "High-value customers may not get differentiated treatment",
+          "Acquisition and retention not connected (CAC not adjusted for LTV)"
+        ],
+        "cost_example": "Proactive churn intervention (before churn) is 3-5x more effective than win-back (after churn).",
+        "opportunity": "Predictive CLV and churn scoring unlock proactive retention and value-based acquisition."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "orchestration",
+        "metric_label": "move from campaigns to intelligent journeys",
+        "headline": "Strong lifecycle—advance to orchestration",
+        "detail": "Your lifecycle programs are sophisticated. The opportunity is moving from 'segments get campaigns' to 'individuals get intelligently orchestrated journeys across all touchpoints.'",
+        "business_impact": [
+          "Campaigns are still segment-based, not truly 1:1",
+          "Channel orchestration may be siloed (email team, SMS team)",
+          "Timing and frequency optimization is rule-based, not ML-driven",
+          "Customer experience may feel fragmented across touchpoints"
+        ],
+        "cost_example": "AI-driven journey orchestration typically lifts lifecycle revenue 10-20% beyond sophisticated segment-based programs.",
+        "opportunity": "Unified journey orchestration, AI-driven send-time optimization, and true 1:1 personalization."
+      }
+    },
+
+    "infrastructure": {
+      "low": {
+        "tier_range": "1.0 - 2.5",
+        "primary_metric": "capability_ceiling",
+        "metric_value": "hard",
+        "metric_label": "advanced use cases blocked by data limitations",
+        "headline": "Your data infrastructure is a bottleneck",
+        "detail": "Without proper data infrastructure, advanced analytics use cases are impossible. You're limited to what each SaaS tool provides out of the box. Custom analysis requires manual data wrangling that's error-prone and unsustainable.",
+        "business_impact": [
+          "Can't join data across sources (Shopify + GA + Klaviyo) for unified analysis",
+          "Custom analysis requires manual exports and spreadsheet gymnastics",
+          "Data quality is unknown—duplicates, missing values, inconsistencies",
+          "No foundation for ML, predictive analytics, or advanced attribution",
+          "Analyst time spent on data wrangling instead of insights"
+        ],
+        "cost_example": "Analysts typically spend 60-80% of time on data wrangling at this level. With proper infrastructure, that drops to 20-30%, tripling insight output.",
+        "opportunity": "A modern data stack (warehouse + ETL + BI) unlocks all the advanced use cases blocked by current limitations."
+      },
+      "medium": {
+        "tier_range": "2.5 - 3.5",
+        "primary_metric": "reliability_gap",
+        "metric_value": "moderate",
+        "metric_label": "data exists but quality and timeliness vary",
+        "headline": "Foundation exists but needs hardening",
+        "detail": "You have data infrastructure, but it may be fragile, incomplete, or inconsistent. Some sources are integrated; others aren't. Data quality is variable. Advanced use cases are possible but risky.",
+        "business_impact": [
+          "Some data sources not yet integrated (gaps in the picture)",
+          "Data quality issues surface unexpectedly and erode trust",
+          "Pipelines may break without immediate detection",
+          "Documentation is incomplete—knowledge siloed in individuals",
+          "ML/advanced analytics possible but on shaky foundation"
+        ],
+        "cost_example": "Data quality issues that go undetected typically cost 10-20 hours of analyst time per incident to investigate and fix.",
+        "opportunity": "Data quality monitoring, documentation, and completing source integration unlock reliable advanced analytics."
+      },
+      "high": {
+        "tier_range": "3.5 - 5.0",
+        "primary_metric": "optimization_focus",
+        "metric_value": "scale",
+        "metric_label": "extend to real-time, ML, and activation",
+        "headline": "Strong infrastructure—extend capabilities",
+        "detail": "Your data infrastructure is mature and reliable. The opportunity is extending to real-time use cases, production ML, and activation (pushing insights back to operational tools).",
+        "business_impact": [
+          "Batch processing limits real-time personalization and alerting",
+          "ML models may be ad-hoc rather than productionized",
+          "Insights stay in dashboards rather than activating in tools",
+          "Data team may be bottleneck for new use cases"
+        ],
+        "cost_example": "Real-time data enables use cases (instant personalization, live anomaly detection) worth 5-15% lift over batch.",
+        "opportunity": "Streaming data, feature stores, reverse ETL, and self-service ML platforms."
+      }
+    }
+  }
+}

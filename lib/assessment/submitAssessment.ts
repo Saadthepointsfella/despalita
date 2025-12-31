@@ -3,9 +3,11 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { generateResultToken } from '@/lib/tokens';
 import { computeSubmissionHash } from '@/lib/submission-hash';
 import { calculateScores } from '@/lib/scoring';
+import { resolveCustomization } from '@/lib/customization/resolveCustomization';
+import { dimensions } from '@/lib/config';
 import type { SubmitRequest } from './submit-schema';
 import { normalizeSubmitRequest } from './submit-schema';
-import type { QuizAnswerDraft } from '@/types/quiz';
+import type { QuizAnswerDraft, Tier } from '@/types/quiz';
 
 export async function submitAssessment(raw: SubmitRequest): Promise<{ token: string }> {
   const { email, company, answers, timingMap, utm, honeypot } = normalizeSubmitRequest(raw);
@@ -46,9 +48,64 @@ export async function submitAssessment(raw: SubmitRequest): Promise<{ token: str
   // Calculate critical threshold
   const criticalThreshold = scoreOutput.base_overall_score - 1.5;
 
+  // Build ResultsLike for customization resolver
+  const sortedDims = [...dimensions].sort((a, b) => a.order - b.order);
+  const dimensionsForResolver = sortedDims.map((d) => {
+    const score = dimension_scores[d.id] ?? 1;
+    const tier = (dimension_tiers[d.id] ?? 'low') as Tier;
+    const isPrimaryGap = d.id === scoreOutput.gaps.primary_gap;
+    const isCriticalGap = scoreOutput.gaps.critical_gaps.includes(d.id);
+    return {
+      dimension_id: d.id,
+      order: d.order,
+      section: d.section,
+      short_label: d.short_label,
+      name: d.name,
+      score,
+      tier,
+      is_primary_gap: isPrimaryGap,
+      is_critical_gap: isCriticalGap,
+      delta_from_avg: +(scoreOutput.base_overall_score - score).toFixed(2),
+    };
+  });
+
   // Token collision retry (extremely rare)
   for (let attempt = 0; attempt < 3; attempt++) {
     const token = generateResultToken();
+
+    // Build resultsLike object for customization
+    const resultsLike = {
+      token,
+      created_at: new Date().toISOString(),
+      overall: {
+        score: scoreOutput.base_overall_score,
+        score_capped: scoreOutput.overall_score,
+        level: {
+          level: scoreOutput.level,
+          key: scoreOutput.level_key,
+          name: scoreOutput.level_name,
+          hero_title: '',
+          hero_copy: '',
+          color_token: `level.${scoreOutput.level}`,
+        },
+      },
+      dimensions: dimensionsForResolver,
+      primary_gap: {
+        dimension_id: scoreOutput.gaps.primary_gap,
+        score: dimension_scores[scoreOutput.gaps.primary_gap] ?? 1,
+      },
+      critical_gaps: scoreOutput.gaps.critical_gaps.map((d) => ({
+        dimension_id: d,
+        score: dimension_scores[d] ?? 1,
+      })),
+    };
+
+    // Resolve customization snapshot
+    const customization_snapshot = resolveCustomization({
+      results: resultsLike,
+      answers: answers.map((a) => ({ question_id: a.question_id, option_id: a.option_id })),
+      version: 'v1',
+    });
 
     // Try v1 RPC first (Phase 8), fall back to original
     const rpcResult = await trySubmitV1(supabase, {
@@ -73,6 +130,17 @@ export async function submitAssessment(raw: SubmitRequest): Promise<{ token: str
     });
 
     if (rpcResult.success) {
+      // Store customization snapshot (fire-and-forget, non-blocking)
+      supabase
+        .from('quiz_takes')
+        .update({ customization_snapshot })
+        .eq('token', rpcResult.token)
+        .then(({ error }) => {
+          if (error) {
+            console.error('[WARN] Failed to store customization_snapshot:', error.message);
+          }
+        });
+
       return { token: rpcResult.token };
     }
 
