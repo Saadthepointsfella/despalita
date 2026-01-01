@@ -28,7 +28,7 @@ export const OptionCard = React.forwardRef<
       onClick={onSelect}
       onFocus={onFocus}
       className={cn(
-        'group relative w-full overflow-hidden rounded-none border border-border bg-bg px-5 py-4 text-left',
+        'group relative w-full overflow-hidden rounded-none border border-border bg-bg px-4 py-3 text-left sm:px-5 sm:py-4',
         'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30',
         checked && 'border-borderStrong',
       )}
@@ -66,7 +66,7 @@ export const OptionCard = React.forwardRef<
 
         <span
           className={cn(
-            'font-serif text-[15px] leading-relaxed text-fg transition-colors',
+            'font-serif text-[14px] leading-relaxed text-fg transition-colors sm:text-[15px]',
             (checked ? 'text-bg' : 'group-hover:text-bg'),
           )}
         >

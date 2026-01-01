@@ -98,7 +98,7 @@ export default async function ResultsPage({
 
   return (
     <main className="min-h-[100svh] bg-[#FAF9F6] text-[#1A1A1A]">
-      <div className="container-max py-12">
+      <div className="container-max py-8 md:py-12">
         {/* Outer swiss grid separator */}
         <div className="grid gap-px bg-black/10">
           {/* 01 — RESULTS (hero) */}

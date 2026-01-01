@@ -14,12 +14,12 @@ export function QuizNavigation({
   submitting?: boolean;
 }) {
   return (
-    <div className="mt-10 flex items-center justify-between gap-4">
+    <div className="mt-8 flex flex-col-reverse gap-3 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
       <button
         type="button"
         onClick={onBack}
         disabled={!canGoBack || submitting}
-        className="label-mono inline-flex items-center gap-2 border border-border bg-transparent px-5 py-3 text-[11px] text-fg transition-colors hover:bg-fg hover:text-bg disabled:cursor-not-allowed disabled:opacity-50"
+        className="label-mono inline-flex w-full items-center justify-center gap-2 border border-border bg-transparent px-5 py-3 text-[11px] text-fg transition-colors hover:bg-fg hover:text-bg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       >
         ← Back
       </button>
@@ -28,7 +28,7 @@ export function QuizNavigation({
         type="button"
         onClick={onNext}
         disabled={!canGoNext || submitting}
-        className="label-mono inline-flex items-center gap-2 border border-fg bg-fg px-6 py-3 text-[11px] text-bg transition-colors hover:bg-fg/90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="label-mono inline-flex w-full items-center justify-center gap-2 border border-fg bg-fg px-6 py-3 text-[11px] text-bg transition-colors hover:bg-fg/90 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       >
         {isLast ? 'Submit →' : 'Next →'}
       </button>

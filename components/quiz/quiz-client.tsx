@@ -422,10 +422,10 @@ export function QuizClient({
   const canGoNext = !!state.selectedOptionId;
 
   return (
-    <main className="container-max py-16" onKeyDown={handleKeyDown}>
+    <main className="container-max py-10 md:py-16" onKeyDown={handleKeyDown}>
       {/* Atmosphere: subtle grid + thin rule frame */}
-      <div className="grid-overlay border border-border bg-bg p-10">
-        <div className="mx-auto max-w-narrow">
+      <div className="grid-overlay border border-border bg-bg p-4 sm:p-6 md:p-10">
+        <div className="mx-auto w-full max-w-narrow">
           <QuizHeader
             section={currentDim?.section ?? '01'}
             dimensionLabel={`${currentDim?.section ?? '01'} ${currentDim?.short_label ?? currentDim?.name ?? ''}`}
