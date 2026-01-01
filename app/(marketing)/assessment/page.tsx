@@ -60,7 +60,7 @@ export default function AssessmentLandingPage() {
               <Divider />
               <p className="text-sm text-muted">
                 This assessment measures how reliably your analytics stack turns data into decisions. It’s designed
-                for operators — you can answer it without deep technical knowledge.
+                for operators, you can answer it without deep technical knowledge.
               </p>
             </Panel>
 
@@ -99,7 +99,7 @@ export default function AssessmentLandingPage() {
         {/* Right: black slab (visual + “what it measures”) */}
         <aside className="relative col-span-12 md:col-span-4 bg-[#121212] border border-black/10 overflow-hidden min-h-[320px] md:min-h-[780px]">
           {/* Content blocks inside slab */}
-          <div className="absolute left-6 right-6 top-6 z-10 space-y-7">
+          <div className="absolute left-6 right-14 top-6 z-10 space-y-7">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/55">
                 Measures

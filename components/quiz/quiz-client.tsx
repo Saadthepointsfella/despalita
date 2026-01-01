@@ -38,6 +38,15 @@ type Action =
   | { type: 'SUBMIT_ERROR'; message: string }
   | { type: 'RESET_ERROR' };
 
+function normalizeCopy(text: string) {
+  return text
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/\s-\s/g, ', ')
+    .replace(/\s+,/g, ',')
+    .replace(/,\s+/g, ', ')
+    .trim();
+}
+
 function getUtmFromLocation(): UTM {
   if (typeof window === 'undefined') return {};
   const url = new URL(window.location.href);
@@ -387,7 +396,11 @@ export function QuizClient({
 
         <EmailGateForm
           submitting={state.status === 'submitting'}
-          error={state.status === 'error' ? state.errorMessage : null}
+          error={
+            state.status === 'error'
+              ? state.errorMessage ?? 'Something went wrong. Please try again.'
+              : null
+          }
           onSubmit={submitEmailGate}
         />
 
@@ -423,7 +436,7 @@ export function QuizClient({
 
           <div className="mt-10">
             <QuestionCard
-              prompt={`${state.currentIndex + 1}/${total} — ${currentQuestion.prompt}`}
+              prompt={`${state.currentIndex + 1}/${total}, ${normalizeCopy(currentQuestion.prompt)}`}
               helper="Keyboard: ↑/↓ • Enter next • Esc clear"
             >
               <div role="radiogroup" aria-label="Answer options" className="space-y-2">
@@ -441,7 +454,7 @@ export function QuizClient({
                       ref={(el) => {
                         optionRefs.current[o.id] = el;
                       }}
-                      label={o.label}
+                      label={normalizeCopy(o.label)}
                       checked={checked}
                       indexLabel={indexLabel}
                       tabIndex={tabIndex}

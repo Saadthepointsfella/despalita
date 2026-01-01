@@ -23,7 +23,7 @@ export function QuizHeader({
           <div className="font-mono text-[11px] uppercase tracking-micro text-faint">
             {progressLabel}
           </div>
-          <ArrowLink href="/assessment" direction="left" className="text-faint">
+          <ArrowLink href="/assessment" className="text-faint">
             Exit
           </ArrowLink>
         </div>
