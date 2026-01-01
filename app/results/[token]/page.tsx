@@ -1,5 +1,5 @@
 import { isValidResultsToken } from '@/lib/results/token';
-import { fetchResultsDto } from '@/lib/results/fetchResults';
+import { getResultsDto } from '@/lib/assessment/getResultsDto';
 
 import { Panel } from '@/components/ui/panel';
 import { Divider } from '@/components/ui/divider';
@@ -63,18 +63,26 @@ export default async function ResultsPage({
     );
   }
 
-  const resp = await fetchResultsDto(token);
+  let dto = null;
+  let loadError: string | null = null;
 
-  // fetch error
-  if (!resp.ok) {
-    const is404 = resp.status === 404 || resp.error.code === 'NOT_FOUND';
+  try {
+    dto = await getResultsDto(token);
+  } catch (err) {
+    loadError = err instanceof Error ? err.message : 'Unable to load results.';
+  }
+
+  if (!dto) {
+    const is404 = !loadError;
     return (
       <main className="min-h-[100svh] bg-[#FAF9F6] text-[#1A1A1A]">
         <div className="container-narrow py-12">
           <Panel className="space-y-3">
             <SectionLabel section="00" label={is404 ? 'Results not found' : 'Unable to load'} />
             <Divider />
-            <p className="text-sm text-muted">{is404 ? 'Results not found.' : resp.error.message}</p>
+            <p className="text-sm text-muted">
+              {is404 ? 'Results not found.' : loadError ?? 'Unable to load results.'}
+            </p>
             <div className="pt-2 flex flex-wrap gap-3">
               <ArrowLink href="/assessment/quiz">Run the assessment</ArrowLink>
               <ArrowLink href="/assessment">What is this?</ArrowLink>
@@ -84,8 +92,6 @@ export default async function ResultsPage({
       </main>
     );
   }
-
-  const dto = resp.data;
 
   const primaryGap =
     dto.dimensions.find((d) => d.is_primary_gap)?.short_label ?? dto.primary_gap.dimension_id;
