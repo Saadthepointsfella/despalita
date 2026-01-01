@@ -11,12 +11,11 @@
         "$$$$": "$2000+/month or enterprise pricing"
       }
     },
-
     "tracking": {
       "low": {
         "context": "You need to establish basic tracking infrastructure and event capture",
         "quick_wins": [
-          "Set up Google Tag Manager if not already—it's free and essential",
+          "Set up Google Tag Manager if not already, it's free and essential",
           "Enable GA4 enhanced measurement (scrolls, outbound clicks, video) at no cost",
           "Implement Meta Conversions API for better ad tracking despite iOS changes",
           "Document your current tracking in a spreadsheet (what events, where)"
@@ -26,7 +25,7 @@
             "name": "Google Tag Manager",
             "category": "Tag Management",
             "price": "$",
-            "fit": "Everyone—no reason not to use it",
+            "fit": "Everyone, no reason not to use it",
             "url": "https://tagmanager.google.com",
             "note": "Free. Essential. Start here."
           },
@@ -34,7 +33,7 @@
             "name": "GA4",
             "category": "Web Analytics",
             "price": "$",
-            "fit": "Everyone—default choice for web analytics",
+            "fit": "Everyone, default choice for web analytics",
             "url": "https://analytics.google.com",
             "note": "Free. Has limitations but good foundation."
           },
@@ -122,13 +121,12 @@
         "diy_alternative": "Build custom monitoring with dbt tests and alerting. Many mature brands run automated QA checks as part of their data pipelines."
       }
     },
-
     "attribution": {
       "low": {
         "context": "You need to move beyond platform-reported metrics to understand true channel contribution",
         "quick_wins": [
           "Calculate blended CAC weekly: Total spend / New customers (from Shopify, not platforms)",
-          "Enable GA4 data-driven attribution—it's free and better than last-click",
+          "Enable GA4 data-driven attribution, it's free and better than last-click",
           "Build a simple spreadsheet comparing platform conversions vs actual orders",
           "Implement consistent UTM taxonomy across all campaigns"
         ],
@@ -165,7 +163,7 @@
         "quick_wins": [
           "Run your first geo-holdout test on your highest-spend channel",
           "Compare platform-reported ROAS to blended ROAS (total revenue / total spend)",
-          "Calculate platform conversion overlap—how much are they all claiming the same sales?",
+          "Calculate platform conversion overlap, how much are they all claiming the same sales?",
           "Build a channel efficiency dashboard that tracks CAC trend over time"
         ],
         "recommended_tools": [
@@ -197,12 +195,12 @@
         "diy_alternative": "Run manual geo-holdout tests. Pick 2-3 states, pause ads for 2-3 weeks, measure sales delta vs control states. Simple but effective. Google has detailed geo-experiment guides."
       },
       "high": {
-        "context": "You have validated attribution—now automate optimization and expand coverage",
+        "context": "You have validated attribution, now automate optimization and expand coverage",
         "quick_wins": [
           "Set up continuous incrementality monitoring (not just periodic tests)",
           "Build automated budget reallocation alerts based on CAC thresholds",
           "Expand attribution to new channels as you test them",
-          "Create a measurement calibration schedule—quarterly rechecks"
+          "Create a measurement calibration schedule, quarterly rechecks"
         ],
         "recommended_tools": [
           {
@@ -233,7 +231,6 @@
         "diy_alternative": "Build internal MMM using open-source tools (Meta's Robyn, Google's Meridian). Requires data science capability but gives full control and customization."
       }
     },
-
     "reporting": {
       "low": {
         "context": "You need to establish regular, automated reporting to replace manual spreadsheets",
@@ -248,7 +245,7 @@
             "name": "Looker Studio",
             "category": "BI/Dashboards",
             "price": "$",
-            "fit": "Everyone—free and connects to most sources",
+            "fit": "Everyone, free and connects to most sources",
             "url": "https://lookerstudio.google.com",
             "note": "Free. Good starting point. Limited for complex analysis."
           },
@@ -277,7 +274,7 @@
           "Create a data dictionary documenting all metrics and their definitions",
           "Set up scheduled Slack/email alerts for key metric anomalies",
           "Train 3-5 power users to answer their own questions in dashboards",
-          "Audit existing dashboards—remove duplicates and unused reports"
+          "Audit existing dashboards, remove duplicates and unused reports"
         ],
         "recommended_tools": [
           {
@@ -308,12 +305,12 @@
         "diy_alternative": "Define metrics in dbt and surface them through any BI tool. This 'metrics layer' approach ensures consistency regardless of which dashboard someone uses."
       },
       "high": {
-        "context": "You have strong reporting—now add proactive alerting and predictive insights",
+        "context": "You have strong reporting, now add proactive alerting and predictive insights",
         "quick_wins": [
           "Set up anomaly detection for your top 5 KPIs",
           "Create an 'early warning' dashboard for leading indicators",
           "Build automated commentary for weekly reports (AI-assisted)",
-          "Implement report usage tracking—know what's actually being used"
+          "Implement report usage tracking, know what's actually being used"
         ],
         "recommended_tools": [
           {
@@ -344,13 +341,12 @@
         "diy_alternative": "Build anomaly detection with dbt tests + alerting via Slack/PagerDuty. Many teams use statistical process control (SPC) methods in SQL for custom monitoring."
       }
     },
-
     "experimentation": {
       "low": {
         "context": "You need to establish any testing capability and build the muscle",
         "quick_wins": [
           "Run one A/B test this month on anything (email subject, CTA button)",
-          "Set up a testing backlog—a simple list of hypotheses to test",
+          "Set up a testing backlog, a simple list of hypotheses to test",
           "Document your first test with hypothesis, results, and learnings",
           "Calculate required sample size for your typical tests"
         ],
@@ -419,7 +415,7 @@
         "diy_alternative": "Build internal experimentation framework with feature flags (LaunchDarkly or open-source Unleash) and statistical analysis in Python/R. Gives full control."
       },
       "high": {
-        "context": "You have mature testing—now leverage for personalization and automation",
+        "context": "You have mature testing, now leverage for personalization and automation",
         "quick_wins": [
           "Implement multi-armed bandit for at least one use case",
           "Connect test results to downstream ML models",
@@ -455,7 +451,6 @@
         "diy_alternative": "Build personalization using your own ML models deployed via feature flags. Many sophisticated teams run contextual bandits on their own infrastructure."
       }
     },
-
     "lifecycle": {
       "low": {
         "context": "You need to establish basic lifecycle programs beyond batch-and-blast",
@@ -470,7 +465,7 @@
             "name": "Klaviyo",
             "category": "Email/SMS Marketing",
             "price": "$$",
-            "fit": "DTC brands on Shopify—industry standard",
+            "fit": "DTC brands on Shopify, industry standard",
             "url": "https://www.klaviyo.com",
             "note": "Default choice for DTC. Deep Shopify integration. Good automation."
           },
@@ -530,7 +525,7 @@
         "diy_alternative": "Build RFM segmentation in your warehouse and sync to Klaviyo via their API. Calculate churn probability with simple rules (no purchase in X days = at-risk)."
       },
       "high": {
-        "context": "You have sophisticated lifecycle—now enable predictive and 1:1 personalization",
+        "context": "You have sophisticated lifecycle, now enable predictive and 1:1 personalization",
         "quick_wins": [
           "Implement predictive CLV to prioritize high-potential customers",
           "Build churn prediction model to intervene before customers leave",
@@ -566,10 +561,9 @@
         "diy_alternative": "Build predictive models (CLV, churn) in your data warehouse, score customers daily, and sync scores to Klaviyo for segmentation. Gives control over algorithms."
       }
     },
-
     "infrastructure": {
       "low": {
-        "context": "You need to establish basic data infrastructure—a warehouse and automated pipelines",
+        "context": "You need to establish basic data infrastructure, a warehouse and automated pipelines",
         "quick_wins": [
           "Set up a free BigQuery or Snowflake trial",
           "Connect 2-3 key sources with a no-code ETL tool",
@@ -581,7 +575,7 @@
             "name": "BigQuery",
             "category": "Data Warehouse",
             "price": "$",
-            "fit": "Teams starting out—generous free tier",
+            "fit": "Teams starting out, generous free tier",
             "url": "https://cloud.google.com/bigquery",
             "note": "Google's warehouse. Free tier for small data. Easy to start."
           },
@@ -617,7 +611,7 @@
             "name": "dbt",
             "category": "Data Transformation",
             "price": "$",
-            "fit": "Everyone with a warehouse—industry standard",
+            "fit": "Everyone with a warehouse, industry standard",
             "url": "https://www.getdbt.com",
             "note": "SQL-based transformation. Open-source core. Essential for data quality."
           },
@@ -641,7 +635,7 @@
         "diy_alternative": "Implement dbt with built-in testing and documentation. It's free and transforms how you manage data quality. Invest time here before buying more tools."
       },
       "high": {
-        "context": "You have solid infrastructure—extend to real-time, ML, and advanced use cases",
+        "context": "You have solid infrastructure, extend to real-time, ML, and advanced use cases",
         "quick_wins": [
           "Evaluate streaming for real-time use cases",
           "Set up a feature store for ML models",

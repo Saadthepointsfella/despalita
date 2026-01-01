@@ -6,7 +6,6 @@
       "total_entries": 24,
       "transitions": "1→2, 2→3, 3→4, 4→5 for each dimension"
     },
-
     "tracking": {
       "1_to_2": {
         "current_level": 1,
@@ -97,11 +96,10 @@
           "Future-proofed for any privacy changes"
         ],
         "gap_summary": "You have excellent digital tracking. The frontier is incorporating offline signals and ensuring real-time data flows into every decision.",
-        "success_indicator": "You'll know you've reached Level 5 when your real-time customer view includes their latest support ticket, their in-store purchase, and their current site behavior—all unified.",
+        "success_indicator": "You'll know you've reached Level 5 when your real-time customer view includes their latest support ticket, their in-store purchase, and their current site behavior, all unified.",
         "typical_timeline": "3-6 months for full offline integration"
       }
     },
-
     "attribution": {
       "1_to_2": {
         "current_level": 1,
@@ -196,7 +194,6 @@
         "typical_timeline": "4-6 months for full automation"
       }
     },
-
     "reporting": {
       "1_to_2": {
         "current_level": 1,
@@ -230,7 +227,7 @@
           "Weekly reports but still manual elements",
           "One main dashboard but limited coverage",
           "Teams wait for analyst to answer questions",
-          "Dashboards are static—can't drill down",
+          "Dashboards are static, can't drill down",
           "Daily changes go unnoticed until weekly review"
         ],
         "target_state": [
@@ -287,11 +284,10 @@
           "Reports include natural language explanations"
         ],
         "gap_summary": "Current reporting is descriptive (what happened) and reactive. The frontier is predictive (what will happen) and prescriptive (what to do).",
-        "success_indicator": "You'll know you've reached Level 5 when dashboards tell you not just 'conversion dropped 10%' but 'conversion dropped because checkout errors spiked—here's the likely cause and suggested fix.'",
+        "success_indicator": "You'll know you've reached Level 5 when dashboards tell you not just 'conversion dropped 10%' but 'conversion dropped because checkout errors spiked, here's the likely cause and suggested fix.'",
         "typical_timeline": "3-6 months for predictive + prescriptive capabilities"
       }
     },
-
     "experimentation": {
       "1_to_2": {
         "current_level": 1,
@@ -382,11 +378,10 @@
           "Personalization is 1:1, not segment-based"
         ],
         "gap_summary": "A/B tests find the best average, but averages hide individual variation. ML-driven optimization tailors treatment to each user.",
-        "success_indicator": "You'll know you've reached Level 5 when tests don't just find a winner—they train models that personalize the experience for every user automatically.",
+        "success_indicator": "You'll know you've reached Level 5 when tests don't just find a winner, they train models that personalize the experience for every user automatically.",
         "typical_timeline": "4-6 months for ML-driven personalization"
       }
     },
-
     "lifecycle": {
       "1_to_2": {
         "current_level": 1,
@@ -481,7 +476,6 @@
         "typical_timeline": "4-6 months for AI orchestration"
       }
     },
-
     "infrastructure": {
       "1_to_2": {
         "current_level": 1,
@@ -503,7 +497,7 @@
           "Reusable queries for common analyses"
         ],
         "gap_summary": "Without a warehouse, cross-source analysis is painful. Even a basic setup unlocks questions you couldn't answer before.",
-        "success_indicator": "You'll know you've reached Level 2 when you can write one query that joins orders, sessions, and marketing attribution—without touching a spreadsheet.",
+        "success_indicator": "You'll know you've reached Level 2 when you can write one query that joins orders, sessions, and marketing attribution, without touching a spreadsheet.",
         "typical_timeline": "3-4 weeks for basic warehouse + connections"
       },
       "2_to_3": {

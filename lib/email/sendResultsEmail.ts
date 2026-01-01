@@ -44,7 +44,7 @@ export async function sendResultsEmail(
     const { data, error } = await resend.emails.send({
       from: env.RESEND_FROM,
       to: email,
-      subject: `Your MaxMin Assessment Results${dto.company ? ` - ${dto.company}` : ''}`,
+      subject: `Your MaxMin Assessment Results${dto.company ? `, ${dto.company}` : ''}`,
       html,
     });
 
@@ -79,8 +79,8 @@ function buildEmailHtml(data: EmailData): string {
   const headline = company ? `${company}'s Assessment Results` : 'Your Assessment Results';
 
   const intensityCopy = {
-    hot: 'You have compounding upside - but foundations are leaking.',
-    warm: "You're close - a few systems will unlock the next tier.",
+    hot: 'You have compounding upside, but foundations are leaking.',
+    warm: "You're close, a few systems will unlock the next tier.",
     cool: "You're operating clean. Now optimize for leverage.",
   };
 

@@ -3,20 +3,35 @@
   "title": "Level Benchmarks Schema",
   "description": "What good looks like at each level for each dimension",
   "type": "object",
-  "required": ["level_benchmarks"],
+  "required": [
+    "level_benchmarks"
+  ],
   "properties": {
     "level_benchmarks": {
       "type": "object",
-      "required": ["_meta"],
+      "required": [
+        "_meta"
+      ],
       "properties": {
         "_meta": {
           "type": "object",
-          "required": ["description", "total_entries"],
+          "required": [
+            "description",
+            "total_entries"
+          ],
           "properties": {
-            "description": { "type": "string" },
-            "usage": { "type": "string" },
-            "total_entries": { "type": "number" },
-            "transitions": { "type": "string" }
+            "description": {
+              "type": "string"
+            },
+            "usage": {
+              "type": "string"
+            },
+            "total_entries": {
+              "type": "number"
+            },
+            "transitions": {
+              "type": "string"
+            }
           }
         }
       },
@@ -42,26 +57,40 @@
                   "minimum": 1,
                   "maximum": 4
                 },
-                "current_name": { "type": "string" },
+                "current_name": {
+                  "type": "string"
+                },
                 "target_level": {
                   "type": "number",
                   "minimum": 2,
                   "maximum": 5
                 },
-                "target_name": { "type": "string" },
+                "target_name": {
+                  "type": "string"
+                },
                 "current_state": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 3
                 },
                 "target_state": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 3
                 },
-                "gap_summary": { "type": "string" },
-                "success_indicator": { "type": "string" },
-                "typical_timeline": { "type": "string" }
+                "gap_summary": {
+                  "type": "string"
+                },
+                "success_indicator": {
+                  "type": "string"
+                },
+                "typical_timeline": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             }

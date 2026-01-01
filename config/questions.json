@@ -190,7 +190,7 @@
         },
         {
           "id": "q06_incrementality_o3",
-          "label": "Occasional holdout tests (1–2 per year).",
+          "label": "Occasional holdout tests (1 to 2 per year).",
           "score": 3
         },
         {
@@ -219,17 +219,17 @@
         },
         {
           "id": "q07_journey_tracking_o2",
-          "label": "Partially — we use UTMs and GA multi-channel funnels.",
+          "label": "Partially, we use UTMs and GA multi-channel funnels.",
           "score": 2
         },
         {
           "id": "q07_journey_tracking_o3",
-          "label": "Mostly — we see paths in a funnel analysis but with gaps.",
+          "label": "Mostly, we see paths in a funnel analysis but with gaps.",
           "score": 3
         },
         {
           "id": "q07_journey_tracking_o4",
-          "label": "Yes — a multi-channel dashboard shows the journey end-to-end.",
+          "label": "Yes, a multi-channel dashboard shows the journey end-to-end.",
           "score": 4
         },
         {
@@ -282,7 +282,7 @@
       "options": [
         {
           "id": "q09_reporting_cadence_o1",
-          "label": "No regular reporting — only on request or for specific meetings.",
+          "label": "No regular reporting, only on request or for specific meetings.",
           "score": 1
         },
         {
@@ -428,17 +428,17 @@
         },
         {
           "id": "q13_test_frequency_o3",
-          "label": "Continuously in some areas (1–3 tests running at a time).",
+          "label": "Continuously in some areas (1 to 3 tests running at a time).",
           "score": 3
         },
         {
           "id": "q13_test_frequency_o4",
-          "label": "Core workflow — roadmap of experiments, 5–10 tests per month.",
+          "label": "Core workflow, roadmap of experiments, 5 to 10 tests per month.",
           "score": 4
         },
         {
           "id": "q13_test_frequency_o5",
-          "label": "High-velocity culture — every initiative has a test; learnings catalogued.",
+          "label": "High-velocity culture, every initiative has a test; learnings catalogued.",
           "score": 5
         }
       ]
@@ -452,7 +452,7 @@
       "options": [
         {
           "id": "q14_test_tooling_o1",
-          "label": "None — changes are based on intuition or stakeholder requests.",
+          "label": "None, changes are based on intuition or stakeholder requests.",
           "score": 1
         },
         {
@@ -520,7 +520,7 @@
       "options": [
         {
           "id": "q16_beyond_ab_o1",
-          "label": "No — just manual optimizations based on reports.",
+          "label": "No, just manual optimizations based on reports.",
           "score": 1
         },
         {
@@ -622,7 +622,7 @@
       "options": [
         {
           "id": "q19_retention_tactics_o1",
-          "label": "None — primarily promotional batch sends to the full list.",
+          "label": "None, primarily promotional batch sends to the full list.",
           "score": 1
         },
         {
@@ -724,7 +724,7 @@
       "options": [
         {
           "id": "q22_sources_integrated_o1",
-          "label": "None — all separate in each SaaS tool.",
+          "label": "None, all separate in each SaaS tool.",
           "score": 1
         },
         {

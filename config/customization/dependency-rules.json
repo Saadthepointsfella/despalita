@@ -5,7 +5,6 @@
       "usage": "Evaluate conditions against dimension scores to surface dependency alerts in PDF",
       "total_entries": 15
     },
-
     "rules": [
       {
         "id": "tracking_blocks_all",
@@ -13,9 +12,13 @@
         "condition": {
           "dimension": "tracking",
           "operator": "lt",
-          "value": 2.0
+          "value": 2
         },
-        "blocks": ["attribution", "experimentation", "lifecycle"],
+        "blocks": [
+          "attribution",
+          "experimentation",
+          "lifecycle"
+        ],
         "severity": "critical",
         "title": "Tracking Foundation Missing",
         "message": "Your Tracking score ({tracking_score}/5) is critically low. Without reliable data collection, investments in attribution, experimentation, and lifecycle marketing will be built on unreliable data. Address tracking first before scaling other capabilities.",
@@ -30,7 +33,11 @@
           "operator": "lt",
           "value": 2.5
         },
-        "blocks": ["attribution", "experimentation", "lifecycle"],
+        "blocks": [
+          "attribution",
+          "experimentation",
+          "lifecycle"
+        ],
         "severity": "warning",
         "title": "Infrastructure Limits Advanced Capabilities",
         "message": "Your Data Infrastructure score ({infrastructure_score}/5) may limit your ability to implement advanced attribution, run rigorous experiments, or build sophisticated lifecycle programs. These capabilities require unified, reliable data.",
@@ -42,8 +49,16 @@
         "priority": 3,
         "condition": {
           "all": [
-            { "dimension": "tracking", "operator": "lt", "value": 2.5 },
-            { "dimension": "attribution", "operator": "gte", "value": 2.5 }
+            {
+              "dimension": "tracking",
+              "operator": "lt",
+              "value": 2.5
+            },
+            {
+              "dimension": "attribution",
+              "operator": "gte",
+              "value": 2.5
+            }
           ]
         },
         "severity": "warning",
@@ -57,9 +72,23 @@
         "priority": 4,
         "condition": {
           "all": [
-            { "dimension": "attribution", "operator": "gte", "value": 2.5 },
-            { "dimension": "attribution", "operator": "lt", "value": 3.5 },
-            { "question": "q06_incrementality", "option_in": ["o1", "o2"] }
+            {
+              "dimension": "attribution",
+              "operator": "gte",
+              "value": 2.5
+            },
+            {
+              "dimension": "attribution",
+              "operator": "lt",
+              "value": 3.5
+            },
+            {
+              "question": "q06_incrementality",
+              "option_in": [
+                "o1",
+                "o2"
+              ]
+            }
           ]
         },
         "severity": "info",
@@ -73,8 +102,16 @@
         "priority": 5,
         "condition": {
           "all": [
-            { "dimension": "experimentation", "operator": "gte", "value": 3.0 },
-            { "dimension": "reporting", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "experimentation",
+              "operator": "gte",
+              "value": 3
+            },
+            {
+              "dimension": "reporting",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "warning",
@@ -88,8 +125,16 @@
         "priority": 6,
         "condition": {
           "all": [
-            { "dimension": "lifecycle", "operator": "gte", "value": 3.5 },
-            { "dimension": "attribution", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "lifecycle",
+              "operator": "gte",
+              "value": 3.5
+            },
+            {
+              "dimension": "attribution",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "warning",
@@ -103,8 +148,16 @@
         "priority": 7,
         "condition": {
           "all": [
-            { "dimension": "reporting", "operator": "gte", "value": 3.0 },
-            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "reporting",
+              "operator": "gte",
+              "value": 3
+            },
+            {
+              "dimension": "infrastructure",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "info",
@@ -118,14 +171,22 @@
         "priority": 8,
         "condition": {
           "all": [
-            { "dimension": "experimentation", "operator": "gte", "value": 3.5 },
-            { "dimension": "lifecycle", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "experimentation",
+              "operator": "gte",
+              "value": 3.5
+            },
+            {
+              "dimension": "lifecycle",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "info",
         "title": "Testing Focused on Acquisition, Not Retention",
         "message": "Your experimentation maturity is high (score: {experimentation_score}/5), but lifecycle marketing is underdeveloped (score: {lifecycle_score}/5). You may be heavily optimizing acquisition while leaving retention improvements untested.",
-        "recommendation": "Extend your testing program to lifecycle touchpoints—email flows, loyalty programs, and churn interventions often have higher test ROI than acquisition.",
+        "recommendation": "Extend your testing program to lifecycle touchpoints, email flows, loyalty programs, and churn interventions often have higher test ROI than acquisition.",
         "pdf_section": "roadmap_callout"
       },
       {
@@ -133,8 +194,16 @@
         "priority": 9,
         "condition": {
           "all": [
-            { "dimension": "lifecycle", "operator": "gte", "value": 3.0 },
-            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "lifecycle",
+              "operator": "gte",
+              "value": 3
+            },
+            {
+              "dimension": "infrastructure",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "warning",
@@ -148,14 +217,22 @@
         "priority": 10,
         "condition": {
           "all": [
-            { "dimension": "attribution", "operator": "gte", "value": 3.5 },
-            { "dimension": "experimentation", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "attribution",
+              "operator": "gte",
+              "value": 3.5
+            },
+            {
+              "dimension": "experimentation",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "info",
         "title": "Measurement Without Optimization",
         "message": "You have strong attribution (score: {attribution_score}/5) but limited experimentation (score: {experimentation_score}/5). You know what's working, but you're not systematically testing how to make it work better.",
-        "recommendation": "Use your measurement foundation to design and measure experiments. You have the infrastructure to learn faster—now accelerate the testing velocity.",
+        "recommendation": "Use your measurement foundation to design and measure experiments. You have the infrastructure to learn faster, now accelerate the testing velocity.",
         "pdf_section": "roadmap_callout"
       },
       {
@@ -163,8 +240,16 @@
         "priority": 11,
         "condition": {
           "all": [
-            { "dimension": "tracking", "operator": "lt", "value": 2.5 },
-            { "dimension": "infrastructure", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "tracking",
+              "operator": "lt",
+              "value": 2.5
+            },
+            {
+              "dimension": "infrastructure",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "critical",
@@ -178,9 +263,21 @@
         "priority": 12,
         "condition": {
           "all": [
-            { "dimension": "reporting", "operator": "gte", "value": 3.5 },
-            { "dimension": "experimentation", "operator": "lt", "value": 2.5 },
-            { "dimension": "lifecycle", "operator": "lt", "value": 2.5 }
+            {
+              "dimension": "reporting",
+              "operator": "gte",
+              "value": 3.5
+            },
+            {
+              "dimension": "experimentation",
+              "operator": "lt",
+              "value": 2.5
+            },
+            {
+              "dimension": "lifecycle",
+              "operator": "lt",
+              "value": 2.5
+            }
           ]
         },
         "severity": "info",
@@ -196,14 +293,30 @@
           "any": [
             {
               "all": [
-                { "dimension": "experimentation", "operator": "gte", "value": 4.0 },
-                { "dimension": "tracking", "operator": "lt", "value": 3.0 }
+                {
+                  "dimension": "experimentation",
+                  "operator": "gte",
+                  "value": 4
+                },
+                {
+                  "dimension": "tracking",
+                  "operator": "lt",
+                  "value": 3
+                }
               ]
             },
             {
               "all": [
-                { "dimension": "lifecycle", "operator": "gte", "value": 4.0 },
-                { "dimension": "tracking", "operator": "lt", "value": 3.0 }
+                {
+                  "dimension": "lifecycle",
+                  "operator": "gte",
+                  "value": 4
+                },
+                {
+                  "dimension": "tracking",
+                  "operator": "lt",
+                  "value": 3
+                }
               ]
             }
           ]
@@ -219,7 +332,11 @@
         "priority": 14,
         "condition": {
           "all": [
-            { "formula": "max(all_dimensions) - min(all_dimensions)", "operator": "lt", "value": 1.0 }
+            {
+              "formula": "max(all_dimensions), min(all_dimensions)",
+              "operator": "lt",
+              "value": 1
+            }
           ]
         },
         "severity": "positive",
@@ -233,8 +350,16 @@
         "priority": 15,
         "condition": {
           "all": [
-            { "formula": "count(dimensions < 2.0)", "operator": "eq", "value": 1 },
-            { "formula": "count(dimensions >= 3.0)", "operator": "gte", "value": 3 }
+            {
+              "formula": "count(dimensions < 2.0)",
+              "operator": "eq",
+              "value": 1
+            },
+            {
+              "formula": "count(dimensions >= 3.0)",
+              "operator": "gte",
+              "value": 3
+            }
           ]
         },
         "severity": "warning",

@@ -83,7 +83,7 @@
         "Create a unified measurement framework: MTA + MMM + experiments.",
         "Calibrate attribution weights using test results (not opinions)."
       ],
-      "success_indicator": "Budget decisions reference incremental lift and diminishing returns — not just platform ROAS."
+      "success_indicator": "Budget decisions reference incremental lift and diminishing returns, not just platform ROAS."
     },
     {
       "dimension_id": "attribution",
@@ -132,7 +132,7 @@
       "tier": "low",
       "what_it_means": "Reporting is manual and slow. Teams learn about problems after the fact, and decisions happen without shared context or consistent definitions.",
       "now": [
-        "Define 10–15 core KPIs and their exact definitions (one page).",
+        "Define 10 to 15 core KPIs and their exact definitions (one page).",
         "Set a weekly KPI review cadence with clear owners and actions.",
         "Build one single-page dashboard (even if temporary)."
       ],
@@ -146,7 +146,7 @@
         "Introduce a semantic layer to prevent metric disputes.",
         "Add predictive alerts (leading indicators) for common failure modes."
       ],
-      "success_indicator": "Key metrics refresh automatically, and issues are detected early enough to act — not just explained after."
+      "success_indicator": "Key metrics refresh automatically, and issues are detected early enough to act, not just explained after."
     },
     {
       "dimension_id": "reporting",
@@ -201,7 +201,7 @@
       ],
       "next": [
         "Adopt an experimentation tool and define roles (owner, analyst, implementer).",
-        "Build a backlog and run 2–4 tests/month with guardrails.",
+        "Build a backlog and run 2 to 4 tests/month with guardrails.",
         "Standardize stats basics (sample size, run time, stopping rules)."
       ],
       "later": [
@@ -259,13 +259,13 @@
       "what_it_means": "Lifecycle marketing is mostly batch-and-blast. Retention opportunities are missed because segmentation and customer value signals aren’t operationalized.",
       "now": [
         "Set baseline flows: welcome, abandon cart, post-purchase, win-back.",
-        "Define 3–5 lifecycle metrics (repeat rate, time-to-2nd, churn window).",
+        "Define 3 to 5 lifecycle metrics (repeat rate, time-to-2nd, churn window).",
         "Create simple segments: new vs repeat, high vs low AOV."
       ],
       "next": [
         "Introduce lifecycle stages (new, active, at-risk, churned) with tailored messaging.",
         "Add cohort reporting by acquisition source and product category.",
-        "Launch 1–2 retention experiments per month (offer, timing, content)."
+        "Launch 1 to 2 retention experiments per month (offer, timing, content)."
       ],
       "later": [
         "Build predictive CLV or churn scoring to prioritize spend and offers.",
@@ -319,7 +319,7 @@
     {
       "dimension_id": "infrastructure",
       "tier": "low",
-      "what_it_means": "Data lives inside tools with no reliable integration. Analysis is slow, brittle, and hard to trust — blocking better reporting, attribution, and lifecycle work.",
+      "what_it_means": "Data lives inside tools with no reliable integration. Analysis is slow, brittle, and hard to trust, blocking better reporting, attribution, and lifecycle work.",
       "now": [
         "Inventory key data sources and owners (Shopify, ads, email, GA).",
         "Start a daily export for the top 3 sources into one place.",

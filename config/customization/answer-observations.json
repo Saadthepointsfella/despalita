@@ -78,14 +78,14 @@
           "answer_text": "Formal tag governance with version control, testing, and approval workflows",
           "score": 4,
           "observation_short": "You have enterprise-grade tag governance",
-          "observation_detail": "Approval workflows and version control mean tag changes are treated like code changes—reviewed, tested, reversible. This prevents the 'who added this pixel?' mystery that plagues most marketing teams.",
+          "observation_detail": "Approval workflows and version control mean tag changes are treated like code changes, reviewed, tested, reversible. This prevents the 'who added this pixel?' mystery that plagues most marketing teams.",
           "red_flag": false
         },
         "q02_tag_governance_o5": {
           "answer_text": "Automated tag auditing with real-time monitoring for data quality issues",
           "score": 5,
           "observation_short": "You have proactive tag quality management",
-          "observation_detail": "Real-time monitoring catches issues before they corrupt your data. You know within hours if a tag breaks, not weeks later when someone notices conversion data looks wrong. This is rare—most brands discover tracking issues during audits.",
+          "observation_detail": "Real-time monitoring catches issues before they corrupt your data. You know within hours if a tag breaks, not weeks later when someone notices conversion data looks wrong. This is rare, most brands discover tracking issues during audits.",
           "red_flag": false
         }
       },
@@ -141,7 +141,7 @@
           "answer_text": "No, data sits in each tool separately",
           "score": 1,
           "observation_short": "Your customer data is completely siloed",
-          "observation_detail": "Shopify knows purchases, Klaviyo knows email engagement, Meta knows ad interactions—but none of them know about each other. You can't answer 'which email subscribers came from paid ads and then purchased?' This makes attribution and lifecycle optimization nearly impossible.",
+          "observation_detail": "Shopify knows purchases, Klaviyo knows email engagement, Meta knows ad interactions, but none of them know about each other. You can't answer 'which email subscribers came from paid ads and then purchased?' This makes attribution and lifecycle optimization nearly impossible.",
           "red_flag": true
         },
         "q04_touchpoints_linking_o2": {
@@ -155,7 +155,7 @@
           "answer_text": "We automatically merge data from multiple sources on a scheduled basis",
           "score": 3,
           "observation_short": "You have automated data integration",
-          "observation_detail": "Scheduled syncs mean your data is reasonably fresh and consistent. The limitation is usually 'scheduled'—daily or hourly syncs mean you're always slightly behind. And you may have 'sources merged' without true identity resolution.",
+          "observation_detail": "Scheduled syncs mean your data is reasonably fresh and consistent. The limitation is usually 'scheduled', daily or hourly syncs mean you're always slightly behind. And you may have 'sources merged' without true identity resolution.",
           "red_flag": false
         },
         "q04_touchpoints_linking_o4": {
@@ -169,7 +169,7 @@
           "answer_text": "Real-time single customer view with identity resolution across all channels",
           "score": 5,
           "observation_short": "You have real-time identity resolution",
-          "observation_detail": "Real-time unified profiles mean you can act on behavior as it happens—trigger an SMS when someone abandons cart, suppress ads the moment they purchase, personalize the site for returning visitors. This is the foundation for true 1:1 marketing.",
+          "observation_detail": "Real-time unified profiles mean you can act on behavior as it happens, trigger an SMS when someone abandons cart, suppress ads the moment they purchase, personalize the site for returning visitors. This is the foundation for true 1:1 marketing.",
           "red_flag": false
         }
       },
@@ -183,7 +183,7 @@
           "answer_text": "We look at platform-reported conversions in each tool separately",
           "score": 1,
           "observation_short": "You're relying on platform-reported conversions",
-          "observation_detail": "Each platform (Meta, Google, TikTok) claims credit for conversions using its own methodology, typically with generous attribution windows. Add them up and you'll see 2-3x more 'conversions' than actually occurred. Budget decisions based on this data are essentially guesswork—you're letting the platforms grade their own homework.",
+          "observation_detail": "Each platform (Meta, Google, TikTok) claims credit for conversions using its own methodology, typically with generous attribution windows. Add them up and you'll see 2-3x more 'conversions' than actually occurred. Budget decisions based on this data are essentially guesswork, you're letting the platforms grade their own homework.",
           "red_flag": true
         },
         "q05_attribution_method_o2": {
@@ -197,7 +197,7 @@
           "answer_text": "We've implemented a rules-based multi-touch model (time-decay, position-based)",
           "score": 3,
           "observation_short": "You have a multi-touch attribution model",
-          "observation_detail": "Rules-based MTA (position-based, time-decay) is better than last-click because it acknowledges the full funnel. But the weights are arbitrary—why does first-touch get 40% vs 30%? You're directionally better but still making educated guesses rather than data-driven allocations.",
+          "observation_detail": "Rules-based MTA (position-based, time-decay) is better than last-click because it acknowledges the full funnel. But the weights are arbitrary, why does first-touch get 40% vs 30%? You're directionally better but still making educated guesses rather than data-driven allocations.",
           "red_flag": false
         },
         "q05_attribution_method_o4": {
@@ -211,7 +211,7 @@
           "answer_text": "Unified measurement combining MTA, MMM, and ongoing calibration tests",
           "score": 5,
           "observation_short": "You have a unified measurement framework",
-          "observation_detail": "The triangulation approach—MTA for user-level paths, MMM for aggregate effects, incrementality for validation—is how sophisticated brands navigate the measurement landscape. You can answer both 'which users converted from what' and 'what's the true incremental impact of each channel at scale.'",
+          "observation_detail": "The triangulation approach, MTA for user-level paths, MMM for aggregate effects, incrementality for validation, is how sophisticated brands navigate the measurement landscape. You can answer both 'which users converted from what' and 'what's the true incremental impact of each channel at scale.'",
           "red_flag": false
         }
       },
@@ -232,7 +232,7 @@
           "answer_text": "We've done one-off tests in the past but not systematically",
           "score": 2,
           "observation_short": "You've experimented with incrementality but not consistently",
-          "observation_detail": "One-off tests are a good start—you've seen that incrementality can differ from attributed conversions. But point-in-time tests go stale quickly as your channel mix, creative, and audience change. Without regular validation, you drift back to trusting platform numbers.",
+          "observation_detail": "One-off tests are a good start, you've seen that incrementality can differ from attributed conversions. But point-in-time tests go stale quickly as your channel mix, creative, and audience change. Without regular validation, you drift back to trusting platform numbers.",
           "red_flag": false
         },
         "q06_incrementality_o3": {
@@ -246,14 +246,14 @@
           "answer_text": "Regular geo-lift or holdout experiments validate our attribution",
           "score": 4,
           "observation_short": "You have systematic incrementality measurement",
-          "observation_detail": "Regular experiments mean your attribution model stays calibrated. You know when platform claims diverge from reality and can adjust accordingly. This level of rigor is rare—most CMOs would kill for this confidence in their numbers.",
+          "observation_detail": "Regular experiments mean your attribution model stays calibrated. You know when platform claims diverge from reality and can adjust accordingly. This level of rigor is rare, most CMOs would kill for this confidence in their numbers.",
           "red_flag": false
         },
         "q06_incrementality_o5": {
           "answer_text": "Always-on incrementality measurement informs all major spend decisions",
           "score": 5,
           "observation_short": "You have continuous incrementality measurement",
-          "observation_detail": "Always-on measurement (ghost bidding, synthetic control, ongoing holdouts) means you never have to wonder 'is this actually working?' You make budget decisions with real-time confidence in incremental impact. This is the frontier—most brands are years away from this capability.",
+          "observation_detail": "Always-on measurement (ghost bidding, synthetic control, ongoing holdouts) means you never have to wonder 'is this actually working?' You make budget decisions with real-time confidence in incremental impact. This is the frontier, most brands are years away from this capability.",
           "red_flag": false
         }
       },
@@ -271,21 +271,21 @@
           "red_flag": true
         },
         "q07_journey_tracking_o2": {
-          "answer_text": "Partially—we use UTM parameters and examine GA multi-channel funnels",
+          "answer_text": "Partially, we use UTM parameters and examine GA multi-channel funnels",
           "score": 2,
           "observation_short": "You have basic journey visibility via UTMs",
           "observation_detail": "UTMs and GA multi-channel reports show you that journeys exist, but they're incomplete. Users who clear cookies, switch devices, or convert offline disappear from the path. You see maybe 30-50% of the true journey, and that sample is biased toward desktop users who don't clear cookies.",
           "red_flag": false
         },
         "q07_journey_tracking_o3": {
-          "answer_text": "Mostly—we can see paths in one funnel analysis but with gaps",
+          "answer_text": "Mostly, we can see paths in one funnel analysis but with gaps",
           "score": 3,
           "observation_short": "You have reasonable journey visibility with known gaps",
           "observation_detail": "You can see most touchpoints for most users, which is enough to understand general patterns (e.g., 'social tends to be first-touch, email tends to close'). The gaps are probably cross-device and view-through attribution. You can make directionally correct decisions.",
           "red_flag": false
         },
         "q07_journey_tracking_o4": {
-          "answer_text": "Yes—multi-channel dashboard shows full journey end-to-end",
+          "answer_text": "Yes, multi-channel dashboard shows full journey end-to-end",
           "score": 4,
           "observation_short": "You have comprehensive journey tracking",
           "observation_detail": "End-to-end journey visibility lets you optimize the full funnel, not just individual channels. You can see that increasing prospecting spend feeds the retargeting pool, which feeds email, which closes the sale. You're managing a system, not siloed channels.",
@@ -323,14 +323,14 @@
           "answer_text": "Based on blended CAC and custom attribution weights",
           "score": 3,
           "observation_short": "You're using blended metrics with custom weights",
-          "observation_detail": "Blended CAC (total spend / new customers) is honest—it doesn't pretend precision you don't have. Custom weights show you're thinking about the full funnel. The limitation is that you're still guessing at the weights. But you're asking better questions than most.",
+          "observation_detail": "Blended CAC (total spend / new customers) is honest, it doesn't pretend precision you don't have. Custom weights show you're thinking about the full funnel. The limitation is that you're still guessing at the weights. But you're asking better questions than most.",
           "red_flag": false
         },
         "q08_budget_allocation_o4": {
           "answer_text": "Using MMM or econometric models to forecast diminishing returns",
           "score": 4,
           "observation_short": "You're using econometric models for allocation",
-          "observation_detail": "MMM lets you model saturation curves—'if I spend $100K on Meta, I get X; at $150K, I get Y but with diminishing returns.' This is how sophisticated advertisers avoid over-spending on any single channel. You can optimize the portfolio, not just individual channels.",
+          "observation_detail": "MMM lets you model saturation curves, 'if I spend $100K on Meta, I get X; at $150K, I get Y but with diminishing returns.' This is how sophisticated advertisers avoid over-spending on any single channel. You can optimize the portfolio, not just individual channels.",
           "red_flag": false
         },
         "q08_budget_allocation_o5": {
@@ -348,10 +348,10 @@
       "dimension": "reporting",
       "options": {
         "q09_reporting_cadence_o1": {
-          "answer_text": "No regular reporting—only on request or for specific meetings",
+          "answer_text": "No regular reporting, only on request or for specific meetings",
           "score": 1,
           "observation_short": "You have no regular reporting cadence",
-          "observation_detail": "Without regular reporting, you're flying blind between meetings. Problems can fester for weeks before anyone notices. When you do report, it's reactive—assembling data to answer questions that should have been answered already. This creates fire drills and bad decisions.",
+          "observation_detail": "Without regular reporting, you're flying blind between meetings. Problems can fester for weeks before anyone notices. When you do report, it's reactive, assembling data to answer questions that should have been answered already. This creates fire drills and bad decisions.",
           "red_flag": true
         },
         "q09_reporting_cadence_o2": {
@@ -365,21 +365,21 @@
           "answer_text": "Automated dashboards for key metrics updated daily with weekly reviews",
           "score": 3,
           "observation_short": "You have automated dashboards with regular reviews",
-          "observation_detail": "Automated dashboards free up analyst time and ensure consistency. Daily updates mean you're reasonably current. Weekly reviews create accountability. The gap is usually self-service—can people answer their own questions, or do they wait for the weekly deck?",
+          "observation_detail": "Automated dashboards free up analyst time and ensure consistency. Daily updates mean you're reasonably current. Weekly reviews create accountability. The gap is usually self-service, can people answer their own questions, or do they wait for the weekly deck?",
           "red_flag": false
         },
         "q09_reporting_cadence_o4": {
           "answer_text": "Interactive BI dashboards (Looker, Tableau) with self-service for all teams",
           "score": 4,
           "observation_short": "You have self-service analytics",
-          "observation_detail": "Self-service means people can answer questions when they have them, not when the analyst has time. This democratizes data and accelerates decisions. The risk is dashboard proliferation and inconsistent metrics—you need governance alongside self-service.",
+          "observation_detail": "Self-service means people can answer questions when they have them, not when the analyst has time. This democratizes data and accelerates decisions. The risk is dashboard proliferation and inconsistent metrics, you need governance alongside self-service.",
           "red_flag": false
         },
         "q09_reporting_cadence_o5": {
           "answer_text": "Real-time monitoring with automated anomaly alerts and predictive insights",
           "score": 5,
           "observation_short": "You have proactive, real-time analytics",
-          "observation_detail": "Anomaly detection means you don't discover problems during weekly reviews—you're alerted immediately when something breaks. Predictive insights tell you what's likely to happen, not just what did. This shifts analytics from reporting to early warning and forecasting.",
+          "observation_detail": "Anomaly detection means you don't discover problems during weekly reviews, you're alerted immediately when something breaks. Predictive insights tell you what's likely to happen, not just what did. This shifts analytics from reporting to early warning and forecasting.",
           "red_flag": false
         }
       },
@@ -393,7 +393,7 @@
           "answer_text": "Basic web metrics or sales, isolated by channel",
           "score": 1,
           "observation_short": "You have siloed, basic dashboards",
-          "observation_detail": "Channel-specific dashboards mean you can't see the full picture. Marketing looks at ROAS, finance looks at P&L, ops looks at inventory—but no one can see how they connect. The question 'did our marketing investment actually drive profitable growth?' requires manual assembly.",
+          "observation_detail": "Channel-specific dashboards mean you can't see the full picture. Marketing looks at ROAS, finance looks at P&L, ops looks at inventory, but no one can see how they connect. The question 'did our marketing investment actually drive profitable growth?' requires manual assembly.",
           "red_flag": true
         },
         "q10_dashboard_scope_o2": {
@@ -449,7 +449,7 @@
           "answer_text": "Defined metric framework (CAC, LTV definitions) but not always enforced",
           "score": 3,
           "observation_short": "You have documented definitions with uneven adoption",
-          "observation_detail": "A documented framework is valuable—you've done the hard work of defining what metrics mean. The enforcement gap is common: new hires don't know, old habits persist, and one-off analyses use different logic. You need socialization, not just documentation.",
+          "observation_detail": "A documented framework is valuable, you've done the hard work of defining what metrics mean. The enforcement gap is common: new hires don't know, old habits persist, and one-off analyses use different logic. You need socialization, not just documentation.",
           "red_flag": false
         },
         "q11_metric_definitions_o4": {
@@ -463,7 +463,7 @@
           "answer_text": "Certified metrics with data governance, semantic layer, and audit trails",
           "score": 5,
           "observation_short": "You have enterprise-grade metric governance",
-          "observation_detail": "A semantic layer (like Looker's LookML or dbt metrics) means metrics are defined in code, versioned, and consistent everywhere. Audit trails show what changed when. This is how you scale analytics without losing accuracy—rare in DTC but standard in large enterprises.",
+          "observation_detail": "A semantic layer (like Looker's LookML or dbt metrics) means metrics are defined in code, versioned, and consistent everywhere. Audit trails show what changed when. This is how you scale analytics without losing accuracy, rare in DTC but standard in large enterprises.",
           "red_flag": false
         }
       },
@@ -491,7 +491,7 @@
           "answer_text": "Daily dashboard checks enable same-day detection of major issues",
           "score": 3,
           "observation_short": "You catch major issues same-day",
-          "observation_detail": "Daily checks reduce the blast radius of problems significantly. You'll catch big issues within hours. The gap is that you're still relying on someone to look—and they might miss subtle anomalies or check on weekends. Automation would close this gap.",
+          "observation_detail": "Daily checks reduce the blast radius of problems significantly. You'll catch big issues within hours. The gap is that you're still relying on someone to look, and they might miss subtle anomalies or check on weekends. Automation would close this gap.",
           "red_flag": false
         },
         "q12_anomaly_response_o4": {
@@ -505,7 +505,7 @@
           "answer_text": "Real-time monitoring with auto-diagnosis and suggested actions",
           "score": 5,
           "observation_short": "You have intelligent anomaly detection",
-          "observation_detail": "Auto-diagnosis ('Conversion rate dropped because checkout page is erroring') with suggested actions ('Page error started at 2pm, likely related to deployment') turns alerts into action. This is the future of operational analytics—from 'something's wrong' to 'here's what's wrong and what to do.'",
+          "observation_detail": "Auto-diagnosis ('Conversion rate dropped because checkout page is erroring') with suggested actions ('Page error started at 2pm, likely related to deployment') turns alerts into action. This is the future of operational analytics, from 'something's wrong' to 'here's what's wrong and what to do.'",
           "red_flag": false
         }
       },
@@ -519,7 +519,7 @@
           "answer_text": "Never or almost never",
           "score": 1,
           "observation_short": "You don't run experiments",
-          "observation_detail": "Without experimentation, every change is a guess. You redesign the homepage, launch a new campaign, change prices—and you don't actually know if it worked or if something else changed. You're making bets without ever knowing if you won.",
+          "observation_detail": "Without experimentation, every change is a guess. You redesign the homepage, launch a new campaign, change prices, and you don't actually know if it worked or if something else changed. You're making bets without ever knowing if you won.",
           "red_flag": true
         },
         "q13_test_frequency_o2": {
@@ -537,14 +537,14 @@
           "red_flag": false
         },
         "q13_test_frequency_o4": {
-          "answer_text": "Core part of workflow—roadmap of experiments, 5-10 tests per month",
+          "answer_text": "Core part of workflow, roadmap of experiments, 5-10 tests per month",
           "score": 4,
           "observation_short": "You have a systematic experimentation program",
           "observation_detail": "A testing roadmap and 5-10 tests/month means experimentation is embedded in how you work, not a side project. You're compounding learnings over time. The next frontier is leveraging those learnings across teams and into broader strategy.",
           "red_flag": false
         },
         "q13_test_frequency_o5": {
-          "answer_text": "High-velocity testing culture—every initiative has a test, learnings catalogued",
+          "answer_text": "High-velocity testing culture, every initiative has a test, learnings catalogued",
           "score": 5,
           "observation_short": "You have a world-class testing culture",
           "observation_detail": "When 'everything is a test,' you never have to wonder 'did that work?' Catalogued learnings mean institutional knowledge grows over time. New hires can see what's been tested and what was learned. This is how the fastest-growing companies operate.",
@@ -558,7 +558,7 @@
       "dimension": "experimentation",
       "options": {
         "q14_test_tooling_o1": {
-          "answer_text": "None—we make changes based on intuition or stakeholder requests",
+          "answer_text": "None, we make changes based on intuition or stakeholder requests",
           "score": 1,
           "observation_short": "You have no testing capability",
           "observation_detail": "Without testing tools, every change is a HiPPO decision (Highest Paid Person's Opinion). Someone thinks red buttons convert better, you change them, and you'll never know if it actually worked or if conversion just fluctuated. This is how teams ship bad ideas confidently.",
@@ -575,7 +575,7 @@
           "answer_text": "Basic A/B testing tool for site or email (Google Optimize, Klaviyo)",
           "score": 3,
           "observation_short": "You have proper testing tools",
-          "observation_detail": "Dedicated tools handle randomization, sample size, and statistical significance—the basics you need for valid results. You can run real experiments and trust the outcomes. The limitation is usually scope: testing emails is different from testing site UX is different from testing pricing.",
+          "observation_detail": "Dedicated tools handle randomization, sample size, and statistical significance, the basics you need for valid results. You can run real experiments and trust the outcomes. The limitation is usually scope: testing emails is different from testing site UX is different from testing pricing.",
           "red_flag": false
         },
         "q14_test_tooling_o4": {
@@ -610,7 +610,7 @@
           "answer_text": "If a test shows lift, we implement; otherwise ad-hoc",
           "score": 2,
           "observation_short": "You act on positive results only",
-          "observation_detail": "Implementing winners is good, but there's no systematic learning. Failed experiments are just as valuable—they tell you what doesn't work and why. Without documenting and analyzing failures, you'll repeat the same mistakes or miss adjacent opportunities.",
+          "observation_detail": "Implementing winners is good, but there's no systematic learning. Failed experiments are just as valuable, they tell you what doesn't work and why. Without documenting and analyzing failures, you'll repeat the same mistakes or miss adjacent opportunities.",
           "red_flag": false
         },
         "q15_decision_use_o3": {
@@ -645,7 +645,7 @@
           "answer_text": "No, just manual optimizations based on reports",
           "score": 1,
           "observation_short": "You rely on manual optimization only",
-          "observation_detail": "Manual optimization means a human looks at data, decides what to change, implements it, and checks results later. This works but doesn't scale. The best change for customer A is different from customer B—manual optimization treats everyone the same.",
+          "observation_detail": "Manual optimization means a human looks at data, decides what to change, implements it, and checks results later. This works but doesn't scale. The best change for customer A is different from customer B, manual optimization treats everyone the same.",
           "red_flag": true
         },
         "q16_beyond_ab_o2": {
@@ -673,7 +673,7 @@
           "answer_text": "AI-driven personalization auto-optimizing for each user in real-time",
           "score": 5,
           "observation_short": "You have real-time AI personalization",
-          "observation_detail": "Real-time AI personalization means every interaction is optimized for that specific user at that moment. The algorithm learns continuously and adapts instantly. This is the state of the art—most brands aspire to this but haven't achieved it.",
+          "observation_detail": "Real-time AI personalization means every interaction is optimized for that specific user at that moment. The algorithm learns continuously and adapts instantly. This is the state of the art, most brands aspire to this but haven't achieved it.",
           "red_flag": false
         }
       },
@@ -694,7 +694,7 @@
           "answer_text": "Repeat purchase rate or basic churn in a simple way",
           "score": 2,
           "observation_short": "You track basic retention metrics",
-          "observation_detail": "Repeat rate and churn are good starting points—you can see if customers come back. But averages hide what matters: which customers repeat and why? Which acquisition channels produce repeat buyers? Without cohort analysis, you're missing the insights that drive action.",
+          "observation_detail": "Repeat rate and churn are good starting points, you can see if customers come back. But averages hide what matters: which customers repeat and why? Which acquisition channels produce repeat buyers? Without cohort analysis, you're missing the insights that drive action.",
           "red_flag": false
         },
         "q17_beyond_conversion_o3": {
@@ -708,7 +708,7 @@
           "answer_text": "Detailed LTV by acquisition source, retention curves, predictive CLV",
           "score": 4,
           "observation_short": "You have sophisticated lifecycle analytics",
-          "observation_detail": "LTV by source lets you optimize acquisition for long-term value, not just initial ROAS. Retention curves show when customers churn and create intervention opportunities. Predictive CLV lets you act before behavior happens—the foundation of proactive retention.",
+          "observation_detail": "LTV by source lets you optimize acquisition for long-term value, not just initial ROAS. Retention curves show when customers churn and create intervention opportunities. Predictive CLV lets you act before behavior happens, the foundation of proactive retention.",
           "red_flag": false
         },
         "q17_beyond_conversion_o5": {
@@ -757,7 +757,7 @@
           "answer_text": "1:1 personalization using ML models for each customer across all touchpoints",
           "score": 5,
           "observation_short": "You have individual-level personalization",
-          "observation_detail": "Moving from segments to individuals means every customer gets truly personalized treatment based on their specific behavior and predicted needs. The ML figures out what works for each person. This is the end state most brands aspire to—and very few achieve.",
+          "observation_detail": "Moving from segments to individuals means every customer gets truly personalized treatment based on their specific behavior and predicted needs. The ML figures out what works for each person. This is the end state most brands aspire to, and very few achieve.",
           "red_flag": false
         }
       },
@@ -768,24 +768,24 @@
       "dimension": "lifecycle",
       "options": {
         "q19_retention_tactics_o1": {
-          "answer_text": "None—primarily promotional batch sends to full list",
+          "answer_text": "None, primarily promotional batch sends to full list",
           "score": 1,
           "observation_short": "You rely on batch promotional emails",
-          "observation_detail": "Batch-and-blast to your full list trains customers to wait for sales and burns out your engaged subscribers. Your best customers see the same 20% off emails as people who never buy. There's no data informing who gets what message—it's spray and pray.",
+          "observation_detail": "Batch-and-blast to your full list trains customers to wait for sales and burns out your engaged subscribers. Your best customers see the same 20% off emails as people who never buy. There's no data informing who gets what message, it's spray and pray.",
           "red_flag": true
         },
         "q19_retention_tactics_o2": {
           "answer_text": "Basic automations: welcome series, abandoned cart",
           "score": 2,
           "observation_short": "You have basic lifecycle automations",
-          "observation_detail": "Welcome and abandoned cart are high-ROI automations—good that you have them. But they're now table stakes. You're missing the rest of the lifecycle: post-purchase, replenishment, win-back, VIP treatment. The opportunity is expanding your automation coverage.",
+          "observation_detail": "Welcome and abandoned cart are high-ROI automations, good that you have them. But they're now table stakes. You're missing the rest of the lifecycle: post-purchase, replenishment, win-back, VIP treatment. The opportunity is expanding your automation coverage.",
           "red_flag": false
         },
         "q19_retention_tactics_o3": {
           "answer_text": "Behavioral triggers plus targeted campaigns for lapsing customers",
           "score": 3,
           "observation_short": "You have behavioral triggers and win-back campaigns",
-          "observation_detail": "Behavioral triggers (browse abandon, wishlist, etc.) and win-back campaigns show you're thinking about the full lifecycle. You're catching customers at key moments. The next step is predictive—acting before they lapse rather than after.",
+          "observation_detail": "Behavioral triggers (browse abandon, wishlist, etc.) and win-back campaigns show you're thinking about the full lifecycle. You're catching customers at key moments. The next step is predictive, acting before they lapse rather than after.",
           "red_flag": false
         },
         "q19_retention_tactics_o4": {
@@ -813,7 +813,7 @@
           "answer_text": "We don't analyze lifecycle data for strategic decisions",
           "score": 1,
           "observation_short": "Lifecycle data doesn't inform strategy",
-          "observation_detail": "If lifecycle data doesn't inform strategy, you're missing crucial signals. Why do customers churn? What do loyalists have in common? Which products drive repeat purchases? These insights should shape product development, pricing, and go-to-market—not just marketing campaigns.",
+          "observation_detail": "If lifecycle data doesn't inform strategy, you're missing crucial signals. Why do customers churn? What do loyalists have in common? Which products drive repeat purchases? These insights should shape product development, pricing, and go-to-market, not just marketing campaigns.",
           "red_flag": true
         },
         "q20_strategy_influence_o2": {
@@ -827,7 +827,7 @@
           "answer_text": "Retention analysis informs specific initiatives (e.g., onboarding improvements)",
           "score": 3,
           "observation_short": "Lifecycle analysis drives specific improvements",
-          "observation_detail": "Using retention analysis to improve onboarding, product experience, or post-purchase shows you're connecting data to action. You're moving beyond reporting to intervention. The opportunity is expanding scope—letting lifecycle insights influence more decisions.",
+          "observation_detail": "Using retention analysis to improve onboarding, product experience, or post-purchase shows you're connecting data to action. You're moving beyond reporting to intervention. The opportunity is expanding scope, letting lifecycle insights influence more decisions.",
           "red_flag": false
         },
         "q20_strategy_influence_o4": {
@@ -841,7 +841,7 @@
           "answer_text": "Customer intelligence embedded in all product and strategy decisions",
           "score": 5,
           "observation_short": "Customer intelligence drives the business",
-          "observation_detail": "When customer intelligence shapes product roadmap, pricing strategy, and company direction—not just marketing tactics—you're truly customer-centric. The voice of the customer (via data) is in every room. This is cultural, not just analytical.",
+          "observation_detail": "When customer intelligence shapes product roadmap, pricing strategy, and company direction, not just marketing tactics, you're truly customer-centric. The voice of the customer (via data) is in every room. This is cultural, not just analytical.",
           "red_flag": false
         }
       },
@@ -869,21 +869,21 @@
           "answer_text": "Basic data warehouse or database with occasional manual imports",
           "score": 3,
           "observation_short": "You have a warehouse with manual updates",
-          "observation_detail": "A data warehouse is the right architecture—you can join data across sources and run complex queries. But manual imports mean data is perpetually stale and someone's time is burned on ETL. Automation is the obvious next step.",
+          "observation_detail": "A data warehouse is the right architecture, you can join data across sources and run complex queries. But manual imports mean data is perpetually stale and someone's time is burned on ETL. Automation is the obvious next step.",
           "red_flag": false
         },
         "q21_data_consolidation_o4": {
           "answer_text": "Automated ETL pipeline feeding cloud warehouse (Snowflake, BigQuery) daily",
           "score": 4,
           "observation_short": "You have automated data pipelines",
-          "observation_detail": "Automated daily ETL means your data is always current and nobody wastes time on manual extraction. Cloud warehouses scale effortlessly. This is the modern data stack foundation—you can now build sophisticated analytics on top of reliable data.",
+          "observation_detail": "Automated daily ETL means your data is always current and nobody wastes time on manual extraction. Cloud warehouses scale effortlessly. This is the modern data stack foundation, you can now build sophisticated analytics on top of reliable data.",
           "red_flag": false
         },
         "q21_data_consolidation_o5": {
           "answer_text": "Modern data stack with streaming, transformation, and reverse ETL",
           "score": 5,
           "observation_short": "You have a complete modern data stack",
-          "observation_detail": "Streaming enables real-time use cases. Transformation (dbt) creates reliable, tested data models. Reverse ETL pushes insights back into operational tools. This is the full picture—data flows in, gets transformed, and flows back out to activate insights.",
+          "observation_detail": "Streaming enables real-time use cases. Transformation (dbt) creates reliable, tested data models. Reverse ETL pushes insights back into operational tools. This is the full picture, data flows in, gets transformed, and flows back out to activate insights.",
           "red_flag": false
         }
       },
@@ -894,7 +894,7 @@
       "dimension": "infrastructure",
       "options": {
         "q22_sources_integrated_o1": {
-          "answer_text": "None—all separate in each SaaS tool",
+          "answer_text": "None, all separate in each SaaS tool",
           "score": 1,
           "observation_short": "You have completely siloed data",
           "observation_detail": "Completely siloed data means you can't answer basic questions like 'which ad campaigns drive repeat customers?' or 'what's the LTV of email subscribers vs. non-subscribers?' Each tool is a walled garden. Your analysis is limited to what each vendor provides.",
@@ -904,7 +904,7 @@
           "answer_text": "Some marketing platforms integrated into analytics (e.g., GA + ads)",
           "score": 2,
           "observation_short": "You have partial marketing data integration",
-          "observation_detail": "Connecting GA to ad platforms is a start—you can see campaign performance in one place. But you're still missing the connection to actual revenue (Shopify), customer behavior (Klaviyo), and support experience. You have marketing data but not customer data.",
+          "observation_detail": "Connecting GA to ad platforms is a start, you can see campaign performance in one place. But you're still missing the connection to actual revenue (Shopify), customer behavior (Klaviyo), and support experience. You have marketing data but not customer data.",
           "red_flag": false
         },
         "q22_sources_integrated_o3": {
@@ -946,7 +946,7 @@
           "answer_text": "Some manual cleaning and verification when issues surface",
           "score": 2,
           "observation_short": "You fix data issues reactively",
-          "observation_detail": "Fixing issues when they surface means they've already caused problems—wrong reports, bad decisions, lost trust. Manual cleaning is time-consuming and doesn't prevent the same issue from recurring. You're playing whack-a-mole with data quality.",
+          "observation_detail": "Fixing issues when they surface means they've already caused problems, wrong reports, bad decisions, lost trust. Manual cleaning is time-consuming and doesn't prevent the same issue from recurring. You're playing whack-a-mole with data quality.",
           "red_flag": false
         },
         "q23_data_quality_o3": {
@@ -1009,7 +1009,7 @@
           "answer_text": "Full ML infrastructure: training, serving, monitoring models in production",
           "score": 5,
           "observation_short": "You have production ML infrastructure",
-          "observation_detail": "Full ML infrastructure means you can train models, deploy them to production, monitor their performance, and retrain as needed. This is rare in DTC—most brands use ML vendors, not build in-house. If you have this, you're operating like a tech company.",
+          "observation_detail": "Full ML infrastructure means you can train models, deploy them to production, monitor their performance, and retrain as needed. This is rare in DTC, most brands use ML vendors, not build in-house. If you have this, you're operating like a tech company.",
           "red_flag": false
         }
       },

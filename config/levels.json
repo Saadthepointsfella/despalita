@@ -6,12 +6,12 @@
       "key": "reactive",
       "name": "Reactive",
       "score_range": {
-        "min": 1.0,
-        "max": 2.0,
+        "min": 1,
+        "max": 2,
         "min_inclusive": true,
         "max_inclusive": false
       },
-      "hero_title": "You're flying blind — but you can fix it fast",
+      "hero_title": "You're flying blind, but you can fix it fast",
       "hero_copy": "Right now, analytics is mostly a rear‑view mirror. The upside: foundational fixes deliver the fastest ROI, and you can build momentum quickly.",
       "cta_tone_default": "hot",
       "color_token": "colors.levels.1"
@@ -21,12 +21,12 @@
       "key": "structured",
       "name": "Structured",
       "score_range": {
-        "min": 2.0,
+        "min": 2,
         "max": 2.5,
         "min_inclusive": true,
         "max_inclusive": false
       },
-      "hero_title": "Foundation is there — now close the gaps",
+      "hero_title": "Foundation is there, now close the gaps",
       "hero_copy": "You have reporting and some tracking, but it’s not consistent end‑to‑end. Your next step is integration, definitions, and repeatable routines.",
       "cta_tone_default": "warm",
       "color_token": "colors.levels.2"
@@ -41,7 +41,7 @@
         "min_inclusive": true,
         "max_inclusive": false
       },
-      "hero_title": "Data-aware — time to integrate and optimize",
+      "hero_title": "Data-aware, time to integrate and optimize",
       "hero_copy": "You’re doing many things right, but the system isn’t compounding yet. The opportunity is to unify measurement and turn insights into consistent decisions.",
       "cta_tone_default": "warm",
       "color_token": "colors.levels.3"
@@ -56,7 +56,7 @@
         "min_inclusive": true,
         "max_inclusive": false
       },
-      "hero_title": "Truly data-driven — push toward compounding gains",
+      "hero_title": "Truly data-driven, push toward compounding gains",
       "hero_copy": "Your analytics stack is working across teams. Now the leverage is in automation, higher velocity testing, and tighter decision loops.",
       "cta_tone_default": "cool",
       "color_token": "colors.levels.4"
@@ -67,11 +67,11 @@
       "name": "Compounding",
       "score_range": {
         "min": 4.5,
-        "max": 5.0,
+        "max": 5,
         "min_inclusive": true,
         "max_inclusive": true
       },
-      "hero_title": "Elite — keep the flywheel spinning",
+      "hero_title": "Elite, keep the flywheel spinning",
       "hero_copy": "Analytics is a durable advantage. The focus is maintaining quality, scaling personalization safely, and continuously calibrating the growth engine.",
       "cta_tone_default": "cool",
       "color_token": "colors.levels.5"

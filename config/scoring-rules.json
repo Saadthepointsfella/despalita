@@ -22,7 +22,7 @@
     },
     "weakest_link": {
       "enabled": true,
-      "trigger_min_dim_lt": 2.0,
+      "trigger_min_dim_lt": 2,
       "cap_delta": 1.5,
       "cap_expression": {
         "type": "min",
@@ -68,13 +68,13 @@
       }
     },
     "foundation_gap": {
-      "threshold": 2.0,
+      "threshold": 2,
       "rule": {
         "type": "lt",
         "left": {
           "fact": "dimension_score"
         },
-        "right": 2.0
+        "right": 2
       }
     }
   },
@@ -83,14 +83,14 @@
     "ranges": [
       {
         "level": 1,
-        "min": 1.0,
-        "max": 2.0,
+        "min": 1,
+        "max": 2,
         "min_inclusive": true,
         "max_inclusive": false
       },
       {
         "level": 2,
-        "min": 2.0,
+        "min": 2,
         "max": 2.5,
         "min_inclusive": true,
         "max_inclusive": false
@@ -112,7 +112,7 @@
       {
         "level": 5,
         "min": 4.5,
-        "max": 5.0,
+        "max": 5,
         "min_inclusive": true,
         "max_inclusive": true
       }
@@ -123,7 +123,7 @@
     "tiers": [
       {
         "tier": "low",
-        "min": 1.0,
+        "min": 1,
         "max": 2.5,
         "min_inclusive": true,
         "max_inclusive": false
@@ -138,7 +138,7 @@
       {
         "tier": "high",
         "min": 3.5,
-        "max": 5.0,
+        "max": 5,
         "min_inclusive": true,
         "max_inclusive": true
       }
@@ -192,7 +192,7 @@
       ],
       "then": {
         "cta_tone": "warm",
-        "reason": "At least one dimension significantly below overall average (avg - 1.5)."
+        "reason": "At least one dimension significantly below overall average (avg, 1.5)."
       }
     },
     {

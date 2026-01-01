@@ -2,10 +2,10 @@
   "version": "1.0.0",
   "dimension_scores": {
     "tracking": 4.75,
-    "attribution": 1.0,
-    "reporting": 4.0,
-    "experimentation": 4.0,
-    "lifecycle": 4.0,
+    "attribution": 1,
+    "reporting": 4,
+    "experimentation": 4,
+    "lifecycle": 4,
     "infrastructure": 4.5
   },
   "base_overall_score": 3.71,
@@ -13,22 +13,22 @@
   "weakest_link_applied": true,
   "min_dimension": {
     "dimension_id": "attribution",
-    "score": 1.0
+    "score": 1
   },
   "primary_gap": {
     "dimension_id": "attribution",
-    "score": 1.0
+    "score": 1
   },
   "critical_gaps": [
     {
       "dimension_id": "attribution",
-      "score": 1.0
+      "score": 1
     }
   ],
   "foundation_gaps": [
     {
       "dimension_id": "attribution",
-      "score": 1.0
+      "score": 1
     }
   ],
   "level": {

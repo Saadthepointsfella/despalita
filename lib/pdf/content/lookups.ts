@@ -45,12 +45,62 @@ export function getImpact(pack: ImpactPack, dimension: DimensionKey, tier: Tier)
 }
 
 export function getToolRecommendations(pack: ToolRecommendationPack, dimension: DimensionKey, tier: Tier) {
-  // Navigate: tool_recommendations.{dimension}.{tier}.recommended_tools
-  const dim = pack.tool_recommendations[dimension];
-  const tierData = dim?.[tier];
-  const tools = tierData?.recommended_tools;
+  if (pack.tool_recommendations_patch) {
+    const dim = pack.tool_recommendations_patch[dimension as string];
+    const tierData = dim?.[tier] ?? dim?.mid;
+    const tools = tierData?.recommended_tools;
+    if (Array.isArray(tools) && tools.length) {
+      return tools.map(t => ({
+        name: t.name,
+        pricing: t.price ?? '',
+        description: t.note ?? t.fit ?? '',
+      }));
+    }
+  }
+
+  // Schema: services_we_dont_do_keep_vendors_as_is
+  if (pack.services_we_dont_do_keep_vendors_as_is) {
+    const block = pack.services_we_dont_do_keep_vendors_as_is[dimension as string];
+    const vendors = block?.vendor_platforms;
+    if (Array.isArray(vendors) && vendors.length) {
+      return vendors.map((v) => ({
+        name: v.name,
+        pricing: v.category ?? '',
+        description: v.utility ?? v.best_for ?? v.watchouts ?? '',
+      }));
+    }
+  }
+
+  // Legacy schema: tool_recommendations.{dimension}.{tier}.recommended_tools
+  if (pack.tool_recommendations) {
+    const dim = pack.tool_recommendations[dimension];
+    const tierData = dim?.[tier];
+    const tools = tierData?.recommended_tools;
+    if (!Array.isArray(tools)) return [];
+    return tools.map(t => ({
+      name: t.name,
+      pricing: t.price ?? '',
+      description: t.note ?? t.fit ?? '',
+    }));
+  }
+
+  // Technical competitors schema: technical_competitors.{category}.recommended_tools
+  const technical = pack.technical_competitors;
+  if (!technical) return [];
+
+  const categoryByDimension: Record<string, string> = {
+    tracking: 'tracking_quality_monitoring',
+    attribution: 'attribution_mmm_incrementality',
+    reporting: 'reporting_bi_layer',
+    experimentation: 'experimentation_build_it_yourself',
+    lifecycle: 'cdp_identity_event_pipeline',
+    infrastructure: 'cdp_identity_event_pipeline',
+  };
+
+  const category = categoryByDimension[dimension as string];
+  const block = category ? technical[category] : undefined;
+  const tools = block?.recommended_tools;
   if (!Array.isArray(tools)) return [];
-  // Map to expected format: { name, pricing, description }
   return tools.map(t => ({
     name: t.name,
     pricing: t.price ?? '',

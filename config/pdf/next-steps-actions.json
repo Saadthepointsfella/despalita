@@ -4,11 +4,10 @@
       "description": "Specific actions for Next Steps page, organized by dimension and tier",
       "usage": "Pull 1 action from each gap's NOW/NEXT/LATER to build This Week/Month/Quarter sections"
     },
-
     "tracking": {
       "low": {
         "this_week": [
-          "Audit your current tracking — list every event you capture and where it fires",
+          "Audit your current tracking, list every event you capture and where it fires",
           "Set up Google Tag Manager if you haven't already (it's free)",
           "Enable GA4 enhanced measurement (scroll, outbound clicks, video)"
         ],
@@ -25,7 +24,7 @@
       },
       "medium": {
         "this_week": [
-          "Audit cross-device tracking gaps — can you follow users across sessions?",
+          "Audit cross-device tracking gaps, can you follow users across sessions?",
           "Document your current tag governance process (or lack thereof)",
           "List engagement events you're NOT tracking (scroll depth, time on page, video)"
         ],
@@ -58,12 +57,11 @@
         ]
       }
     },
-
     "attribution": {
       "low": {
         "this_week": [
           "Calculate blended CAC: total ad spend ÷ new customers from Shopify (not platforms)",
-          "Export platform conversions vs actual orders — see the over-count gap",
+          "Export platform conversions vs actual orders, see the over-count gap",
           "Document your UTM taxonomy (or create one if it doesn't exist)"
         ],
         "this_month": [
@@ -96,7 +94,7 @@
       },
       "high": {
         "this_week": [
-          "Review when you last ran incrementality tests — are they still valid?",
+          "Review when you last ran incrementality tests, are they still valid?",
           "Check if any new channels have been added without measurement",
           "Audit your MMM model inputs for data quality issues"
         ],
@@ -112,7 +110,6 @@
         ]
       }
     },
-
     "reporting": {
       "low": {
         "this_week": [
@@ -133,7 +130,7 @@
       },
       "medium": {
         "this_week": [
-          "Audit dashboard usage — which reports are actually being used?",
+          "Audit dashboard usage, which reports are actually being used?",
           "Identify the top 3 questions people still ask analysts manually",
           "Document which metrics have inconsistent definitions across teams"
         ],
@@ -150,7 +147,7 @@
       },
       "high": {
         "this_week": [
-          "Review anomaly alert noise — are people ignoring alerts?",
+          "Review anomaly alert noise, are people ignoring alerts?",
           "Identify reporting gaps for any new initiatives or channels",
           "Audit data freshness across your dashboard portfolio"
         ],
@@ -166,12 +163,11 @@
         ]
       }
     },
-
     "experimentation": {
       "low": {
         "this_week": [
           "Identify one thing you can test this week (email subject, CTA button)",
-          "Create a testing backlog — write down 10 hypotheses to test",
+          "Create a testing backlog, write down 10 hypotheses to test",
           "Calculate required sample size for a typical test on your site"
         ],
         "this_month": [
@@ -187,7 +183,7 @@
       },
       "medium": {
         "this_week": [
-          "Review your test backlog — is it prioritized by expected impact?",
+          "Review your test backlog, is it prioritized by expected impact?",
           "Audit statistical rigor of recent tests (proper sample size, runtime?)",
           "Identify high-impact areas that aren't being tested (pricing? checkout?)"
         ],
@@ -204,9 +200,9 @@
       },
       "high": {
         "this_week": [
-          "Review your experiment database — are learnings being used?",
+          "Review your experiment database, are learnings being used?",
           "Identify personalization opportunities from past A/B test results",
-          "Audit test coverage — are all major user flows being tested?"
+          "Audit test coverage, are all major user flows being tested?"
         ],
         "this_month": [
           "Pilot multi-armed bandits for one real-time optimization use case",
@@ -220,13 +216,12 @@
         ]
       }
     },
-
     "lifecycle": {
       "low": {
         "this_week": [
           "Calculate your current repeat purchase rate (orders from returning customers ÷ total orders)",
-          "Audit your email flows — do you have welcome and abandoned cart?",
-          "Identify your top 10 customers by revenue — what do they have in common?"
+          "Audit your email flows, do you have welcome and abandoned cart?",
+          "Identify your top 10 customers by revenue, what do they have in common?"
         ],
         "this_month": [
           "Build a welcome series if you don't have one (3-5 emails)",
@@ -241,9 +236,9 @@
       },
       "medium": {
         "this_week": [
-          "Audit your lifecycle stage definitions — are they actionable?",
+          "Audit your lifecycle stage definitions, are they actionable?",
           "Identify which high-value customers aren't getting VIP treatment",
-          "Review your win-back timing — are you reaching people too late?"
+          "Review your win-back timing, are you reaching people too late?"
         ],
         "this_month": [
           "Build a predictive churn score (even a simple RFM-based one)",
@@ -258,8 +253,8 @@
       },
       "high": {
         "this_week": [
-          "Audit your predictive models — when were they last retrained?",
-          "Review channel orchestration — are email and SMS coordinated or competing?",
+          "Audit your predictive models, when were they last retrained?",
+          "Review channel orchestration, are email and SMS coordinated or competing?",
           "Identify 1:1 personalization opportunities you're not exploiting"
         ],
         "this_month": [
@@ -274,11 +269,10 @@
         ]
       }
     },
-
     "infrastructure": {
       "low": {
         "this_week": [
-          "Inventory your data sources — what tools have data you need?",
+          "Inventory your data sources, what tools have data you need?",
           "Sign up for a free BigQuery or Snowflake trial",
           "List the top 5 questions you can't answer because data is siloed"
         ],
@@ -295,7 +289,7 @@
       },
       "medium": {
         "this_week": [
-          "Audit pipeline reliability — which syncs have failed recently?",
+          "Audit pipeline reliability, which syncs have failed recently?",
           "List data sources that aren't yet in your warehouse",
           "Document your data quality known issues and workarounds"
         ],
@@ -312,8 +306,8 @@
       },
       "high": {
         "this_week": [
-          "Audit data quality monitoring coverage — what's not being tested?",
-          "Inventory ML models — which are ad-hoc vs productionized?",
+          "Audit data quality monitoring coverage, what's not being tested?",
+          "Inventory ML models, which are ad-hoc vs productionized?",
           "Identify one real-time use case to pilot (alerting, personalization)"
         ],
         "this_month": [
@@ -329,36 +323,35 @@
       }
     }
   },
-
   "cta_text": {
     "tracking": {
       "headline": "Need help building your tracking foundation?",
-      "body": "We build tracking infrastructure in 4-6 weeks. Server-side implementation, CDP setup, data layer architecture — whatever you need to see the full customer journey.",
+      "body": "We build tracking infrastructure in 4-6 weeks. Server-side implementation, CDP setup, data layer architecture, whatever you need to see the full customer journey.",
       "email": "heya@maxmin.agency"
     },
     "attribution": {
       "headline": "Need help measuring what's working?",
-      "body": "We build measurement frameworks in 4-8 weeks. MMM, incrementality testing, attribution modeling — whatever you need to know what's actually driving growth.",
+      "body": "We build measurement frameworks in 4-8 weeks. MMM, incrementality testing, attribution modeling, whatever you need to know what's actually driving growth.",
       "email": "heya@maxmin.agency"
     },
     "reporting": {
       "headline": "Need help building self-serve analytics?",
-      "body": "We build BI infrastructure in 4-6 weeks. Dashboards, data pipelines, self-service analytics — whatever you need to make decisions faster.",
+      "body": "We build BI infrastructure in 4-6 weeks. Dashboards, data pipelines, self-service analytics, whatever you need to make decisions faster.",
       "email": "heya@maxmin.agency"
     },
     "experimentation": {
       "headline": "Need help accelerating your learning?",
-      "body": "We build experimentation programs in 4-8 weeks. Testing infrastructure, statistical frameworks, learning systems — whatever you need to learn faster than competitors.",
+      "body": "We build experimentation programs in 4-8 weeks. Testing infrastructure, statistical frameworks, learning systems, whatever you need to learn faster than competitors.",
       "email": "heya@maxmin.agency"
     },
     "lifecycle": {
       "headline": "Need help maximizing customer value?",
-      "body": "We build lifecycle programs in 4-8 weeks. Segmentation, CLV modeling, journey orchestration — whatever you need to turn one-time buyers into loyal customers.",
+      "body": "We build lifecycle programs in 4-8 weeks. Segmentation, CLV modeling, journey orchestration, whatever you need to turn one-time buyers into loyal customers.",
       "email": "heya@maxmin.agency"
     },
     "infrastructure": {
       "headline": "Need help scaling your data capabilities?",
-      "body": "We build data infrastructure in 4-8 weeks. Pipelines, quality monitoring, ML deployment — whatever you need to move from Level 4 to Level 5.",
+      "body": "We build data infrastructure in 4-8 weeks. Pipelines, quality monitoring, ML deployment, whatever you need to move from Level 4 to Level 5.",
       "email": "heya@maxmin.agency"
     }
   }

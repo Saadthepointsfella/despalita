@@ -3,42 +3,80 @@
   "title": "Answer Observations Schema",
   "description": "Per-answer observations for PDF personalization",
   "type": "object",
-  "required": ["answer_observations"],
+  "required": [
+    "answer_observations"
+  ],
   "properties": {
     "answer_observations": {
       "type": "object",
-      "required": ["_meta"],
+      "required": [
+        "_meta"
+      ],
       "properties": {
         "_meta": {
           "type": "object",
-          "required": ["description", "total_entries"],
+          "required": [
+            "description",
+            "total_entries"
+          ],
           "properties": {
-            "description": { "type": "string" },
-            "usage": { "type": "string" },
-            "total_entries": { "type": "number" },
-            "normalized_to_config_bundle_version": { "type": "string" },
-            "notes": { "type": "string" }
+            "description": {
+              "type": "string"
+            },
+            "usage": {
+              "type": "string"
+            },
+            "total_entries": {
+              "type": "number"
+            },
+            "normalized_to_config_bundle_version": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
           }
         }
       },
       "patternProperties": {
         "^q[0-9]{2}_": {
           "type": "object",
-          "required": ["question_text", "dimension", "options"],
+          "required": [
+            "question_text",
+            "dimension",
+            "options"
+          ],
           "properties": {
-            "question_text": { "type": "string" },
+            "question_text": {
+              "type": "string"
+            },
             "dimension": {
               "type": "string",
-              "enum": ["tracking", "attribution", "reporting", "experimentation", "lifecycle", "infrastructure"]
+              "enum": [
+                "tracking",
+                "attribution",
+                "reporting",
+                "experimentation",
+                "lifecycle",
+                "infrastructure"
+              ]
             },
             "options": {
               "type": "object",
               "patternProperties": {
                 "^q[0-9]{2}_.*_o[1-5]$": {
                   "type": "object",
-                  "required": ["answer_text", "score", "observation_short", "observation_detail", "red_flag"],
+                  "required": [
+                    "answer_text",
+                    "score",
+                    "observation_short",
+                    "observation_detail",
+                    "red_flag"
+                  ],
                   "properties": {
-                    "answer_text": { "type": "string" },
+                    "answer_text": {
+                      "type": "string"
+                    },
                     "score": {
                       "type": "number",
                       "minimum": 1,
@@ -48,8 +86,12 @@
                       "type": "string",
                       "maxLength": 100
                     },
-                    "observation_detail": { "type": "string" },
-                    "red_flag": { "type": "boolean" }
+                    "observation_detail": {
+                      "type": "string"
+                    },
+                    "red_flag": {
+                      "type": "boolean"
+                    }
                   },
                   "additionalProperties": false
                 }

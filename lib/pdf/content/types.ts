@@ -39,9 +39,22 @@ export type ImpactPack = {
   }>>;
 };
 
-// Matches actual JSON structure: tool_recommendations.{dimension}.{tier}.recommended_tools[]
+// Supports legacy per-dimension/tier tools AND technical_competitors bundle.
 export type ToolRecommendationPack = {
-  tool_recommendations: Record<DimensionKey, Record<Tier, {
+  tool_recommendations_patch?: Record<string, Record<string, {
+    context?: string;
+    quick_wins?: string[];
+    recommended_tools?: Array<{
+      name: string;
+      category?: string;
+      price: string;
+      fit?: string;
+      url?: string;
+      note?: string;
+    }>;
+    diy_alternative?: string;
+  }>>;
+  tool_recommendations?: Record<DimensionKey, Record<Tier, {
     context?: string;
     quick_wins?: string[];
     recommended_tools: Array<{
@@ -54,6 +67,32 @@ export type ToolRecommendationPack = {
     }>;
     diy_alternative?: string;
   }>>;
+  technical_competitors?: {
+    _meta?: Record<string, unknown>;
+    [key: string]: {
+      context?: string;
+      recommended_tools?: Array<{
+        name: string;
+        category?: string;
+        price: string;
+        fit?: string;
+        url?: string;
+        note?: string;
+      }>;
+    } | undefined;
+  };
+  services_we_dont_do_keep_vendors_as_is?: {
+    _meta?: Record<string, unknown>;
+    [key: string]: {
+      vendor_platforms?: Array<{
+        name: string;
+        category?: string;
+        utility?: string;
+        best_for?: string;
+        watchouts?: string;
+      }>;
+    } | undefined;
+  };
 };
 
 // Matches actual JSON structure: level_benchmarks.{dimension}.{from}_to_{to}

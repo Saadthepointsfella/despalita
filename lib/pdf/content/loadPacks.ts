@@ -10,9 +10,10 @@ import type {
 } from './types';
 
 const CONFIG_DIR = path.join(process.cwd(), 'config', 'pdf');
+const CUSTOMIZATION_DIR = path.join(process.cwd(), 'config', 'customization');
 
-async function loadJson<T>(filename: string): Promise<T> {
-  const buf = await readFile(path.join(CONFIG_DIR, filename), 'utf8');
+async function loadJson<T>(filename: string, dir = CONFIG_DIR): Promise<T> {
+  const buf = await readFile(path.join(dir, filename), 'utf8');
   return JSON.parse(buf) as T;
 }
 

@@ -3,136 +3,239 @@
   "title": "Tool Recommendations Schema",
   "description": "Tool and vendor recommendations by dimension and tier",
   "type": "object",
-  "required": ["tool_recommendations"],
+  "required": [
+    "tool_recommendations"
+  ],
   "properties": {
     "tool_recommendations": {
       "type": "object",
-      "required": ["_meta"],
+      "required": [
+        "_meta"
+      ],
       "properties": {
         "_meta": {
           "type": "object",
-          "required": ["description", "total_entries"],
+          "required": [
+            "description",
+            "total_entries"
+          ],
           "properties": {
-            "description": { "type": "string" },
-            "usage": { "type": "string" },
-            "total_entries": { "type": "number" },
-            "price_legend": { "type": "object" }
+            "description": {
+              "type": "string"
+            },
+            "usage": {
+              "type": "string"
+            },
+            "total_entries": {
+              "type": "number"
+            },
+            "price_legend": {
+              "type": "object"
+            }
           }
         }
       },
       "patternProperties": {
         "^(tracking|attribution|reporting|experimentation|lifecycle|infrastructure)$": {
           "type": "object",
-          "required": ["low", "medium", "high"],
+          "required": [
+            "low",
+            "medium",
+            "high"
+          ],
           "properties": {
             "low": {
               "type": "object",
-              "required": ["context", "quick_wins", "recommended_tools"],
+              "required": [
+                "context",
+                "quick_wins",
+                "recommended_tools"
+              ],
               "properties": {
-                "context": { "type": "string" },
+                "context": {
+                  "type": "string"
+                },
                 "quick_wins": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
                 "recommended_tools": {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["name", "category", "price", "fit"],
+                    "required": [
+                      "name",
+                      "category",
+                      "price",
+                      "fit"
+                    ],
                     "properties": {
-                      "name": { "type": "string" },
-                      "category": { "type": "string" },
+                      "name": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
                       "price": {
                         "type": "string",
-                        "enum": ["$", "$$", "$$$", "$$$$"]
+                        "enum": [
+                          "$",
+                          "$$",
+                          "$$$",
+                          "$$$$"
+                        ]
                       },
-                      "fit": { "type": "string" },
+                      "fit": {
+                        "type": "string"
+                      },
                       "url": {
                         "type": "string",
                         "format": "uri"
                       },
-                      "note": { "type": "string" }
+                      "note": {
+                        "type": "string"
+                      }
                     },
                     "additionalProperties": false
                   },
                   "minItems": 1
                 },
-                "diy_alternative": { "type": "string" }
+                "diy_alternative": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             },
             "medium": {
               "type": "object",
-              "required": ["context", "quick_wins", "recommended_tools"],
+              "required": [
+                "context",
+                "quick_wins",
+                "recommended_tools"
+              ],
               "properties": {
-                "context": { "type": "string" },
+                "context": {
+                  "type": "string"
+                },
                 "quick_wins": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
                 "recommended_tools": {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["name", "category", "price", "fit"],
+                    "required": [
+                      "name",
+                      "category",
+                      "price",
+                      "fit"
+                    ],
                     "properties": {
-                      "name": { "type": "string" },
-                      "category": { "type": "string" },
+                      "name": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
                       "price": {
                         "type": "string",
-                        "enum": ["$", "$$", "$$$", "$$$$"]
+                        "enum": [
+                          "$",
+                          "$$",
+                          "$$$",
+                          "$$$$"
+                        ]
                       },
-                      "fit": { "type": "string" },
+                      "fit": {
+                        "type": "string"
+                      },
                       "url": {
                         "type": "string",
                         "format": "uri"
                       },
-                      "note": { "type": "string" }
+                      "note": {
+                        "type": "string"
+                      }
                     },
                     "additionalProperties": false
                   },
                   "minItems": 1
                 },
-                "diy_alternative": { "type": "string" }
+                "diy_alternative": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             },
             "high": {
               "type": "object",
-              "required": ["context", "quick_wins", "recommended_tools"],
+              "required": [
+                "context",
+                "quick_wins",
+                "recommended_tools"
+              ],
               "properties": {
-                "context": { "type": "string" },
+                "context": {
+                  "type": "string"
+                },
                 "quick_wins": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
                 "recommended_tools": {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["name", "category", "price", "fit"],
+                    "required": [
+                      "name",
+                      "category",
+                      "price",
+                      "fit"
+                    ],
                     "properties": {
-                      "name": { "type": "string" },
-                      "category": { "type": "string" },
+                      "name": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
                       "price": {
                         "type": "string",
-                        "enum": ["$", "$$", "$$$", "$$$$"]
+                        "enum": [
+                          "$",
+                          "$$",
+                          "$$$",
+                          "$$$$"
+                        ]
                       },
-                      "fit": { "type": "string" },
+                      "fit": {
+                        "type": "string"
+                      },
                       "url": {
                         "type": "string",
                         "format": "uri"
                       },
-                      "note": { "type": "string" }
+                      "note": {
+                        "type": "string"
+                      }
                     },
                     "additionalProperties": false
                   },
                   "minItems": 1
                 },
-                "diy_alternative": { "type": "string" }
+                "diy_alternative": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             }

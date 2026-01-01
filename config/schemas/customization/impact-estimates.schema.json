@@ -3,26 +3,43 @@
   "title": "Impact Estimates Schema",
   "description": "Quantified business impact estimates by dimension and tier",
   "type": "object",
-  "required": ["impact_estimates"],
+  "required": [
+    "impact_estimates"
+  ],
   "properties": {
     "impact_estimates": {
       "type": "object",
-      "required": ["_meta"],
+      "required": [
+        "_meta"
+      ],
       "properties": {
         "_meta": {
           "type": "object",
-          "required": ["description", "total_entries"],
+          "required": [
+            "description",
+            "total_entries"
+          ],
           "properties": {
-            "description": { "type": "string" },
-            "usage": { "type": "string" },
-            "total_entries": { "type": "number" }
+            "description": {
+              "type": "string"
+            },
+            "usage": {
+              "type": "string"
+            },
+            "total_entries": {
+              "type": "number"
+            }
           }
         }
       },
       "patternProperties": {
         "^(tracking|attribution|reporting|experimentation|lifecycle|infrastructure)$": {
           "type": "object",
-          "required": ["low", "medium", "high"],
+          "required": [
+            "low",
+            "medium",
+            "high"
+          ],
           "properties": {
             "low": {
               "type": "object",
@@ -36,19 +53,37 @@
                 "business_impact"
               ],
               "properties": {
-                "tier_range": { "type": "string" },
-                "primary_metric": { "type": "string" },
-                "metric_value": { "type": "string" },
-                "metric_label": { "type": "string" },
-                "headline": { "type": "string" },
-                "detail": { "type": "string" },
+                "tier_range": {
+                  "type": "string"
+                },
+                "primary_metric": {
+                  "type": "string"
+                },
+                "metric_value": {
+                  "type": "string"
+                },
+                "metric_label": {
+                  "type": "string"
+                },
+                "headline": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
                 "business_impact": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
-                "cost_example": { "type": "string" },
-                "opportunity": { "type": "string" }
+                "cost_example": {
+                  "type": "string"
+                },
+                "opportunity": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             },
@@ -64,19 +99,37 @@
                 "business_impact"
               ],
               "properties": {
-                "tier_range": { "type": "string" },
-                "primary_metric": { "type": "string" },
-                "metric_value": { "type": "string" },
-                "metric_label": { "type": "string" },
-                "headline": { "type": "string" },
-                "detail": { "type": "string" },
+                "tier_range": {
+                  "type": "string"
+                },
+                "primary_metric": {
+                  "type": "string"
+                },
+                "metric_value": {
+                  "type": "string"
+                },
+                "metric_label": {
+                  "type": "string"
+                },
+                "headline": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
                 "business_impact": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
-                "cost_example": { "type": "string" },
-                "opportunity": { "type": "string" }
+                "cost_example": {
+                  "type": "string"
+                },
+                "opportunity": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             },
@@ -92,19 +145,37 @@
                 "business_impact"
               ],
               "properties": {
-                "tier_range": { "type": "string" },
-                "primary_metric": { "type": "string" },
-                "metric_value": { "type": "string" },
-                "metric_label": { "type": "string" },
-                "headline": { "type": "string" },
-                "detail": { "type": "string" },
+                "tier_range": {
+                  "type": "string"
+                },
+                "primary_metric": {
+                  "type": "string"
+                },
+                "metric_value": {
+                  "type": "string"
+                },
+                "metric_label": {
+                  "type": "string"
+                },
+                "headline": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
                 "business_impact": {
                   "type": "array",
-                  "items": { "type": "string" },
+                  "items": {
+                    "type": "string"
+                  },
                   "minItems": 2
                 },
-                "cost_example": { "type": "string" },
-                "opportunity": { "type": "string" }
+                "cost_example": {
+                  "type": "string"
+                },
+                "opportunity": {
+                  "type": "string"
+                }
               },
               "additionalProperties": false
             }

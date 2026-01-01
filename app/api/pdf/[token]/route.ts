@@ -64,7 +64,17 @@ export async function GET(
       },
     });
   } catch (err) {
-    console.error('[PDF] Generation failed:', err);
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : undefined;
+    console.error('[PDF] Generation failed:', { message, stack });
+
+    if (process.env.NODE_ENV !== 'production') {
+      return NextResponse.json(
+        { error: { code: 'GENERATION_FAILED', message, stack } },
+        { status: 500 }
+      );
+    }
+
     return error('GENERATION_FAILED', 'Could not generate PDF.', 500);
   }
 }

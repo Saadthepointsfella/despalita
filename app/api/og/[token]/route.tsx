@@ -60,7 +60,7 @@ export async function GET(
                 marginBottom: 8,
               }}
             >
-              MaxMin DTC Assessment
+              MaxMin Dtc Maturity Analytics Assessment
             </div>
             <div
               style={{
@@ -203,7 +203,7 @@ export async function GET(
               color: maxminTheme.colors.muted,
             }}
           >
-            maxmin.co
+            maxmin.agency
           </div>
         </div>
       </div>

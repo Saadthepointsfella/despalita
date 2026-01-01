@@ -13,7 +13,10 @@ import {
   clamp,
   Cursor,
   drawCenteredText,
+  drawGridOverlay,
+  drawInstrumentMark,
   drawRule,
+  drawSectionMotif,
   drawTextLines,
   truncateToLines,
   wrapParagraphs,
@@ -151,6 +154,9 @@ function drawPageBackground(page: any) {
     height: PdfLayout.pageHeight,
     color: PdfColors.pageBg,
   });
+
+  // Subtle Swiss grid overlay like site
+  drawGridOverlay(page);
 }
 
 /**
@@ -201,6 +207,14 @@ function drawHeaderBar({
     width: contentWidth,
     thickness: PdfRules.thin,
     color: PdfColors.border,
+  });
+
+  // Instrument mark on the right, below the header rule
+  drawInstrumentMark({
+    page,
+    x: margin + contentWidth - 120,
+    y: headerY - 24,
+    font,
   });
 }
 
@@ -652,17 +666,17 @@ function drawToolRows({
   const leftW = 140;
   const gap = 8;
   const rightW = w - leftW - gap;
+  const lh = PdfTypography.bodySmall * PdfTypography.lineHeightTight;
 
   for (const t of tools.slice(0, maxRows)) {
-    const left = t.name;
+    const left = t.name ?? '';
     const right = `${t.pricing ?? ''}${t.pricing && t.description ? ' — ' : ''}${t.description ?? ''}`.trim();
 
-    page.drawText(left, {
-      x,
-      y,
-      size: PdfTypography.body,
+    const leftLines = wrapText({
+      text: left,
       font: fontBold,
-      color: PdfColors.textPrimary,
+      fontSize: PdfTypography.body,
+      maxWidth: leftW - 4,
     });
 
     const rightLines = wrapText({
@@ -672,22 +686,27 @@ function drawToolRows({
       maxWidth: rightW,
     });
 
-    // align right block to first line baseline; subsequent lines flow down
-    if (rightLines.length) {
-      page.drawText(rightLines[0], {
-        x: x + leftW + gap,
-        y: y,
-        size: PdfTypography.bodySmall,
-        font,
-        color: PdfColors.textBody,
-      });
+    const rows = Math.max(leftLines.length, rightLines.length, 1);
 
-      const lh = PdfTypography.bodySmall * PdfTypography.lineHeightTight;
-      for (let i = 1; i < rightLines.length; i++) {
-        y -= lh;
-        page.drawText(rightLines[i], {
+    for (let i = 0; i < rows; i++) {
+      const yy = y - i * lh;
+      const leftLine = leftLines[i];
+      const rightLine = rightLines[i];
+
+      if (leftLine) {
+        page.drawText(leftLine, {
+          x,
+          y: yy,
+          size: PdfTypography.body,
+          font: fontBold,
+          color: PdfColors.textPrimary,
+        });
+      }
+
+      if (rightLine) {
+        page.drawText(rightLine, {
           x: x + leftW + gap,
-          y,
+          y: yy,
           size: PdfTypography.bodySmall,
           font,
           color: PdfColors.textBody,
@@ -695,7 +714,7 @@ function drawToolRows({
       }
     }
 
-    y -= PdfSpacing.s4;
+    y -= rows * lh + PdfSpacing.s4;
   }
 
   return y;
@@ -777,8 +796,11 @@ export async function generateConsultantPdf({
   const level = results.overall.level.level;
   const levelColor = getLevelColor(level);
 
-  const gaps = topGapsDeterministic(results, 3);
-  const pageCount = 6;
+  const priorityGaps = topGapsDeterministic(results, 3);
+  const priorityIds = new Set(priorityGaps.map((g) => g.dimension_id));
+  const rest = sortDimsByScore(results).filter((d) => !priorityIds.has(d.dimension_id));
+  const allGaps = [...priorityGaps, ...rest];
+  const pageCount = allGaps.length + 3;
 
   // -----------------
   // Page 1: Executive Summary
@@ -885,6 +907,13 @@ export async function generateConsultantPdf({
       });
     }
 
+    drawSectionMotif({
+      page,
+      x: margin,
+      y: PdfLayout.margin + PdfLayout.footerHeight + 42,
+      width: contentWidth * 0.62,
+    });
+
     drawFooter({ page, font, pageIndex: 0, pageCount });
   }
 
@@ -926,14 +955,22 @@ export async function generateConsultantPdf({
       if (!cur.canFit(40)) break;
     }
 
+    drawSectionMotif({
+      page,
+      x: margin,
+      y: PdfLayout.margin + PdfLayout.footerHeight + 42,
+      width: contentWidth * 0.62,
+    });
+
     drawFooter({ page, font, pageIndex: 1, pageCount });
   }
 
   // -----------------
   // Pages 3–5: Gap deep dives
   // -----------------
-  for (let i = 0; i < gaps.length; i++) {
-    const gap = gaps[i];
+  for (let i = 0; i < allGaps.length; i++) {
+    const gap = allGaps[i];
+    const isPriority = i < 3;
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
     drawPageBackground(page);
 
@@ -942,13 +979,13 @@ export async function generateConsultantPdf({
 
     const cur = new Cursor(pageHeight - margin - 60, margin + PdfLayout.footerHeight + 10);
 
-    const num = `0${3 + i}`;
+    const num = String(3 + i).padStart(2, '0');
     drawSectionHeader({
       page,
       x: margin,
       y: cur.y,
       num,
-      title: `Priority #${i + 1}: ${gap.name}`,
+      title: isPriority ? `Priority #${i + 1}: ${gap.name}` : `Dimension: ${gap.name}`,
       fontBold,
     });
     cur.down(PdfSpacing.s4);
@@ -1291,7 +1328,7 @@ export async function generateConsultantPdf({
   }
 
   // -----------------
-  // Page 6: Next Steps + CTA
+  // Final Page: Next Steps + CTA
   // -----------------
   {
     const page = pdf.addPage([PdfLayout.pageWidth, PdfLayout.pageHeight]);
@@ -1302,7 +1339,8 @@ export async function generateConsultantPdf({
 
     const cur = new Cursor(pageHeight - margin - 60, margin + PdfLayout.footerHeight + 10);
 
-    drawSectionHeader({ page, x: margin, y: cur.y, num: '06', title: 'Next Steps', fontBold });
+    const nextStepsNum = String(3 + allGaps.length).padStart(2, '0');
+    drawSectionHeader({ page, x: margin, y: cur.y, num: nextStepsNum, title: 'Next Steps', fontBold });
     cur.down(PdfSpacing.s12);
 
     const plan = generateNextStepsPlan(results, packs.nextSteps);
@@ -1354,7 +1392,7 @@ export async function generateConsultantPdf({
       color: PdfColors.textMuted,
     });
 
-    drawFooter({ page, font, pageIndex: 5, pageCount });
+    drawFooter({ page, font, pageIndex: 2 + allGaps.length, pageCount });
   }
 
   return pdf.save();

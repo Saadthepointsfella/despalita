@@ -1,83 +1,99 @@
-'use client';
-
 import * as React from 'react';
 import { Panel } from '@/components/ui/panel';
 import { Divider } from '@/components/ui/divider';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 
 export function EmailGateForm({
-  onSubmit,
   submitting,
   error,
+  onSubmit,
 }: {
-  onSubmit: (data: { email: string; company?: string }) => void;
   submitting: boolean;
-  error?: string | null;
+  error: string | null;
+  onSubmit: (data: { email: string; company?: string }) => void;
 }) {
   const [email, setEmail] = React.useState('');
   const [company, setCompany] = React.useState('');
-  const [touched, setTouched] = React.useState(false);
+  const [emailError, setEmailError] = React.useState<string | null>(null);
 
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  function validateEmail(value: string) {
+    if (!value.trim()) return 'Enter a valid email address.';
+    const input = value.trim();
+    const ok = /\S+@\S+\.\S+/.test(input);
+    return ok ? null : 'Enter a valid email address.';
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setTouched(true);
-    if (!emailValid) return;
-    onSubmit({ email, company: company.trim() || undefined });
+    const err = validateEmail(email);
+    setEmailError(err);
+    if (err) return;
+
+    onSubmit({
+      email: email.trim(),
+      company: company.trim() || undefined,
+    });
   }
 
   return (
-    <Panel className="space-y-4">
+    <Panel className="space-y-6 rounded-none border border-border bg-panel p-8">
       <div>
-        <div className="font-mono text-xs text-muted">Email gate</div>
-        <h3 className="mt-1 text-lg font-semibold tracking-tightHeading">Unlock the full report</h3>
-        <p className="mt-1 text-sm text-muted">
-          Get your shareable link + full roadmap. We'll email the report link (no spam).
-        </p>
+        <div className="label-mono text-[11px] text-muted">Email gate</div>
+        <div className="mt-2 font-serif text-2xl leading-tight text-fg">Unlock the full report</div>
+        <div className="mt-2 text-sm text-muted">
+          Get your shareable link and full roadmap. We'll email the report link (no spam).
+        </div>
       </div>
 
-      <Divider />
+      <Divider className="border-border" />
 
-      <form className="space-y-3" onSubmit={handleSubmit}>
-        <div className="space-y-1">
-          <label className="font-mono text-xs text-muted" htmlFor="email">
-            Email (required)
-          </label>
-          <Input
-            id="email"
-            inputMode="email"
-            autoComplete="email"
-            placeholder="you@company.com"
+      <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+        <div className="space-y-2">
+          <label className="label-mono text-[11px] text-muted">Email (required)</label>
+          <input
+            type="email"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => setTouched(true)}
-            disabled={submitting}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (emailError) setEmailError(null);
+            }}
+            className="w-full border border-border bg-bg px-4 py-3 text-sm text-fg outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            placeholder="you@company.com"
+            required
           />
-          {touched && !emailValid ? <div className="text-xs text-accent">Enter a valid email address.</div> : null}
+          {emailError ? <div className="text-sm text-accent">{emailError}</div> : null}
         </div>
 
-        <div className="space-y-1">
-          <label className="font-mono text-xs text-muted" htmlFor="company">
-            Company (optional)
-          </label>
-          <Input
-            id="company"
-            autoComplete="organization"
-            placeholder="Brand name"
+        <div className="space-y-2">
+          <label className="label-mono text-[11px] text-muted">Company (optional)</label>
+          <input
+            type="text"
+            name="company"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            disabled={submitting}
+            className="w-full border border-border bg-bg px-4 py-3 text-sm text-fg outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            placeholder="Brand name"
           />
         </div>
 
-        {error ? <div className="rounded-control border border-accent/50 bg-accent/10 p-3 text-sm text-accent">{error}</div> : null}
-
-        <Button type="submit" disabled={!emailValid || submitting}>
-          {submitting ? 'Generating your report…' : 'Unlock the full roadmap →'}
-        </Button>
+        <button
+          type="submit"
+          disabled={submitting}
+          className={[
+            'inline-flex items-center gap-3',
+            'rounded-sm border border-black/15',
+            'bg-[#121212] text-[#FAF9F6]',
+            'px-5 py-3',
+            'font-mono text-xs uppercase tracking-[0.22em]',
+            'transition-opacity',
+            submitting ? 'opacity-60' : 'hover:opacity-90',
+          ].join(' ')}
+        >
+          {submitting ? 'Submitting...' : 'Unlock the full roadmap ->'}
+        </button>
       </form>
+
+      {error ? <div className="text-sm text-accent">{error}</div> : null}
     </Panel>
   );
 }

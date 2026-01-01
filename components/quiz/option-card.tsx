@@ -13,6 +13,10 @@ export const OptionCard = React.forwardRef<
     onFocus?: () => void;
   }
 >(function OptionCard({ id, label, checked, indexLabel, onSelect, tabIndex, onFocus }, ref) {
+  const normalizedLabel = label
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/\s-\s/g, ', ');
+
   return (
     <button
       ref={ref}
@@ -66,7 +70,7 @@ export const OptionCard = React.forwardRef<
             (checked ? 'text-bg' : 'group-hover:text-bg'),
           )}
         >
-          {label}
+          {normalizedLabel}
         </span>
       </div>
 

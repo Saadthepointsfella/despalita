@@ -100,3 +100,30 @@ export function hex(h: string): RGB {
   const b = parseInt(s.slice(4, 6), 16) / 255;
   return rgb(r, g, b);
 }
+// --- Static visual motifs (website-inspired, PDF-safe) ---
+export const PdfMotifs = {
+  gridCols: 12,
+  gridOpacity: 0.045,          // subtle like site overlay
+  gridThickness: 1,
+  gridColor: PdfColors.textPrimary, // drawn with low opacity
+
+  instrument: {
+    w: 120,
+    h: 22,
+    bg: PdfColors.textPrimary,      // black slab
+    line: hex('#FFFFFF'),           // drawn with low opacity
+    lineOpacity: 0.12,
+    dot: PdfColors.accent,
+    dotOpacity: 0.9,
+    plusOpacity: 0.85,
+  },
+
+  // “bottom motif” (hairlines + red dots)
+  motif: {
+    lineOpacity: 1,
+    dotOpacity: 1,
+    lineThickness: 2,
+    dotSize: 6,
+  },
+};
+
