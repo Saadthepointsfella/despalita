@@ -88,7 +88,7 @@ export default function AssessmentLandingPage() {
               <SectionLabel section="05" title="Time & privacy" />
               <Divider />
               <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-                <li>Takes ~4 minutes. You can move quickly — no long text inputs.</li>
+                <li>Takes ~4 minutes. You can move quickly, no long text inputs.</li>
                 <li>Your answers are used only to compute your result and recommendations.</li>
                 <li>Email is only required at the gate to unlock the full report.</li>
               </ul>
