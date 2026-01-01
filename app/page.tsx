@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import AssessmentLandingPage from "@/components/assessment/assessment-landing";
 
 export default function HomePage() {
-  redirect("/assessment");
+  return <AssessmentLandingPage />;
 }
